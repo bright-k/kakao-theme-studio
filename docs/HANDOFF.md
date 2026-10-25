@@ -2,6 +2,15 @@
 
 현재 버전은 0.4.0이다. REVIEW-0.4.0.md가 최신 변경 내역이다. 화면별 편집 변경은 REVIEW-0.3.0.md와 screen-coverage.json을 확인한다. 사용자가 요청한 /Users/bright/Desktop/KakaoThemeStudio가 실제 프로젝트다. Studio.command로 실행한다. README, AGENTS, REVIEW-0.2.0, SUPPORT-MATRIX, ARCHITECTURE, TESTING 순으로 확인한다. 별도 글로벌 스킬은 필요 없다.
 
+## 새 프로젝트 패키지명 지정 (2026-10-25)
+
+- 작업 대상은 현재 프로젝트 `/Users/bright/Desktop/work/kakao-theme-studio`다. 사용자 확인 없이 바탕화면 `/Users/bright/Desktop/KakaoThemeStudio`를 실행 대상으로 추정해 변경 파일을 추가 복사한 것은 잘못된 범위 판단이었다. 사용자가 현재 프로젝트로 범위를 바로잡아, 바탕화면의 12개 파일은 사전 소스 백업에서 복원하고 직접 추가한 테스트 파일 1개만 제거했다. 복사 후 다른 변경이 없음을 먼저 확인했고 복원 후 원본 바이트 일치도 확인했다. 현재 프로젝트의 기능 수정은 유지하며 양쪽 사용자 .data·키·빌드 결과는 변경하지 않았다. 이후 바탕화면 사본을 동기화하지 않는다.
+- `＋`는 테마 이름·Android 패키지명 입력 창을 연다. 패키지명은 선택 입력이며 빈 값은 기존 고유 ID를 자동 생성한다. 형식/길이/Java 예약어/기존 프로젝트 중복을 거부하고 오류 시 입력을 유지한다. 취소로 프로젝트를 만들지 않는다.
+- POST projects/newProject에 기존 packageId의 선택 입력 경로를 추가했다. 서버 저장 큐에서 신규 ID 중복 검사를 직렬화해 동시 요청 및 PUT/ZIP 가져오기 우회도 차단한다. 기존 프로젝트의 packageId 변경 금지와 서명 fingerprint 연결을 유지한다. 테마 복제는 기존 자동 새 ID 방식을 유지한다.
+- iOS 테마 ID는 기존 규칙대로 packageId + `.ios`다. 생성 규칙과 스키마는 바꾸지 않아 compilerVersion 0.4.0을 유지한다. 서버 변경 반영에는 재시작과 브라우저 새로고침이 필요하다.
+- 단위/API 25개, browser, state-geometry, screen-workflow, editor-upgrade, audit-screens 통과. 데스크톱/390px 생성 창·중복 오류 캡처를 확인했다. integration에서 `com.bright.theme.forest_2026`으로 실제 APK 컴파일·서명·같은 키 업데이트 및 다른 키 차단을 검증했다.
+- 근거: 작업 체크아웃의 test-results/browser-report.json, new-project-dialog.png, new-project-error-mobile.png 및 `.test-data/integration-1792938167929/test-summary.json`. 테스트 키는 격리한 .test-data에만 있고 설치본에 복사하지 않았다. 실제 기기 설치/카카오톡 적용은 이번에 추가 검증하지 않았으며 deviceVerified는 false다. 복제 시 사용자 지정 패키지명은 이번 범위에 포함하지 않는다.
+
 ## 0.3.0 화면별 작업
 
 - 여섯 화면을 고르면 미리보기와 옆 설정이 동기화된다. 화면별 공통 원본, 말풍선 정책, 잠금 설정, iOS/Android 전체 세부 항목과 이미지 변형을 편집한다.

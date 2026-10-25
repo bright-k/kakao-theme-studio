@@ -13,7 +13,9 @@ export async function createStudio({dataRoot=process.env.THEME_STUDIO_DATA??path
  await fs.mkdir(dataRoot,{recursive:true,mode:0o700});const keys=new KeyStore(dataRoot);const editor=makeEditorService(dataRoot);const jobs=new Map();let queue=Promise.resolve();let previewQueue=Promise.resolve();
  const projectFile=id=>{if(!validId(id))throw new Error('프로젝트 ID가 잘못되었습니다.');return path.join(dataRoot,'projects',`${id}.json`);};
  const load=id=>readJson(projectFile(id));
- const save=async p=>{assertValid(p);const old=await readJson(projectFile(p.id),null);if(old&&old.packageId!==p.packageId)throw new Error('기존 프로젝트 앱 ID는 변경할 수 없습니다.');await atomic(projectFile(p.id),JSON.stringify(p,null,2));return p;};
+ const listProjects=async()=>{let entries=[];try{entries=await fs.readdir(path.join(dataRoot,'projects'));}catch(e){if(e.code!=='ENOENT')throw e;}return Promise.all(entries.filter(f=>f.endsWith('.json')).map(f=>readJson(path.join(dataRoot,'projects',f))));};
+ let saveQueue=Promise.resolve();
+ const save=async p=>{assertValid(p);const saving=saveQueue.catch(()=>{}).then(async()=>{const old=await readJson(projectFile(p.id),null);if(old&&old.packageId!==p.packageId)throw new Error('기존 프로젝트 앱 ID는 변경할 수 없습니다.');if(!old&&(await listProjects()).some(x=>x.packageId===p.packageId))throw new Error('이미 같은 패키지명을 사용하는 프로젝트가 있습니다. 다른 패키지명을 입력하거나 기존 프로젝트를 열어 주세요.');await atomic(projectFile(p.id),JSON.stringify(p,null,2));return p;});saveQueue=saving;return saving;};
  async function body(req){let n=0;const chunks=[];for await(const c of req){n+=c.length;if(n>34*1024*1024)throw new Error('요청이 너무 큽니다.');chunks.push(c);}return JSON.parse(Buffer.concat(chunks).toString()||'{}');}
  function json(res,data,status=200){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(data));}
  async function file(res,f,download=false){const buf=await fs.readFile(f);res.writeHead(200,{'Content-Type':MIME[path.extname(f)]??'application/octet-stream','Cache-Control':'no-store',...(download?{'Content-Disposition':`attachment; filename="${path.basename(f)}"`}:{})});res.end(buf);}
@@ -25,8 +27,8 @@ export async function createStudio({dataRoot=process.env.THEME_STUDIO_DATA??path
    if(url.startsWith('/api/')){
     if(req.headers.authorization!==`Bearer ${token}`||req.headers.origin&&req.headers.origin!==origin){json(res,{error:'인증되지 않은 요청입니다.'},403);return;}
     if(url==='/api/status'){json(res,{environment:await doctor(),keys:await keys.list()});return;}
-    if(url==='/api/projects'&&req.method==='GET'){let entries=[];try{entries=await fs.readdir(path.join(dataRoot,'projects'));}catch(e){if(e.code!=='ENOENT')throw e;}json(res,await Promise.all(entries.filter(f=>f.endsWith('.json')).map(f=>readJson(path.join(dataRoot,'projects',f)))));return;}
-    if(url==='/api/projects'&&req.method==='POST'){const b=await body(req);const p=newProject(b.name??'이끼 숲',b.palette??'forest');await save(p);json(res,p);return;}
+    if(url==='/api/projects'&&req.method==='GET'){json(res,await listProjects());return;}
+    if(url==='/api/projects'&&req.method==='POST'){const b=await body(req);const p=newProject(b.name??'이끼 숲',b.palette??'forest',b.packageId);await save(p);json(res,p);return;}
     if(url==='/api/project'&&req.method==='PUT'){json(res,await save((await body(req)).project));return;}
     if(url==='/api/assets'&&req.method==='POST'){const b=await body(req);const p=b.project??await load(b.projectId);assertValid(p);const bytes=await normalizeUpload(Buffer.from(b.base64,'base64'));const ref=`assets/${sha(bytes)}.png`;const next={...p,assets:{...p.assets,[b.slot]:ref}};assertValid(next);await atomic(path.join(dataRoot,ref),bytes);json(res,await save(next));return;}
     if(url==='/api/validate'){json(res,validate((await body(req)).project));return;}

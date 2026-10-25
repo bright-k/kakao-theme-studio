@@ -39,6 +39,8 @@ schemaVersion 1 프로젝트는 id/name/author/version/packageId/profile/mode/pa
 
 프로젝트/인덱스는 임시 파일 후 rename으로 저장한다. 키 비밀번호는 KeyStore Map에만 보관하고 디스크에 저장하지 않는다. 키 파일은 암호화 PKCS12, 파일 모드 600, 기본 데이터 루트는 700이다. session.json은 로컬 브라우저 인증 토큰을 가지므로 .data 전체를 배포하지 않는다.
 
+POST projects는 선택 입력 packageId를 받으며 newProject(name,palette,packageId)에서 문자열 앞뒤 공백을 제거한다. 생략/빈 문자열이면 기존 UUID 기반 ID를 생성한다. 형식·길이·Java 예약어를 검증하고, 새 프로젝트 저장 시 같은 데이터 루트의 패키지명 중복을 거부한다. 서버 내부 저장 큐로 중복 확인과 저장을 직렬화해 동시 생성도 차단한다. PUT/ZIP 가져오기로 새 프로젝트를 저장할 때도 같은 검사를 거친다. 기존 프로젝트의 packageId 변경 금지와 package ID/fingerprint bindings는 유지한다. 생성 UI만 추가한 것으로 schemaVersion과 출력 직렬화 규칙은 같으며 compilerVersion 0.4.0을 유지한다.
+
 프로젝트 ZIP은 공통/개별 이미지 참조와 플랫폼별 설정을 포함한 `theme.json`과 참조 자산을 포함하며 signingKeyId는 null로 만든다. 플랫폼 ID는 유지한다. 가져올 때 같은 ID가 이미 있으면 덮어쓰지 않는다. 외부 키는 theme alias를 사용한 PKCS12/JKS를 가져오는 범위다.
 
 ## 생성 계약

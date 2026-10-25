@@ -23,10 +23,12 @@ export const visualRevision = p => sha(COMPILER_VERSION+'\n'+JSON.stringify({pal
 export function cloneProject(p){const copy={...structuredClone(p),...newProject(p.name+' 사본')};for(const key of ['author','palette','bubble','assets','overrides','resourceOverrides','resourceOptions','nativeNinePatch','resourceGeometry','mode','url','signingKeyId'])if(p[key]!==undefined)copy[key]=structuredClone(p[key]);copy.name=(p.name.slice(0,55)+' 사본');return copy;}
 export const xml = s => String(s).replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'}[c]));
 export const validId = s => typeof s==='string' && /^[a-f0-9-]{36}$/.test(s);
-export function newProject(name='이끼 숲', palette='forest') {
+export function newProject(name='이끼 숲', palette='forest', packageId) {
   const id=crypto.randomUUID();
-  return {schemaVersion:1,id,name,author:'Theme Creator',version:'1.0.0',packageId:`studio.localtheme.t${id.replaceAll('-','')}`,profile:PROFILE,mode:palette==='dusk'?'dark':'light',palette:{...(PALETTES[palette]??PALETTES.forest)},bubble:{radius:14,paddingX:14,paddingY:10,stretchX:30,stretchY:26},assets:{},signingKeyId:null,createdAt:new Date().toISOString()};
+  if(typeof packageId==='string')packageId=packageId.trim()||undefined;
+  return {schemaVersion:1,id,name,author:'Theme Creator',version:'1.0.0',packageId:packageId===undefined?`studio.localtheme.t${id.replaceAll('-','')}`:packageId,profile:PROFILE,mode:palette==='dusk'?'dark':'light',palette:{...(PALETTES[palette]??PALETTES.forest)},bubble:{radius:14,paddingX:14,paddingY:10,stretchX:30,stretchY:26},assets:{},signingKeyId:null,createdAt:new Date().toISOString()};
 }
+const JAVA_RESERVED=new Set('abstract assert boolean break byte case catch char class const continue default do double else enum extends final finally float for goto if implements import instanceof int interface long native new package private protected public return short static strictfp super switch synchronized this throw throws transient try void volatile while true false null'.split(' '));
 export function validate(p) {
   const d=[];const err=(field,message)=>d.push({severity:'error',field,message});
   if(!p||typeof p!=='object'||Array.isArray(p))return [{severity:'error',field:'project',message:'프로젝트 형식이 잘못되었습니다.'}];
@@ -34,7 +36,7 @@ export function validate(p) {
   if(!validId(p.id))err('id','유효한 프로젝트 ID가 필요합니다.');
   for(const k of ['name','author'])if(typeof p[k]!=='string'||!p[k].trim()||p[k].length>60||/[\x00-\x1F]/.test(p[k]))err(k,'1~60자의 텍스트를 입력하세요.');
   if(!/^\d+\.\d+\.\d+$/.test(p.version))err('version','버전은 1.0.0 형식이어야 합니다.');
-  if(typeof p.packageId!=='string'||!/^([a-z][a-z0-9_]*\.){2,}[a-z][a-z0-9_]*$/.test(p.packageId)||p.packageId.length>160)err('packageId','앱 ID 형식이 잘못되었습니다.');
+  if(typeof p.packageId!=='string'||!/^([a-z][a-z0-9_]*\.){2,}[a-z][a-z0-9_]*$/.test(p.packageId)||p.packageId.length>160||p.packageId.split('.').some(x=>JAVA_RESERVED.has(x)))err('packageId','패키지명은 com.bright.theme.forest처럼 소문자로 시작하는 3개 이상의 구간을 점으로 연결하세요. 소문자·숫자·밑줄만 허용하며 Java 예약어는 사용할 수 없습니다. (최대 160자)');
   if(p.profile!==PROFILE)err('profile','지원하지 않는 카카오톡 프로필입니다.');
   if(!['light','dark'].includes(p.mode))err('mode','화면 모드가 잘못되었습니다.');
   for(const k of Object.keys(PALETTES.forest))if(!/^#[0-9a-fA-F]{6}$/.test(p.palette?.[k]??''))err(`palette.${k}`,'#RRGGBB 색상이 필요합니다.');

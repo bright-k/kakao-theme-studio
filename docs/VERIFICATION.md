@@ -3,6 +3,15 @@
 사용자 요청으로 이전 프로젝트, 등록 서명키, 생성 빌드 및 이전 예제 파일을 삭제하고 새 샘플 하나로 초기화했습니다. 아래 내용은 당시의 검증 이력이며 이전 생성 파일은 현재 존재하지 않을 수 있습니다. 새 샘플은 examples/sample-project.zip에 있습니다.
 
 
+## 새 프로젝트 패키지명 지정 검증 (2026-10-25)
+
+- `node --test test/*.test.mjs`: 25개 통과. 사용자 지정/자동 패키지명, 형식·길이·Java 예약어, iOS ID 연결과 백업/복원, 서버 중복·동시 생성·PUT/ZIP 우회 거부 및 기존 ID 불변을 확인했다.
+- `node test/browser.mjs`: 생성 창 취소, 잘못된 형식·예약어·중복 오류와 입력값 유지, 사용자 지정 ID 저장, 빈 입력의 자동 생성, 프로젝트 전환과 개인키 없는 백업을 확인했다. UI에서 실제 두 플랫폼 생성과 APK 다운로드도 통과했다.
+- 생성 창과 중복 오류의 데스크톱/390px 캡처를 육안 확인했다. 근거는 test-results/new-project-dialog.png, new-project-error-mobile.png, browser-report.json이다.
+- `node test/integration.mjs`: `com.bright.theme.forest_2026`으로 실제 APK 컴파일·정렬·서명·ID 검사, versionCode 1→2와 인증서 유지, 키 백업/복원·다른 키 차단 통과. iOS ID도 지정 패키지명 + `.ios`로 출력됐다. 근거는 `.test-data/integration-1792938167929/test-summary.json`이다.
+- `node test/state-geometry.mjs`, `node test/screen-workflow.mjs`, `node test/editor-upgrade.mjs` 및 `node scripts/audit-screens.mjs` 통과. 전체 리소스 연결 누락은 없다.
+- 테스트는 격리한 .test-data에서 수행했다. 이번에는 기기 설치·실제 카카오톡 적용을 추가 검증하지 않았다. compilerVersion은 출력 규칙이 같아 0.4.0을 유지한다.
+
 ## 0.4.0 상태·원본·시각 편집 검증 (2026-10-25)
 
 - 단위·회귀 23개 통과. 새 검사는 공통 원본 47개를 넣고 전체 146개 출력의 원본 추적과 실제 픽셀을 대조한다. Android 다중 늘림/여백 변경 시 내부 그림 픽셀 보존, 프로젝트 복제·ZIP 복원·캐시 분리와 잘못된 좌표 거부를 확인했다.
