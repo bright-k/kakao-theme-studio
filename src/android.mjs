@@ -65,8 +65,8 @@ export async function buildAndroid(compiled,dir,versionCode,key,onStep=()=>{}){
  onStep('APK 서명 검증');const verify=await run(t('apksigner'),['verify','--verbose','--print-certs',apk],{env});const badging=await run(t('aapt'),['dump','badging',apk],{env});if(!badging.includes(`name='${p.packageId}'`)||!badging.includes(`versionCode='${versionCode}'`))throw new Error('생성 APK의 ID 또는 버전이 다릅니다.');const certHex=key.fingerprint.replaceAll(':','').toLowerCase();if(!verify.toLowerCase().includes(certHex))throw new Error('서명 인증서가 선택한 키와 다릅니다.');await run(t('zipalign'),['-c','4',apk],{env});
  await fs.writeFile(path.join(dir,'signature-verification.txt'),verify);return {apk,versionCode,fingerprint:key.fingerprint,tools:{java:path.basename(e.javaHome),buildTools:e.buildTools,compileSdk:e.api,targetSdk:e.api,minSdk:28},badging};
 }
-export async function buildBoth(compiled,dataRoot,keyStore,onStep=()=>{}){
- const p=compiled.project;const id=crypto.randomUUID();const dir=path.join(dataRoot,'builds',id);await fs.mkdir(dir,{recursive:true});
+export async function buildBoth(compiled,dataRoot,keyStore,onStep=()=>{},{projectRoot=dataRoot}={}){
+ const p=compiled.project;const id=crypto.randomUUID();const dir=path.join(projectRoot,'builds',id);await fs.mkdir(dir,{recursive:true});
  const report={id,projectId:p.id,projectName:p.name,revision:compiled.revision,createdAt:new Date().toISOString(),profile:compiled.profile,compilerVersion:compiled.compilerVersion,coverage:compiled.coverage,diagnostics:compiled.diagnostics,deviceVerified:false,outputs:{},android:{status:'pending'},ios:{status:'pending'}};
  onStep('iOS 테마 패키징');const ktheme=await makeKtheme(compiled);await fs.writeFile(path.join(dir,'theme-ios.ktheme'),ktheme);report.ios={status:'success'};report.outputs['theme-ios.ktheme']=sha(ktheme);
  try{

@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-26",
+  "passed": true,
+  "compilerVersion": "0.6.0",
+  "storageVersion": 2,
+  "packageDirectory": "projects/com.bright.theme.forest_2026",
+  "workspaceSigningBindingsPreserved": true,
+  "compositionModes": [
+    "color + character",
+    "image + character"
+  ],
+  "independentContinuousBodyAndCharacter": true,
+  "firstVersionCode": 1,
+  "updateVersionCode": 2,
+  "sameCertificate": true,
+  "signatureAndAlignmentVerified": true,
+  "resourcesArscStored": true,
+  "wrongKeyBlocked": true,
+  "keyBackupRestored": true,
+  "deviceVerified": false,
+  "evidence": ".test-data/integration-1792945357546/test-summary.json"
+}

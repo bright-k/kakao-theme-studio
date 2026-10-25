@@ -1,6 +1,6 @@
 {
   "name": "kakao-theme-studio-local",
-  "version": "0.4.0",
+  "version": "0.7.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -17,6 +17,8 @@
     "test:screens": "node test/screen-workflow.mjs",
     "audit:screens": "node scripts/audit-screens.mjs",
     "test:preview": "node test/preview-seams.mjs",
+    "test:storage": "node test/storage-workflow.mjs",
+    "test:unified": "node test/unified-design.mjs",
     "test:states": "node test/state-geometry.mjs"
   },
   "dependencies": {

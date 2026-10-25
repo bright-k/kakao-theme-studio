@@ -3,6 +3,35 @@
 사용자 요청으로 이전 프로젝트, 등록 서명키, 생성 빌드 및 이전 예제 파일을 삭제하고 새 샘플 하나로 초기화했습니다. 아래 내용은 당시의 검증 이력이며 이전 생성 파일은 현재 존재하지 않을 수 있습니다. 새 샘플은 examples/sample-project.zip에 있습니다.
 
 
+## 0.7.0 역할별 원본 이름·버전·이관 (2026-10-26)
+
+- `node --test test/*.test.mjs`: 44개 통과. 새 asset-names 7개는 모든51 공통/146 출력의 안전·고유 경로, 같은 그림의 명시 슬롯별 독립 파일과 플랫폼 공통 대체, 불변 버전·동시 등록·실행취소·캐시, 플랫폼/배율 전용 원본·.9 가이드·공통 복귀, 변조/검증 정보 누락, 이관 전후 전체 출력 동일성, 전체146 원본 ZIP·포맷1/2 호환을 확인한다.
+- `node test/storage-workflow.mjs`, `node test/unified-design.mjs`, `node test/state-geometry.mjs`, `node test/screen-workflow.mjs`, `node test/editor-upgrade.mjs`, `node test/browser.mjs`: 모두 통과. 공통 업로드와 정확한 배율 재정의의 실제 파일 경로/assetHashes, 재연결/실행취소, 독립 복원, 모든 상태/가이드, 개인키 없는 새 백업, 실제 APK/ktheme UI 다운로드를 유지했다. 상태 검사 기준은 가져오기로 이관된 초기 프로젝트다. 데스크톱/800px 저장소 캡처를 확인했다.
+- `node test/integration.mjs`: 이관된 이름별 원본에서 실제 두 플랫폼 컴파일·서명·정렬, resources.arsc STORE, 다중9-patch·합성·인셋, 같은 키 versionCode 1→2, 키 복원과 다른 키 차단 통과. 근거: docs/integration-0.7.0.json, .test-data/integration-1792947397938/test-summary.json.
+- audit-screens/audit-coverage/support-matrix 통과. iOS105/Android49/이미지82그룹146출력/공통51, 누락 없음·메타데이터 변경의 이미지 해시 보존. 앱/컴파일러0.7.0, storageVersion2, assetNamingVersion1, backupVersion3이다.
+- 현재 .data 프로젝트2개를 확인하고 서버를 종료한 뒤 이관했다. 해시 참조가 있는 프로젝트1개·원본1개를 새 경로로 복사했다. 각 프로젝트의146 PNG를 포함한 전체 생성 파일 해시가 전후 동일하며 원본·키·빌드·백업182개 파일은 변경하지 않았다. 키는 내용 복사 없이 크기/수정시각/inode만 대조했다. 이관 전 theme/storage·원본 보존 기록은 .data/backups/asset-names-transition-2026-10-25T16-58-59-681Z에 있다. 같은 인증 링크/포트로 새 서버 실행을 확인했다. 사용자 디자인/프로젝트 ID/서명 연결은 유지했고 다른 체크아웃은 변경하지 않았다.
+- 실제 카카오톡 적용/실기기 설치는 추가하지 않았다. deviceVerified/actualAppVerified=false이며 사용자 화면·개인키·인증값은 새 공개 근거에 포함하지 않았다.
+
+## 0.6.0 프로젝트 저장소·백업·실제 이관 (2026-10-26)
+
+- `node --test test/*.test.mjs`: 37개 통과. 새 project-store 5개는 패키지별 복사·기존 원본/키·bindings 보존·이관 재실행·146개 출력 바이트 일치, 독립 복제와 이름/패키지 규칙, 전역 fallback 거부, 버전별 백업/manifest·구형 호환·중복 실패의 무잔여 등록, 중단 자료 보존·실행 잠금·중복 ZIP·링크 거부를 확인한다.
+- `node test/storage-workflow.mjs`: UI 저장 위치/자산 수·용량·원본/사용처, 한국 시간/패키지명 백업 파일명과 로컬 보관, 중복 가져오기의 기존 열기/독립 복사, projectId 없는 조회 및 다른 프로젝트의 자산/미리보기 접근 거부, 800px 화면을 확인했다. 데스크톱/좁은 화면 캡처를 확인했다. 근거: docs/project-storage-report.json, test-results/project-storage-desktop.png / project-storage-small.png.
+- `node test/unified-design.mjs`, `node test/state-geometry.mjs`, `node test/screen-workflow.mjs`, `node test/editor-upgrade.mjs`, `node test/browser.mjs`: 모두 통과. 51개 공통 원본, 첫/연속 독립 본체·캐릭터, 모든 상태·원본/가이드·실행취소·복제, 프로젝트 생성/저장/키/실제 두 플랫폼 생성·다운로드와 새 백업의 개인키 제외를 유지했다. 상태 fixture는 공개 가져오기로 등록해 공용 자산의 우연한 재사용을 배제했다.
+- `node test/integration.mjs`: 구형 프로젝트를 먼저 패키지명 폴더로 이관하고 해당 assets에서 컴파일해 프로젝트 builds에 실제 APK/ktheme를 생성했다. keys/bindings는 workspace에 유지했다. 색상·이미지 본체+첫/연속 별도 캐릭터, 다중 9-patch, iOS 인셋, AAPT2, resources.arsc STORE/4바이트 정렬·서명·동일 인증서의 versionCode 1→2·키 복원·다른 키 차단 통과. 근거: docs/integration-0.6.0.json, .test-data/integration-1792945357546/test-summary.json.
+- audit-screens/audit-coverage/support-matrix 통과. 카탈로그 105개 iOS 속성·49개 Android 색상·82개 이미지 그룹/146개 출력·공통 51개 누락 없음, 메타데이터 수정의 이미지 해시 보존을 확인했다. compilerVersion 0.6.0이다.
+- 실제 현재 작업 폴더의 서버를 검증 후 재시작해 기존 2개 프로젝트를 패키지명 폴더로 이관했다. 이관 전 API/디스크 일치, 원본 파일 7개의 내용/메타데이터 불변과 이관 전후 theme JSON 동일, 새 서버의 모든 프로젝트 경로·storageVersion 2 응답을 확인했다. 복구용 사본과 원본 해시 기록은 .data/backups/storage-transition-2026-10-25T16-27-31-393Z이며 개인키는 복사하지 않았다. 기존 인증 링크를 유지했다. 원본 JSON/공유 자산·기존 빌드/전역 백업/키·서명 연결은 삭제하거나 변경하지 않았다.
+- 실제 카카오톡 적용과 이번 APK의 실기기 설치는 추가 확인하지 않았으며 deviceVerified/actualAppVerified는 false다. 사용자 프로젝트 내용/화면/개인키를 새 공개 보고서나 캡처로 복사하지 않았다.
+
+## 0.5.0 공통 디자인·클릭 탐색·첫/연속 독립 말풍선 (2026-10-26)
+
+- `node --test test/*.test.mjs`: 32개 통과. 새 composition 6개는 색상/이미지 본체+캐릭터, 비율·고정 영역과 양 플랫폼 배율, 첫/연속의 별도 본체/장식 및 선택적 비활성화, 기하·원본 추적, 캐시·복제·백업·예외 보존, 원본 .9.png 승격과 iOS 좌표 보정을 검사한다. 기존 146개 출력/모든 공통 원본 픽셀 대조도 유지했다.
+- `node test/unified-design.mjs`: 통과. 축소 Canvas의 실제 포인터 호버/클릭, 키보드 대상 목록, 선택만으로 JSON 불변, 정확한 설정/출력 이동, 본체 모드·원본 보존·상속 표시, 연속 전용 캐릭터 등록, 선택 출력의 공통 연결·실행취소/다시실행, 역할 검색·800px 화면을 확인했다. 근거: docs/unified-design-report.json, test-results/unified-design-desktop.png 및 unified-design-small.png. 데스크톱/좁은 화면 캡처를 확인했다.
+- `node test/state-geometry.mjs`, `node test/screen-workflow.mjs`, `node test/editor-upgrade.mjs`: 최종 첫/연속 UI를 포함해 모두 통과. 모든 51개 공통 입력과 105개 iOS 속성·49개 Android 색상·82개 이미지 그룹/146개 출력 접근 경로, 비밀번호 8개/키패드·선택/지역탭/프로필/버튼 상태, iOS 드래그와 Android 다중 가이드·원본 복귀, 세부 리소스·일괄 등록·템플릿·백업 흐름을 유지했다.
+- `node test/browser.mjs`: 프로젝트 생성/오류/저장/전환, 키 생성, 실제 두 플랫폼 생성·APK/ktheme 다운로드, 공통 ID 일치와 개인키 없는 ZIP 백업 통과. 근거: test-results/browser-report.json. 첫/연속 추가 범위는 이후 unified-design 및 integration으로 별도 검증했다.
+- `node test/integration.mjs`: 첫 번째에 색상 본체+캐릭터, 연속에 별도 이미지 본체+전용 캐릭터를 넣어 실제 APK·ktheme를 생성했다. 업데이트에서는 첫 본체도 이미지 모드로 전환했다. AAPT2 컴파일, resources.arsc STORE/4바이트 정렬·서명, 동일 ID/인증서의 versionCode 1→2, 키 복원과 다른 키 차단 통과. 근거: docs/integration-0.5.0.json 및 .test-data/integration-1792943508548/test-summary.json.
+- `audit-screens`, `audit-coverage`, `support-matrix` 통과. screen-coverage.json은 toolVersion 0.5.0 / 공통 51개 / 누락 없음이며 coverage-after.json은 146개 출력 완비와 메타데이터 수정 시 이미지 해시 보존을 기록한다. compilerVersion 0.5.0으로 이전 캐시를 분리했다.
+- 기존 사용자 .data·키·bindings·예제·빌드를 변경하지 않았고 테스트는 .test-data에 격리했다. 실제 기기 설치나 카카오톡 적용은 이번에 실행하지 않았으며 deviceVerified/actualAppVerified는 false다.
+
 ## iOS·Android 공통 ID 검증 (2026-10-25, compilerVersion 0.4.1)
 
 - `node --test test/*.test.mjs`: 26개 통과. 기존 sample-project.zip을 복원해 생성한 실제 ktheme 내부 iOS ID가 packageId와 같고 입력 프로젝트 JSON은 변경되지 않음을 확인했다. 백업/복원·복제·명시적 `.ios` 입력 보존과 0.4.0 revision 캐시 분리도 확인했다.

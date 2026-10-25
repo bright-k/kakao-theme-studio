@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-26",
+  "compilerVersion": "0.5.0",
+  "profile": "kakaotalk-26.9.0",
+  "passed": true,
+  "compositionModes": [
+    "color + character",
+    "image + character"
+  ],
+  "independentContinuousBodyAndCharacter": true,
+  "packageId": "com.bright.theme.forest_2026",
+  "firstBuild": {
+    "status": "success",
+    "versionCode": 1
+  },
+  "updateBuild": {
+    "status": "success",
+    "versionCode": 2
+  },
+  "sameCertificate": true,
+  "resourcesArscStored": true,
+  "apkSignatureAndFourByteAlignmentVerified": true,
+  "wrongKeyBlocked": true,
+  "keyBackupRestored": true,
+  "deviceVerified": false,
+  "evidence": ".test-data/integration-1792943508548/test-summary.json"
+}

@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "evidence": [
+    "Legacy project migrates to the literal package directory and UI shows its own path, usage, size and images",
+    "Versioned backup download/local copy and duplicate import choices preserve the original and create an independent package directory",
+    "Asset and preview lookups require the project scope and cannot fall back to another project or shared files"
+  ],
+  "storageVersion": 2,
+  "backupVersion": 3,
+  "deviceVerified": false,
+  "date": "2026-10-26",
+  "toolVersion": "0.7.0",
+  "assetNamingVersion": 1
+}

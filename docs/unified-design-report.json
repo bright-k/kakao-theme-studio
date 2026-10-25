@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "evidence": [
+    "Preview target selection opens the shared character editor without mutating the project",
+    "Scaled pointer hit testing highlights and opens the exact profile source",
+    "Color/image body modes, separate character, source preservation and undo update the actual preview",
+    "First and continuous bubbles independently select body color/image and optional separate character resources",
+    "Exact output navigation and selective reconnect preserve exceptions and support undo/redo",
+    "All six screens expose context targets; exact property navigation uses the existing catalog editor",
+    "Role search and narrow-screen target navigation remain usable"
+  ],
+  "deviceVerified": false,
+  "date": "2026-10-26",
+  "toolVersion": "0.5.0"
+}

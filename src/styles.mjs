@@ -1,3 +1,4 @@
+import {bubbleGeometry,bubbleConfig} from '../public/bubble-model.js';
 import { CATALOG } from './catalog.mjs';
 const quote=s=>"'"+String(s).replaceAll('\\','\\\\').replaceAll("'","\\'").replace(/[\r\n\f]/g,' ')+"'";
 export function resolveStyles(p){
@@ -19,10 +20,12 @@ export function resolveStyles(p){
    if(n==='-ios-button-text-color'||n==='-ios-keypad-text-normal-color')value=c.text;
   }
   if(s==='ManifestStyle')value=({'-kakaotalk-theme-name':p.name,'-kakaotalk-theme-version':p.version,'-kakaotalk-theme-url':p.url??'','-kakaotalk-author-name':p.author,'-kakaotalk-theme-id':p.packageId,'-kakaotalk-theme-style':p.mode})[n];
+  if(/MessageCellStyle/.test(s)){const who=s.includes('Send')?'sent':'received',cfg=bubbleConfig(p,who),g=bubbleGeometry(p,who,n.includes('group-'));if(kind==='stretch')value=g.stretch;if(kind==='insets')value=g.insets;if(p.bubbleDesign?.[who]&&/^-ios-(selected-)?text-color$/.test(n))value=cfg.textColor;}
   ios[prop.id]=p.overrides?.ios?.[prop.id]??value;
  }
  const map={theme_background_color:c.main,theme_chatroom_background_color:c.chat,theme_passcode_background_color:c.main,theme_header_color:c.text,theme_title_color:c.text,theme_section_title_color:c.secondary,theme_paragraph_color:c.secondary,theme_description_color:c.secondary,theme_header_cell_color:c.main,theme_body_cell_color:'#00'+c.main.slice(1),theme_body_cell_pressed_color:c.chat,theme_body_cell_border_color:'#22'+c.text.slice(1),theme_body_secondary_cell_color:c.main,theme_maintab_cell_color:c.main,theme_navigationbar_background_color:c.input,theme_navigationrail_background_color:c.main,theme_chatroom_bubble_me_color:c.sentText,theme_chatroom_bubble_you_color:c.receivedText,theme_chatroom_unread_count_color:c.accent,theme_chatroom_input_bar_color:c.text,theme_chatroom_input_bar_background_color:c.input,theme_chatroom_input_bar_menu_icon_color:c.accent,theme_chatroom_input_bar_menu_button_color:'#11000000',theme_chatroom_input_bar_send_icon_color:c.sentText,theme_chatroom_input_bar_send_button_color:c.sent,theme_passcode_keypad_background_color:c.main,theme_passcode_color:c.text,theme_passcode_keypad_color:c.text,theme_passcode_pattern_line_color:c.accent,theme_button_background_color:c.chat,theme_button_selected_background_color:c.accent,theme_direct_share_background_color:c.input,theme_notification_background_color:c.main};
  for(const {id} of CATALOG.androidColors)android[id]=p.overrides?.android?.[id]??map[id]??(/background|bannerbadge/.test(id)?c.chat:/pressed|focused|primary|button/.test(id)?c.accent:c.secondary);
+ for(const who of ['sent','received'])if(p.bubbleDesign?.[who]){const id=who==='sent'?'theme_chatroom_bubble_me_color':'theme_chatroom_bubble_you_color';android[id]=p.overrides?.android?.[id]??bubbleConfig(p,who).textColor;}
  return {ios,android};
 }
 export function serializeIOS(p){const values=resolveStyles(p).ios;const selectors=[...new Set(CATALOG.iosProperties.map(x=>x.selector))];return selectors.map(selector=>`${selector}\n{\n`+CATALOG.iosProperties.filter(x=>x.selector===selector).map(prop=>{

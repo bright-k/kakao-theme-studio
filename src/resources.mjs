@@ -1,4 +1,6 @@
 import sharp from 'sharp';
+import {validAssetRef,namedAssetRef} from './asset-names.mjs';
+import {bubbleGeometry,bubbleConfig,iosBubbleGeometry} from '../public/bubble-model.js';
 import { PNG } from 'pngjs';
 import { CATALOG, RESOURCE_FILES, RESOURCES, logicalResource } from './catalog.mjs';
 import { resolveStyles, previewStyles } from './styles.mjs';
@@ -8,6 +10,15 @@ const plain=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 export const assetReferences=p=>[...new Set([...Object.values(p.assets??{}),...Object.values(p.resourceOverrides??{})])];
 export function validateExtensions(p){
  const errors=[];const error=(field,message)=>errors.push({severity:'error',field,message});
+ if(p.bubbleDesign!==undefined){
+  if(!plain(p.bubbleDesign)||Object.keys(p.bubbleDesign).some(k=>!['sent','received'].includes(k)))error('bubbleDesign','말풍선 디자인 형식이 잘못되었습니다.');
+  else for(const [who,cfg] of Object.entries(p.bubbleDesign)){
+   const allowed=['body','color','textColor','radius','tail','decorationEnabled','size','gap','offset','anchor','applyTo','group'];
+   if(!plain(cfg)||Object.keys(cfg).some(k=>!allowed.includes(k))){error('bubbleDesign.'+who,'말풍선 디자인 항목을 확인하세요.');continue;}
+   for(const [key,v] of Object.entries(cfg)){if(key==='group'){if(!plain(v)||Object.keys(v).some(k=>!['body','color','radius','tail','decorationMode','decorationEnabled','size','gap','offset','anchor'].includes(k)))error('bubbleDesign.'+who+'.group','연속 말풍선 설정을 확인하세요.');else for(const [k,x] of Object.entries(v)){const ok=k==='body'?['inherit','auto','color','image'].includes(x):k==='color'?typeof x==='string'&&/^#[a-fA-F0-9]{6}$/.test(x):k==='decorationMode'?['none','shared','separate'].includes(x):['tail','decorationEnabled'].includes(k)?typeof x==='boolean':k==='anchor'?['left','right'].includes(x):Number.isInteger(x)&&(k==='radius'?x>=0&&x<=18:k==='size'?x>=12&&x<=72:['gap','offset'].includes(k)&&x>=0&&x<=24);if(!ok)error('bubbleDesign.'+who+'.group.'+k,'연속 말풍선 값의 형식과 범위를 확인하세요.');}if(v?.body==='image'&&!p.assets?.[who+'BubbleGroup']&&!p.assets?.[who+'Bubble'])error('bubbleDesign.'+who+'.group.body','연속 말풍선 본체 이미지를 등록하세요.');continue;}const ok=key==='body'?['auto','color','image'].includes(v):['color','textColor'].includes(key)?typeof v==='string'&&/^#[a-fA-F0-9]{6}$/.test(v):['tail','decorationEnabled'].includes(key)?typeof v==='boolean':key==='anchor'?['left','right'].includes(v):key==='applyTo'?['first','all'].includes(v):Number.isInteger(v)&&(key==='radius'?v>=0&&v<=18:key==='size'?v>=12&&v<=72:['gap','offset'].includes(key)&&v>=0&&v<=24);if(!ok)error('bubbleDesign.'+who+'.'+key,'말풍선 디자인 값의 형식과 범위를 확인하세요.');}
+   if(cfg.body==='image'&&!p.assets?.[who+'Bubble'])error('bubbleDesign.'+who+'.body','말풍선 본체 이미지를 먼저 등록하세요.');
+  }
+ }
  const props=new Map(CATALOG.iosProperties.map(x=>[x.id,x]));const colors=new Set(CATALOG.androidColors.map(x=>x.id));
  if(p.url!==undefined&&(typeof p.url!=='string'||p.url.length>300||(p.url&&!/^https?:\/\/[^\s'"\\<>]+$/.test(p.url))))error('url','테마 URL은 http/https 주소로 입력하세요.');
  if(p.overrides!==undefined){
@@ -17,21 +28,23 @@ export function validateExtensions(p){
    for(const [id,value] of Object.entries(p.overrides[platform])){
     const field=`overrides.${platform}.${id}`;
     if(platform==='android'){if(!colors.has(id)||typeof value!=='string'||!/^#(?:[a-fA-F0-9]{6}|[a-fA-F0-9]{8})$/.test(value))error(field,'목록에 있는 Android 색상을 #RRGGBB 또는 #AARRGGBB로 입력하세요.');continue;}
-    const spec=props.get(id);if(!spec?.editable){error(field,'수정할 수 없는 iOS 속성입니다. 이미지와 테마 정보는 해당 편집기를 이용하세요.');continue;}
+    const spec=props.get(id);const who=id.includes('Send')?'sent':'received';const geometry=bubbleGeometry(p,who,id.includes('group-'));const maxW=geometry.width,maxH=geometry.height;if(!spec?.editable){error(field,'수정할 수 없는 iOS 속성입니다. 이미지와 테마 정보는 해당 편집기를 이용하세요.');continue;}
     if(spec.kind==='color'&&(typeof value!=='string'||!/^#[a-fA-F0-9]{6}$/.test(value)))error(field,'iOS 색상은 #RRGGBB로 입력하세요.');
     if(spec.kind==='number'&&(!Number.isFinite(value)||value<0||value>1))error(field,'투명도는 0~1 범위입니다.');
-    if(spec.kind==='insets'&&(!Array.isArray(value)||value.length!==4||value.some(x=>!Number.isFinite(x)||x<0||x>28)||value[1]+value[3]>=64||value[0]+value[2]>=56))error(field,'내용 여백은 top/left/bottom/right 4개 값으로 입력하세요.');
-    if(spec.kind==='stretch'&&(!Array.isArray(value)||value.length!==2||value.some(x=>!Number.isInteger(x))||value[0]<0||value[0]>=63||value[1]<0||value[1]>=55))error(field,'늘림 지점은 가로 0~62, 세로 0~54 두 정수로 입력하세요.');
+    if(spec.kind==='insets'&&(!Array.isArray(value)||value.length!==4||value.some(x=>!Number.isFinite(x)||x<0||x>(p.bubbleDesign?.[who]?Math.max(maxW,maxH):28))||value[1]+value[3]>=maxW||value[0]+value[2]>=maxH))error(field,'내용 여백은 top/left/bottom/right 4개 값으로 입력하세요.');
+    if(spec.kind==='stretch'&&(!Array.isArray(value)||value.length!==2||value.some(x=>!Number.isInteger(x))||value[0]<0||value[0]>=maxW-1||value[1]<0||value[1]>=maxH-1))error(field,'늘림 지점은 현재 말풍선 논리 크기 안의 가로·세로 두 정수로 입력하세요.');
    }
   }
  }
- if(p.resourceOverrides!==undefined){if(!plain(p.resourceOverrides))error('resourceOverrides','리소스 설정 형식이 잘못되었습니다.');else for(const [file,ref] of Object.entries(p.resourceOverrides))if(!RESOURCE_FILES.has(file)||typeof ref!=='string'||!/^assets\/[a-f0-9]{64}\.png$/.test(ref))error('resourceOverrides.'+file,'목록에 있는 리소스와 유효한 이미지 참조를 사용하세요.');}
+ if(p.resourceOverrides!==undefined){if(!plain(p.resourceOverrides))error('resourceOverrides','리소스 설정 형식이 잘못되었습니다.');else for(const [file,ref] of Object.entries(p.resourceOverrides))if(!RESOURCE_FILES.has(file)||typeof ref!=='string'||!validAssetRef(ref))error('resourceOverrides.'+file,'목록에 있는 리소스와 유효한 이미지 참조를 사용하세요.');}
  if(p.nativeNinePatch!==undefined&&(!Array.isArray(p.nativeNinePatch)||p.nativeNinePatch.some(f=>!RESOURCE_FILES.get(f)?.ninePatch||!p.resourceOverrides?.[f])))error('nativeNinePatch','원본 9-patch 참조가 잘못되었습니다.');
  if(p.resourceOptions!==undefined){if(!plain(p.resourceOptions))error('resourceOptions','이미지 옵션 형식이 잘못되었습니다.');else for(const [id,opt] of Object.entries(p.resourceOptions)){
   const resource=RESOURCES.find(r=>r.id===id);if(!resource||!plain(opt)){error('resourceOptions.'+id,'목록에 있는 이미지 옵션을 사용하세요.');continue;}
   for(const [k,v] of Object.entries(opt))if(k==='enabled'?typeof v!=='boolean'||!resource.optional:k==='fit'?!['cover','contain','fill'].includes(v):['focalX','focalY'].includes(k)?!Number.isFinite(v)||v<0||v>1:true)error('resourceOptions.'+id, '이미지 옵션은 크롭/맞춤, 초점(0~1), 배경 사용 여부입니다.');
  }}
  if(p.resourceGeometry!==undefined){if(!plain(p.resourceGeometry))error('resourceGeometry','늘림·여백 설정 형식을 확인하세요.');else for(const [file,g] of Object.entries(p.resourceGeometry))if(!RESOURCE_FILES.get(file)?.ninePatch||!validGeometry(g)||Object.keys(g).some(k=>!['width','height','stretchX','stretchY','insets'].includes(k)))error('resourceGeometry.'+file,'유효한 Android 9-patch 좌표와 늘림·내용 영역을 사용하세요.');}
+ if(p.assetHashes!==undefined){if(!plain(p.assetHashes))error('assetHashes','자산 검증 정보 형식을 확인하세요.');else for(const [ref,digest] of Object.entries(p.assetHashes))if(!validAssetRef(ref)||typeof digest!=='string'||!/^[a-f0-9]{64}$/.test(digest))error('assetHashes.'+ref,'자산 검증 정보가 잘못되었습니다.');}
+ for(const ref of assetReferences(p))if(namedAssetRef(ref)&&!/^([a-f0-9]{64})$/.test(p.assetHashes?.[ref]??''))error('assetHashes.'+ref,'원본 이미지의 검증 정보가 필요합니다.');
  return errors;
 }
 export function readNinePatch(buf){

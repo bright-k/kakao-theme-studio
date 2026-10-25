@@ -1,3 +1,4 @@
+import {iosBubbleGeometry} from './bubble-model.js';
 import {iosGeometryBinding,resizeGeometry,moveGuide} from './geometry-model.js';
 const make=(tag,text)=>{const el=document.createElement(tag);if(text)el.textContent=text;return el;};
 export function createVisualGeometry({host,resource,getProject,getPreview,getVariant,edit,toast}){
@@ -12,7 +13,7 @@ export function createVisualGeometry({host,resource,getProject,getPreview,getVar
  const reset=make('button','이 늘림·여백을 자동으로');reset.type='button';box.append(reset);host.append(box);
  let image=null,meta=null,path=null,frame=null,g=null,handles=[],dragging=null,gesture=0,structure=null,destroyed=false;
  function targets(){const variant=getVariant();return variant==='all'?resource.variants.map(f=>f.path):[variant];}
- function current(){const p=getProject();if(ios){const v=getPreview()?.views?.ios?.values??{},xy=p.overrides?.ios?.[binding.stretch]??v[binding.stretch]??[p.bubble.stretchX,p.bubble.stretchY],insets=p.overrides?.ios?.[binding.insets]??v[binding.insets]??[p.bubble.paddingY,p.bubble.paddingX,p.bubble.paddingY,p.bubble.paddingX];return {width:64,height:56,stretchX:[[xy[0],xy[0]+1]],stretchY:[[xy[1],xy[1]+1]],insets:[...insets]};}
+ function current(){const p=getProject();if(ios){const v=getPreview()?.views?.ios?.values??{},xy=p.overrides?.ios?.[binding.stretch]??v[binding.stretch]??[p.bubble.stretchX,p.bubble.stretchY],insets=p.overrides?.ios?.[binding.insets]??v[binding.insets]??[p.bubble.paddingY,p.bubble.paddingX,p.bubble.paddingY,p.bubble.paddingX];const logical=iosBubbleGeometry(p,resource.name);return {width:logical.width,height:logical.height,stretchX:[[xy[0],xy[0]+1]],stretchY:[[xy[1],xy[1]+1]],insets:[...insets]};}
   const patch=meta?.patch;if(!patch)return null;return p.resourceGeometry?.[path]?resizeGeometry(p.resourceGeometry[path],patch.width,patch.height):structuredClone(patch);
  }
  function commit(next){g=next;edit(p=>{if(ios){p.overrides??={};p.overrides.ios??={};p.overrides.ios[binding.stretch]=[g.stretchX[0][0],g.stretchY[0][0]];p.overrides.ios[binding.insets]=[...g.insets];}else{p.resourceGeometry??={};for(const f of targets())p.resourceGeometry[f]=structuredClone(g);}},(dragging?'geometry-drag:'+gesture+':':'geometry:')+resource.id);updateFields();draw();}
@@ -26,7 +27,7 @@ export function createVisualGeometry({host,resource,getProject,getPreview,getVar
   status.textContent=`${ios?'논리':'출력'} ${g.width}×${g.height} · ${getVariant()==='all'?'모든 배율·화면에 비례 적용':'선택한 출력에만 적용'} · 가이드를 드래그하거나 아래 숫자로 조정하세요.`;
  }
  function value(d){return d.axis==='insets'?g.insets[d.index]:g[d.axis]?.[d.index]?.[d.edge];}
- function change(d,v){if(!Number.isFinite(v))return;let next;if(ios&&d.axis!=='insets'){next=structuredClone(g);const n=Math.max(0,Math.min((d.axis==='stretchX'?g.width:g.height)-2,Math.round(v)));next[d.axis]=[[n,n+1]];}else{if(ios&&d.axis==='insets')v=Math.min(28,v);next=moveGuide(g,d,v);}commit(next);}
+ function change(d,v){if(!Number.isFinite(v))return;let next;if(ios&&d.axis!=='insets'){next=structuredClone(g);const n=Math.max(0,Math.min((d.axis==='stretchX'?g.width:g.height)-2,Math.round(v)));next[d.axis]=[[n,n+1]];}else{if(ios&&d.axis==='insets')v=Math.min(getProject().bubbleDesign?.[resource.name.includes('Send')?'sent':'received']?Math.max(g.width,g.height):28,v);next=moveGuide(g,d,v);}commit(next);}
  function updateFields(){for(const input of fields.querySelectorAll('input')){const d=JSON.parse(input.dataset.guide);input.value=value(d);}}
  function buildFields(){fields.replaceChildren();for(const d of [...['stretchX','stretchY'].flatMap(axis=>g[axis].flatMap((r,index)=>(ios?[0]:[0,1]).map(edge=>({axis,index,edge,label:`${axis==='stretchX'?'가로':'세로'} 늘림 ${index+1} ${edge?'끝':'시작'}`})))),...['위쪽 여백','왼쪽 여백','아래쪽 여백','오른쪽 여백'].map((label,index)=>({axis:'insets',index,label}))]){
   const label=make('label',d.label),input=make('input');input.type='number';input.min=0;input.step=1;input.value=value(d);input.dataset.guide=JSON.stringify(d);input.setAttribute('aria-label','시각 편집 '+d.label);input.onchange=()=>change(d,Number(input.value));label.append(input);fields.append(label);

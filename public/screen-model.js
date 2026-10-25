@@ -50,7 +50,7 @@ export function slotsForScreen(screen){
  switch(screen){
   case 'friends':return ['mainBackground',...profiles,'tabBackground',...icons,'friendAddButton','friendAddButtonPressed'];
   case 'chats':return ['mainBackground',...profiles,'tabBackground',...icons];
-  case 'chat':return ['chatBackground',...profiles,...['sent','received'].flatMap(x=>['Bubble','BubbleGroup','BubbleSelected','BubbleGroupSelected'].map(y=>x+y))];
+  case 'chat':return ['chatBackground','sentBubbleDecoration','receivedBubbleDecoration','sentBubbleGroupDecoration','receivedBubbleGroupDecoration',...profiles,...['sent','received'].flatMap(x=>['Bubble','BubbleGroup','BubbleSelected','BubbleGroupSelected'].map(y=>x+y))];
   case 'passcode':return ['lockBackground','keypadPressed',...[1,2,3,4].flatMap(n=>['passcode'+n,'passcode'+n+'Selected'])];
   case 'components':return ['friendAddButton','friendAddButtonPressed','tabBackground'];
   case 'identity':return ['themeIcon','splashBackground'];

@@ -1,6 +1,6 @@
 # Agent 작업 지침
 
-현재 구현은 0.4.0이다. `docs/REVIEW-0.4.0.md`를 먼저 읽는다. 화면별 작업은 `docs/REVIEW-0.3.0.md`, `public/screen-model.js`, `docs/screen-coverage.json`을 먼저 확인한다. `docs/REVIEW-0.2.0.md`, `docs/SUPPORT-MATRIX.md`, `docs/coverage-after.json`을 함께 읽는다. 출력 변경 시 `src/catalog.mjs`의 COMPILER_VERSION을 갱신해 이전 미리보기 캐시와 분리한다. 새 리소스/속성은 카탈로그·검증·출력·편집 UI·백업·회귀 테스트와 화면 연결을 함께 갱신한다. `node scripts/audit-screens.mjs`와 `node test/screen-workflow.mjs`로 누락을 검사한다. 공통 원본 SLOTS도 모두 화면에 연결해야 한다. 화면별 색상을 바꾸면서 공통 팔레트를 임의로 변경하지 말고 개별 override를 사용한다. 잠금 비밀번호 표시 8개와 키패드 눌림 이미지는 이미 개별 지원되므로 공통 도형으로 다시 축소하지 않는다.
+현재 구현은 0.7.0이다. `docs/REVIEW-0.7.0.md`, `docs/REVIEW-0.6.0.md`, `docs/REVIEW-0.5.0.md`, `docs/REVIEW-0.4.0.md`를 먼저 읽는다. 화면별 작업은 `docs/REVIEW-0.3.0.md`, `public/screen-model.js`, `docs/screen-coverage.json`을 먼저 확인한다. `docs/REVIEW-0.2.0.md`, `docs/SUPPORT-MATRIX.md`, `docs/coverage-after.json`을 함께 읽는다. 출력 변경 시 `src/catalog.mjs`의 COMPILER_VERSION을 갱신해 이전 미리보기 캐시와 분리한다. 새 리소스/속성은 카탈로그·검증·출력·편집 UI·백업·회귀 테스트와 화면 연결을 함께 갱신한다. `node scripts/audit-screens.mjs`와 `node test/screen-workflow.mjs`로 누락을 검사한다. 공통 원본 SLOTS도 모두 화면에 연결해야 한다. 화면별 색상을 바꾸면서 공통 팔레트를 임의로 변경하지 말고 개별 override를 사용한다. 잠금 비밀번호 표시 8개와 키패드 눌림 이미지는 이미 개별 지원되므로 공통 도형으로 다시 축소하지 않는다.
 
 ## 먼저 읽을 문서
 
@@ -53,6 +53,27 @@
 - 상태 미리보기는 UI 상태다. 탭/자리 수/프로필/버튼 상태를 바꿔 프로젝트나 생성 결과를 변경하지 않는다.
 - `src/provenance.mjs`는 실제 생성 우선순위와 일치해야 한다. 모든 공통 원본과 146개 출력의 픽셀 대조 테스트를 유지한다. 공통값보다 출력별 재정의가 우선이며 이미지 비활성화가 최우선이다.
 - `resourceGeometry`는 Android 9-patch 파일별 좌표(폭/높이, 여러 stretchX/Y 구간, insets)다. 원본 그림·원본 파일 참조는 보존하고 출력 가이드만 재생성한다. iOS는 기존 overrides의 논리 좌표를 편집하며 선택/기본 상태가 공유하는 내용 여백을 구분해 안내한다.
-- 새 기하 필드는 검증·visualRevision 캐시·복제·ZIP 백업/복원·실제 APK 컴파일까지 함께 검증한다. 현재 compilerVersion은 0.4.0이다.
+- 새 기하 필드는 검증·visualRevision 캐시·복제·ZIP 백업/복원·실제 APK 컴파일까지 함께 검증한다. 현재 compilerVersion은 0.7.0이다.
 - `public/visual-geometry.js`의 드래그 중 DOM을 재생성하지 않는다. 실행취소는 진행 중 잠그고 미리보기·상세 갱신 완료 후 풀어 비동기 경합을 막는다.
 - 변경 검증: 단위 테스트 전체, test/state-geometry.mjs, test/screen-workflow.mjs, test/editor-upgrade.mjs. 출력 변경이면 test/integration.mjs도 실행한다.
+
+
+## 0.5.0 유지 계약
+
+- 공통 원본은 51개이며 첫/연속 캐릭터 4개를 화면 연결·검증·백업에서 누락하지 않는다. bubbleDesign의 group은 선택적 독립 설정이다. 기존 applyTo 입력과 필드 없는 프로젝트를 보존한다.
+- 색상/이미지 본체와 장식은 생성 단계에서 합성하고 미리보기는 실제 생성 그림을 사용한다. 확장 논리 크기·늘림·내용 여백은 public/bubble-model.js와 일치해야 한다. 첫/연속의 글자색은 플랫폼 속성이 공유한다.
+- 클릭 대상은 실제 렌더링과 함께 기록하고 탐색만으로 프로젝트를 변경하지 않는다. 선택 오버레이를 내보내는 Canvas에 그리지 않는다. 새 검증은 composition.test.mjs와 unified-design.mjs를 포함한다.
+
+
+## 0.6.0 저장소 유지 계약
+
+- 앱 데이터는 .data/projects/<packageId>/theme.json 및 assets/에 독립 저장한다. 내부 UUID와 키/bindings는 유지한다. 사용자 데이터에 low-level importProject를 호출해 전역 자산을 쓰지 말고 project-store의 등록/복제/복원을 사용한다.
+- assets/preview 조회에는 projectId를 포함한다. 프로젝트 밖 파일이나 구형 공유 원본으로 자동 fallback하지 않는다. 이관 원본/구형 빌드/보관 백업과 실행취소용 이미지는 자동 삭제하지 않는다.
+- 새 ZIP은 프로젝트 루트 manifest와 검증된 참조 자산만 포함한다. 구형 ZIP 호환·중복 거부·staging 등록을 유지한다. project-store.test.mjs와 storage-workflow.mjs를 검증에 포함한다. 사용자 실제 저장소 이관은 서버/CLI 실행 잠금과 원본 보존 후에만 수행한다.
+
+
+## 0.7.0 원본 파일명 유지 계약
+
+- 원본은 assets/common·assets/ios·assets/android 아래 역할/상태/배율과 불변 버전으로 자동 등록한다. asset-names의 매핑을 사용하고 최종 카카오 출력 파일명은 변경하지 않는다. 서로 다른 명시적 슬롯은 독립 파일이며 같은 항목의 공통 플랫폼/대체 연결은 유지한다.
+- 원본 읽기·캐시·복제·백업에 assets/index.json과 theme.assetHashes를 함께 검증한다. 새 버전을 덮어쓰거나 기존 보관 파일을 자동 삭제하지 않는다. 폴더/최신 버전 존재로 현재 resourceOverrides를 추정하지 않는다.
+- 현재 storageVersion=2, assetNamingVersion=1, 백업 format=3이며 구형 format 1·2를 읽는다. 이관 전 설정/해시 원본/키/bindings/빌드는 보존한다. 새 검증에는 test/asset-names.test.mjs와 storage-workflow/unified-design, 전체 단위·기존 브라우저·통합 빌드를 포함한다.

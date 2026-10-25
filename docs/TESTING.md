@@ -55,3 +55,16 @@ adb -s TEST_SERIAL shell dumpsys package PACKAGE_ID
 말풍선 미리보기 경계 회귀는 `node test/preview-seams.mjs`로 확인한다. 원본 PNG 내부색, 소수점 위치/크기의 불투명·반투명 비트맵과 여러 늘림 구간을 검사한다. 기본은 Chromium이며 `SEAM_BROWSER=webkit`은 별도 WebKit 설치가 필요하다.
 
 0.4.0은 `node test/state-geometry.mjs`로 상태별 픽셀·적용 원본 표시·iOS 드래그/실행취소·Android 다중 가이드 편집/원본 복귀를 검증한다. `test/geometry-provenance.test.mjs`는 전체 146개 출력의 원본 추적을 실제 픽셀과 대조하며 원본 그림 보존·새 기하 검증·복제·백업·캐시를 검사한다. integration은 새 기하를 넣은 두 플랫폼을 실제 생성하고 다중 9-patch의 AAPT2 수용과 서명/업데이트를 확인한다.
+
+
+0.5.0 추가 검증은 `node --test test/composition.test.mjs`와 `node test/unified-design.mjs`다. 전체 단위 실행은 이 검사를 포함한다. 색상/이미지 본체, 비율 보존 캐릭터, 양 플랫폼 배율, 첫/연속의 별도 색상·이미지·장식/비활성화, 가변 여백, 원본 추적, 캐시·복제·백업과 출력 예외를 검사한다. iOS 수동 가이드의 헤더 크기 변경/해제 보정도 검사한다.
+
+unified-design은 실제 축소 Canvas 좌표의 호버/클릭과 키보드 대상 목록, 정확한 속성/출력 이동, 공통 설정의 프로젝트 불변, 별도 연속 캐릭터 등록, 색상/이미지 전환·원본 보존, 선택 출력 연결·실행취소/다시실행, 역할 검색과 좁은 화면을 검사한다. test-results/unified-design-*.png와 unified-design-report.json을 남긴다. integration은 기존 다중 가이드 검증을 유지하면서 첫/연속에 서로 다른 본체·장식 원본을 넣어 실제 APK·ktheme를 생성하며 색상/이미지 모드 모두 컴파일한다. .test-data는 배포하지 않는다.
+
+
+0.6.0 저장소 검증은 `node --test test/project-store.test.mjs`와 `node test/storage-workflow.mjs`다. 전체 단위에 이관 전후 전체 출력 픽셀/바이트 보존, ID·키/bindings·구형 원본 보존, 독립 파일 복제, 패키지/경로 위장·공용 fallback 거부, 백업 manifest·구형 호환·실패 잔여물·중단 재실행·실행 잠금·중복 ZIP/링크 거부를 포함한다. storage-workflow는 실제 UI의 경로/용량/이미지 목록, 백업 이름·로컬 보관, 중복 가져오기 선택과 독립 복원, 범위를 벗어난 asset/preview 요청 거부, 800px 캡처를 확인한다. 근거는 test-results/project-storage-report.json과 project-storage-desktop.png / project-storage-small.png다.
+
+integration은 구형 자료를 패키지 폴더로 이관한 뒤 그 위치에서 APK·ktheme를 생성하고, 전역 keys/bindings를 유지한 같은 키의 versionCode 1→2를 검증한다. browser는 manifest가 있는 새 백업의 루트/내용을 확인한다. state-geometry의 fixture도 공개 프로젝트 가져오기 경로로 등록해 전역 파일의 우연한 재사용을 막는다. 실행 중인 사용자 서버가 있으면 직접 .data를 여는 이관 테스트를 수행하지 않으며 격리 .test-data를 쓴다.
+
+
+0.7.0 원본 이름 검증은 `node --test test/asset-names.test.mjs`다. 모든 역할/출력의 고유 경로, 동일 그림의 독립 슬롯, 플랫폼/배율 예외와 공통 복귀, 불변 버전·동시 등록·실행취소/캐시, 원본 변조/검증 정보 누락, 구형 참조 이관 전후 전체 출력 동일성, 전체146 원본 ZIP과 포맷1·2 호환을 확인한다. 전체 `node --test test/*.test.mjs` 및 integration/storage-workflow/unified-design/state-geometry/screen-workflow/editor-upgrade/browser도 실행한다.

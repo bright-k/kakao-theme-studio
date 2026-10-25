@@ -32,7 +32,7 @@ test('existing project archives regenerate with the shared ID and a separate com
   const declaration=`-kakaotalk-theme-id: '${p.packageId}';`;
   assert.ok((await z.file('KakaoTalkTheme.css').async('string')).includes(declaration));
   assert.equal(c.styles.ios['ManifestStyle/-kakaotalk-theme-id'],p.packageId);
-  assert.equal(c.compilerVersion,'0.4.1');assert.notEqual(c.revision,sha('0.4.0\n'+JSON.stringify(p)));
+  assert.equal(c.compilerVersion,'0.7.0');assert.notEqual(c.revision,sha('0.6.0\n'+JSON.stringify(p)));
   assert.deepEqual(p,before);
   const restored=await importProject(await exportProject(p,root),root);
   assert.equal(iosCSS(restored).match(/-kakaotalk-theme-id: '([^']+)'/)[1],p.packageId);
@@ -60,7 +60,7 @@ test('project API rejects duplicate packages, concurrent creation, and identity 
   assert.equal((await request('project-import','POST',{base64:archive.toString('base64')})).status,400);
   assert.equal((await request('project','PUT',{project:{...p,name:'이름 변경'}})).status,200);
   const automatic=await request('projects','POST',{});assert.equal(automatic.status,200);assert.match((await automatic.json()).packageId,/^studio\.localtheme\.t/);
-  const persisted=await fs.readFile(path.join(dataRoot,'projects',`${p.id}.json`),'utf8');assert.equal(JSON.parse(persisted).packageId,p.packageId);
+  const persisted=await fs.readFile(path.join(dataRoot,'projects',p.packageId,'theme.json'),'utf8');assert.equal(JSON.parse(persisted).packageId,p.packageId);
   assert.equal((await (await request('projects')).json()).length,3);
  }finally{studio.server.closeAllConnections();await new Promise(r=>studio.server.close(r));await fs.rm(dataRoot,{recursive:true,force:true});}
 });

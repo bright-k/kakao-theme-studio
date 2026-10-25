@@ -1,13 +1,13 @@
 {
   "profile": "kakaotalk-26.9.0",
-  "toolVersion": "0.4.0",
+  "toolVersion": "0.7.0",
   "counts": {
     "ios": 105,
     "android": 49,
     "resources": 82,
     "files": 146
   },
-  "commonSourceSlots": 47,
+  "commonSourceSlots": 51,
   "missing": [],
   "items": {
     "ios": [

@@ -1,5 +1,6 @@
+import {resourceChain} from './source-rules.mjs';
 import { readFileSync } from 'node:fs';
-export const COMPILER_VERSION = '0.4.1';
+export const COMPILER_VERSION = '0.7.0';
 export const CATALOG = JSON.parse(readFileSync(new URL('../templates/profile-26.9.0.json',import.meta.url),'utf8'));
 export const IOS_PROPERTIES = new Map(CATALOG.iosProperties.map(p=>[p.id,p]));
 export const ANDROID_COLORS = new Set(CATALOG.androidColors.map(p=>p.id));
@@ -18,4 +19,4 @@ export const RESOURCES = [...new Set(CATALOG.files.map(logicalResource))].map(id
 const names={'background-color':'배경색','border-color':'구분선 색','border-alpha':'구분선 투명도','-ios-text-color':'글자색','-ios-text-alpha':'글자 투명도','-ios-title-edgeinsets':'첫 말풍선 내용 여백','-ios-group-title-edgeinsets':'연속 말풍선 내용 여백','-ios-background-image':'배경 이미지 / 늘림 지점','-ios-selected-background-image':'선택 이미지 / 늘림 지점','-ios-group-background-image':'연속 이미지 / 늘림 지점','-ios-group-selected-background-image':'연속 선택 이미지 / 늘림 지점'};
 export function propertyLabel(p){return names[p.name]??p.name.replace(/^-ios-/,'').replaceAll('-',' ');}
 export function propertyGroup(p){return /MessageCell/.test(p.selector)?'말풍선':/Passcode/.test(p.selector)?'잠금화면':/TabBar|BottomBanner/.test(p.selector)?'탭':/Notification|DirectShare/.test(p.selector)?'배너':/InputBar/.test(p.selector)?'입력창':p.selector==='ManifestStyle'?'테마 정보':/Profile/.test(p.selector)?'프로필':'목록·버튼';}
-export function publicCatalog(){return {...CATALOG,compilerVersion:COMPILER_VERSION,resources:RESOURCES,iosProperties:CATALOG.iosProperties.map(p=>({...p,label:propertyLabel(p),group:propertyGroup(p)})),androidColors:CATALOG.androidColors.map(p=>({...p,label:p.id.replace(/^theme_/,'').replaceAll('_',' '),group:/chatroom/.test(p.id)?'채팅방':/passcode/.test(p.id)?'잠금화면':/notification|direct_share/.test(p.id)?'배너':/maintab|bannerbadge|navigation/.test(p.id)?'탭':'목록·버튼'}))};}
+export function publicCatalog(){const links=new Map();for(const f of CATALOG.files)for(const key of resourceChain(f).map(slot=>'assets.'+slot)){if(!key.startsWith('assets.'))continue;const slot=key.slice(7);if(!links.has(slot))links.set(slot,[]);links.get(slot).push(f.path);}return {...CATALOG,commonSources:[...links].map(([slot,files])=>({slot,files,platforms:[...new Set(files.map(x=>x.split('/')[0]))]})),compilerVersion:COMPILER_VERSION,resources:RESOURCES,iosProperties:CATALOG.iosProperties.map(p=>({...p,label:propertyLabel(p),group:propertyGroup(p)})),androidColors:CATALOG.androidColors.map(p=>({...p,label:p.id.replace(/^theme_/,'').replaceAll('_',' '),group:/chatroom/.test(p.id)?'채팅방':/passcode/.test(p.id)?'잠금화면':/notification|direct_share/.test(p.id)?'배너':/maintab|bannerbadge|navigation/.test(p.id)?'탭':'목록·버튼'}))};}
