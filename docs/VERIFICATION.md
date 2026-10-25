@@ -3,7 +3,15 @@
 사용자 요청으로 이전 프로젝트, 등록 서명키, 생성 빌드 및 이전 예제 파일을 삭제하고 새 샘플 하나로 초기화했습니다. 아래 내용은 당시의 검증 이력이며 이전 생성 파일은 현재 존재하지 않을 수 있습니다. 새 샘플은 examples/sample-project.zip에 있습니다.
 
 
-## 새 프로젝트 패키지명 지정 검증 (2026-10-25)
+## iOS·Android 공통 ID 검증 (2026-10-25, compilerVersion 0.4.1)
+
+- `node --test test/*.test.mjs`: 26개 통과. 기존 sample-project.zip을 복원해 생성한 실제 ktheme 내부 iOS ID가 packageId와 같고 입력 프로젝트 JSON은 변경되지 않음을 확인했다. 백업/복원·복제·명시적 `.ios` 입력 보존과 0.4.0 revision 캐시 분리도 확인했다.
+- `node test/integration.mjs`: 실제 서명 APK의 검증된 packageId와 생성한 ktheme 내부 `-kakaotalk-theme-id`의 정확한 일치를 확인했다. APK 정렬·서명, 동일 키 versionCode 1→2, 키 복원 및 다른 키 차단도 통과했다. 근거: `.test-data/integration-1792939033461/test-summary.json`.
+- `node test/browser.mjs`: 생성 창의 공통 ID 안내와 실제 다운로드한 iOS ktheme 내부 ID 일치, 지정 패키지명으로 두 플랫폼 생성·다운로드·백업 통과. test-results/browser-report.json과 새 생성 창 캡처를 확인했다.
+- state-geometry, screen-workflow, editor-upgrade 및 audit-screens 모두 통과했다. 화면 연결 누락은 없다.
+- 현재 작업 프로젝트만 수정했다. 사용자 .data·서명키·기존 결과와 바탕화면 사본은 변경하지 않았다. 기존 프로젝트도 다시 생성하면 iOS의 자동 `.ios` 접미사가 제거되며 기존 iOS 배포본과 ID가 달라진다. 실제 카카오톡 적용은 추가 검증하지 않았다.
+
+## 새 프로젝트 패키지명 지정 검증 (2026-10-25, 공통 ID 변경 전 이력)
 
 - `node --test test/*.test.mjs`: 25개 통과. 사용자 지정/자동 패키지명, 형식·길이·Java 예약어, iOS ID 연결과 백업/복원, 서버 중복·동시 생성·PUT/ZIP 우회 거부 및 기존 ID 불변을 확인했다.
 - `node test/browser.mjs`: 생성 창 취소, 잘못된 형식·예약어·중복 오류와 입력값 유지, 사용자 지정 ID 저장, 빈 입력의 자동 생성, 프로젝트 전환과 개인키 없는 백업을 확인했다. UI에서 실제 두 플랫폼 생성과 APK 다운로드도 통과했다.

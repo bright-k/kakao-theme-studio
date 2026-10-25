@@ -18,7 +18,7 @@ integration은 JDK/Android SDK가 필요하다. 별도의 임시 제작자 키�
 
 browser는 Playwright Chromium 설치가 필요하다. `npx playwright install chromium`으로 준비한다. 로컬 서버/브라우저 실행 권한이 필요하며 test-results에 캡처와 보고서를 남긴다. 인증 거부, Origin·경로 검사, 프로젝트 저장/전환, 이미지 업로드, 키 생성, 두 플랫폼 생성 및 다운로드, 프로젝트 백업, 네 화면 미리보기를 확인한다.
 
-새 프로젝트 창의 취소·잘못된 형식·Java 예약어·중복 오류·입력값 유지·좁은 화면·사용자 지정/자동 패키지명도 browser에서 확인한다. project-creation.test.mjs는 지정 ID의 iOS 연결·백업/복원, API 형식 검증, 동시 중복 생성과 PUT/ZIP 우회 거부, 기존 ID 불변을 검사한다. integration은 사용자 지정 패키지명으로 실제 APK를 컴파일·서명하고 동일 인증서의 다음 버전 업데이트를 검사한다.
+새 프로젝트 창의 취소·잘못된 형식·Java 예약어·중복 오류·입력값 유지·좁은 화면·사용자 지정/자동 패키지명도 browser에서 확인한다. project-creation.test.mjs는 지정 ID의 iOS 연결·백업/복원, API 형식 검증, 동시 중복 생성과 PUT/ZIP 우회 거부, 기존 ID 불변을 검사한다. integration은 사용자 지정 패키지명으로 실제 APK를 컴파일·서명하고 동일 인증서의 다음 버전 업데이트를 검사한다. 생성한 ktheme 내부 CSS의 iOS ID가 APK 검증을 통과한 Android packageId와 정확히 같은지도 확인한다. 기존 sample-project.zip을 복원·컴파일하는 회귀 검사로 기존 프로젝트의 공통 ID 출력과 compilerVersion 0.4.1 캐시 분리를 확인한다.
 
 `editor-upgrade`는 실행취소·복제·iOS 세부 설정·Android ARGB·잠금화면 8개 이미지 UI·키패드·패턴·리소스 일괄 등록을 검증한다. `audit-coverage`는 카탈로그 전체 출력과 메타데이터 수정 시 이미지 해시 보존을 검사한다.
 

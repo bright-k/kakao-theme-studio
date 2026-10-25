@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import {ROOT,newProject,validate,exportProject,importProject,iosCSS} from '../src/core.mjs';
+import {ROOT,newProject,cloneProject,validate,exportProject,importProject,iosCSS,compile,makeKtheme,sha} from '../src/core.mjs';
+import JSZip from 'jszip';
 import {createStudio} from '../src/server.mjs';
 
 test('custom package IDs validate, survive backup, and drive the iOS identity',async()=>{
@@ -10,7 +11,7 @@ test('custom package IDs validate, survive backup, and drive the iOS identity',a
  assert.equal(p.packageId,'com.bright.theme.forest_2026');
  assert.equal(validate(p).filter(x=>x.severity==='error').length,0);
  const css=iosCSS(p,await fs.readFile(path.join(ROOT,'templates/ios.css'),'utf8'));
- assert.ok(css.includes("'com.bright.theme.forest_2026.ios'"));
+ assert.ok(css.includes("-kakaotalk-theme-id: 'com.bright.theme.forest_2026';"));
  await fs.mkdir(path.join(ROOT,'.test-data'),{recursive:true});
  const root=await fs.mkdtemp(path.join(ROOT,'.test-data/package-backup-'));
  try{assert.equal((await importProject(await exportProject(p,root),root)).packageId,p.packageId);}
@@ -19,6 +20,27 @@ test('custom package IDs validate, survive backup, and drive the iOS identity',a
  for(const value of ['bad','Com.bright.theme','com.bright.2theme','com.bright.theme-name','com.class.theme','com.true.theme','com.null.theme','com.'+'a'.repeat(155)+'.theme',null,42]){
   assert.ok(validate(newProject('테스트','forest',value)).some(x=>x.severity==='error'&&x.field==='packageId'),String(value));
  }
+});
+
+test('existing project archives regenerate with the shared ID and a separate compiler cache',async()=>{
+ await fs.mkdir(path.join(ROOT,'.test-data'),{recursive:true});
+ const root=await fs.mkdtemp(path.join(ROOT,'.test-data/package-existing-'));
+ try{
+  const archive=await fs.readFile(path.join(ROOT,'examples/sample-project.zip'));
+  const p=await importProject(archive,root),before=structuredClone(p);
+  const c=await compile(p,root),z=await JSZip.loadAsync(await makeKtheme(c));
+  const declaration=`-kakaotalk-theme-id: '${p.packageId}';`;
+  assert.ok((await z.file('KakaoTalkTheme.css').async('string')).includes(declaration));
+  assert.equal(c.styles.ios['ManifestStyle/-kakaotalk-theme-id'],p.packageId);
+  assert.equal(c.compilerVersion,'0.4.1');assert.notEqual(c.revision,sha('0.4.0\n'+JSON.stringify(p)));
+  assert.deepEqual(p,before);
+  const restored=await importProject(await exportProject(p,root),root);
+  assert.equal(iosCSS(restored).match(/-kakaotalk-theme-id: '([^']+)'/)[1],p.packageId);
+  const duplicate=cloneProject(p);assert.notEqual(duplicate.packageId,p.packageId);
+  assert.ok(iosCSS(duplicate).includes(`-kakaotalk-theme-id: '${duplicate.packageId}';`));
+  const explicit=newProject('명시적 접미사','forest','com.bright.theme.ios');
+  assert.ok(iosCSS(explicit).includes("-kakaotalk-theme-id: 'com.bright.theme.ios';"));
+ }finally{await fs.rm(root,{recursive:true,force:true});}
 });
 
 test('project API rejects duplicate packages, concurrent creation, and identity changes',async()=>{
