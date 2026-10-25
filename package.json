@@ -1,0 +1,30 @@
+{
+  "name": "kakao-theme-studio-local",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "doctor": "node src/cli.mjs doctor",
+    "test": "node --test test/*.test.mjs",
+    "test:integration": "node test/integration.mjs",
+    "test:browser": "node test/browser.mjs",
+    "test:editor": "node test/editor-upgrade.mjs",
+    "audit": "node scripts/audit-coverage.mjs",
+    "test:screens": "node test/screen-workflow.mjs",
+    "audit:screens": "node scripts/audit-screens.mjs",
+    "test:preview": "node test/preview-seams.mjs",
+    "test:states": "node test/state-geometry.mjs"
+  },
+  "dependencies": {
+    "jszip": "3.10.1",
+    "pngjs": "7.0.0",
+    "sharp": "0.35.5"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

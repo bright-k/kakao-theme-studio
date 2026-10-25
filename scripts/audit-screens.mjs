@@ -1,0 +1,11 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {publicCatalog} from '../src/catalog.mjs';
+import {SLOTS} from '../src/core.mjs';
+import {SCREENS,contextsFor,slotsForScreen,auditScreenCoverage} from '../public/screen-model.js';
+const catalog=publicCatalog(),counts=auditScreenCoverage(catalog);
+assert.deepEqual([...new Set(SCREENS.flatMap(s=>slotsForScreen(s.id)))].sort(),[...SLOTS].sort());
+const items=Object.fromEntries([['ios',catalog.iosProperties],['android',catalog.androidColors],['resources',catalog.resources]].map(([kind,entries])=>[kind,entries.map(x=>({id:x.id,screens:contextsFor(x,kind),...(x.variants?{files:x.variants.map(v=>v.path)}:{})}))]));
+const report={profile:catalog.profile,toolVersion:JSON.parse(await fs.readFile(new URL('../package.json',import.meta.url),'utf8')).version,counts,commonSourceSlots:SLOTS.length,missing:[],items,actualAppVerified:false};
+await fs.writeFile(new URL('../docs/screen-coverage.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify({counts,commonSourceSlots:SLOTS.length,missing:[]}));

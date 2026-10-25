@@ -1,0 +1,1933 @@
+{
+  "profile": "kakaotalk-26.9.0",
+  "toolVersion": "0.4.0",
+  "counts": {
+    "ios": 105,
+    "android": 49,
+    "resources": 82,
+    "files": 146
+  },
+  "commonSourceSlots": 47,
+  "missing": [],
+  "items": {
+    "ios": [
+      {
+        "id": "ManifestStyle/-kakaotalk-theme-name",
+        "screens": [
+          "settings"
+        ]
+      },
+      {
+        "id": "ManifestStyle/-kakaotalk-theme-version",
+        "screens": [
+          "settings"
+        ]
+      },
+      {
+        "id": "ManifestStyle/-kakaotalk-theme-url",
+        "screens": [
+          "settings"
+        ]
+      },
+      {
+        "id": "ManifestStyle/-kakaotalk-author-name",
+        "screens": [
+          "settings"
+        ]
+      },
+      {
+        "id": "ManifestStyle/-kakaotalk-theme-id",
+        "screens": [
+          "settings"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/background-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-background-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-background-sidebar-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-friends-normal-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-friends-selected-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-chats-normal-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-chats-selected-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-now-normal-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-now-selected-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-local-normal-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-local-selected-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-piccoma-normal-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-piccoma-selected-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-shopping-normal-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-shopping-selected-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-call-normal-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-call-selected-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-more-normal-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-more-selected-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-openchats-normal-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "TabBarStyle-Main/-ios-openchats-selected-icon-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "HeaderStyle-Main/-ios-text-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "HeaderStyle-Main/-ios-tab-text-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "HeaderStyle-Main/-ios-tab-highlighted-text-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Primary/background-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Primary/-ios-background-image",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Primary/-ios-text-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Primary/-ios-highlighted-text-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Primary/-ios-description-text-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Primary/-ios-description-highlighted-text-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Primary/-ios-paragraph-text-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Primary/-ios-paragraph-highlighted-text-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Primary/-ios-normal-background-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Primary/-ios-normal-background-alpha",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Primary/-ios-selected-background-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Primary/-ios-selected-background-alpha",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "MainViewStyle-Secondary/background-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "SectionTitleStyle-Main/border-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "SectionTitleStyle-Main/border-alpha",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "SectionTitleStyle-Main/-ios-text-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "SectionTitleStyle-Main/-ios-text-alpha",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "FeatureStyle-Primary/-ios-text-color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "ButtonStyle-Main/background-color",
+        "screens": [
+          "friends",
+          "components"
+        ]
+      },
+      {
+        "id": "ButtonStyle-Main/-ios-highlighted-background-color",
+        "screens": [
+          "friends",
+          "components"
+        ]
+      },
+      {
+        "id": "ButtonStyle-Main/-ios-selected-background-color",
+        "screens": [
+          "friends",
+          "components"
+        ]
+      },
+      {
+        "id": "ButtonStyle-AddFriend/-ios-image",
+        "screens": [
+          "friends",
+          "components"
+        ]
+      },
+      {
+        "id": "DefaultProfileStyle/-ios-profile-images",
+        "screens": [
+          "friends",
+          "chats",
+          "chat"
+        ]
+      },
+      {
+        "id": "BackgroundStyle-ChatRoom/background-color",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "BackgroundStyle-ChatRoom/-ios-background-image",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "InputBarStyle-Chat/background-color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "InputBarStyle-Chat/-ios-send-normal-background-color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "InputBarStyle-Chat/-ios-send-normal-foreground-color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "InputBarStyle-Chat/-ios-send-highlighted-background-color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "InputBarStyle-Chat/-ios-send-highlighted-foreground-color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "InputBarStyle-Chat/-ios-button-normal-foreground-color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "InputBarStyle-Chat/-ios-button-highlighted-foreground-color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "InputBarStyle-Chat/-ios-button-text-color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "InputBarStyle-Chat/-ios-button-normal-background-color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "InputBarStyle-Chat/-ios-button-normal-background-alpha",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Send/-ios-background-image",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Send/-ios-selected-background-image",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Send/-ios-group-background-image",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Send/-ios-group-selected-background-image",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Send/-ios-title-edgeinsets",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Send/-ios-group-title-edgeinsets",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Send/-ios-text-color",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Send/-ios-selected-text-color",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Send/-ios-unread-text-color",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Receive/-ios-background-image",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Receive/-ios-selected-background-image",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Receive/-ios-group-background-image",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Receive/-ios-group-selected-background-image",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Receive/-ios-title-edgeinsets",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Receive/-ios-group-title-edgeinsets",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Receive/-ios-text-color",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Receive/-ios-selected-text-color",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "MessageCellStyle-Receive/-ios-unread-text-color",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "BackgroundStyle-Passcode/background-color",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "BackgroundStyle-Passcode/-ios-background-image",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "LabelStyle-PasscodeTitle/-ios-text-color",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "PasscodeStyle/-ios-bullet-first-image",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "PasscodeStyle/-ios-bullet-second-image",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "PasscodeStyle/-ios-bullet-third-image",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "PasscodeStyle/-ios-bullet-fourth-image",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "PasscodeStyle/-ios-bullet-selected-first-image",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "PasscodeStyle/-ios-bullet-selected-second-image",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "PasscodeStyle/-ios-bullet-selected-third-image",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "PasscodeStyle/-ios-bullet-selected-fourth-image",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "PasscodeStyle/-ios-keypad-background-color",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "PasscodeStyle/-ios-keypad-text-normal-color",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "PasscodeStyle/-ios-keypad-number-highlighted-image",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "BackgroundStyle-MessageNotificationBar/background-color",
+        "screens": [
+          "components"
+        ]
+      },
+      {
+        "id": "LabelStyle-MessageNotificationBarName/-ios-text-color",
+        "screens": [
+          "components"
+        ]
+      },
+      {
+        "id": "LabelStyle-MessageNotificationBarMessage/-ios-text-color",
+        "screens": [
+          "components"
+        ]
+      },
+      {
+        "id": "BackgroundStyle-DirectShareBar/background-color",
+        "screens": [
+          "components"
+        ]
+      },
+      {
+        "id": "LabelStyle-DirectShareBarName/-ios-text-color",
+        "screens": [
+          "components"
+        ]
+      },
+      {
+        "id": "LabelStyle-DirectShareBarMessage/-ios-text-color",
+        "screens": [
+          "components"
+        ]
+      },
+      {
+        "id": "BottomBannerStyle/background-color",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ]
+      },
+      {
+        "id": "BottomBannerStyle-Light/background-color",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ]
+      },
+      {
+        "id": "ManifestStyle/-kakaotalk-theme-style",
+        "screens": [
+          "settings"
+        ]
+      }
+    ],
+    "android": [
+      {
+        "id": "theme_header_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_section_title_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_title_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_title_pressed_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_paragraph_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_paragraph_pressed_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_description_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_description_pressed_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_feature_primary_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_feature_primary_pressed_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_feature_browse_tab_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_feature_browse_tab_focused_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_background_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_chatroom_background_color",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "theme_passcode_background_color",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "theme_header_cell_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_body_cell_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_body_cell_pressed_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_body_cell_border_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_body_secondary_cell_color",
+        "screens": [
+          "friends",
+          "chats"
+        ]
+      },
+      {
+        "id": "theme_maintab_cell_color",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_tab_lightbannerbadge_background_color",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_tab_bannerbadge_background_color",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_direct_share_color",
+        "screens": [
+          "components"
+        ]
+      },
+      {
+        "id": "theme_direct_share_button_color",
+        "screens": [
+          "components"
+        ]
+      },
+      {
+        "id": "theme_direct_share_background_color",
+        "screens": [
+          "components"
+        ]
+      },
+      {
+        "id": "theme_notification_color",
+        "screens": [
+          "components"
+        ]
+      },
+      {
+        "id": "theme_notification_background_color",
+        "screens": [
+          "components"
+        ]
+      },
+      {
+        "id": "theme_notification_background_pressed_color",
+        "screens": [
+          "components"
+        ]
+      },
+      {
+        "id": "theme_passcode_color",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "theme_passcode_keypad_color",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "theme_passcode_keypad_pressed_color",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "theme_passcode_keypad_background_color",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "theme_passcode_keypad_pressed_background_color",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "theme_passcode_pattern_line_color",
+        "screens": [
+          "passcode"
+        ]
+      },
+      {
+        "id": "theme_chatroom_bubble_me_color",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "theme_chatroom_bubble_you_color",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "theme_chatroom_unread_count_color",
+        "screens": [
+          "chat"
+        ]
+      },
+      {
+        "id": "theme_chatroom_input_bar_color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_chatroom_input_bar_background_color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_chatroom_input_bar_menu_icon_color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_chatroom_input_bar_menu_button_color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_chatroom_input_bar_send_icon_color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_chatroom_input_bar_send_button_color",
+        "screens": [
+          "chat",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_button_background_color",
+        "screens": [
+          "friends",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_button_pressed_background_color",
+        "screens": [
+          "friends",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_button_selected_background_color",
+        "screens": [
+          "friends",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_navigationbar_background_color",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ]
+      },
+      {
+        "id": "theme_navigationrail_background_color",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "id": "android/theme_splash_image.png",
+        "screens": [
+          "identity"
+        ],
+        "files": [
+          "android/res/drawable-land-xhdpi/theme_splash_image.png",
+          "android/res/drawable-land-xxhdpi/theme_splash_image.png",
+          "android/res/drawable-sw600dp-land-xxhdpi/theme_splash_image.png",
+          "android/res/drawable-sw600dp-xxhdpi/theme_splash_image.png",
+          "android/res/drawable-xhdpi/theme_splash_image.png",
+          "android/res/drawable-xxhdpi/theme_splash_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_profile_01_image_full.png",
+        "screens": [
+          "friends",
+          "chats",
+          "chat"
+        ],
+        "files": [
+          "android/res/drawable-nodpi/theme_profile_01_image_full.png"
+        ]
+      },
+      {
+        "id": "android/theme_profile_02_image_full.png",
+        "screens": [
+          "friends",
+          "chats",
+          "chat"
+        ],
+        "files": [
+          "android/res/drawable-nodpi/theme_profile_02_image_full.png"
+        ]
+      },
+      {
+        "id": "android/theme_profile_03_image_full.png",
+        "screens": [
+          "friends",
+          "chats",
+          "chat"
+        ],
+        "files": [
+          "android/res/drawable-nodpi/theme_profile_03_image_full.png"
+        ]
+      },
+      {
+        "id": "android/theme_background_image.png",
+        "screens": [
+          "friends",
+          "chats"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxhdpi/theme_background_image.png",
+          "android/res/drawable-xxhdpi/theme_background_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_chatroom_background_image.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxhdpi/theme_chatroom_background_image.png",
+          "android/res/drawable-xxhdpi/theme_chatroom_background_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_cell_image.9.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxhdpi/theme_maintab_cell_image.9.png",
+          "android/res/drawable-xxhdpi/theme_maintab_cell_image.9.png"
+        ]
+      },
+      {
+        "id": "android/theme_passcode_background_image.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxhdpi/theme_passcode_background_image.png",
+          "android/res/drawable-xxhdpi/theme_passcode_background_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_call_focused_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_call_focused_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_call_focused_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_call_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_call_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_call_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_chats_focused_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_chats_focused_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_chats_focused_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_chats_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_chats_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_chats_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_friends_focused_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_friends_focused_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_friends_focused_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_friends_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_friends_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_friends_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_local_focused_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_local_focused_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_local_focused_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_local_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_local_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_local_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_more_focused_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_more_focused_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_more_focused_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_more_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_more_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_more_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_now_focused_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_now_focused_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_now_focused_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_now_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_now_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_now_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_piccoma_focused_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_piccoma_focused_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_piccoma_focused_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_piccoma_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_piccoma_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_piccoma_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_shopping_focused_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_shopping_focused_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_shopping_focused_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_maintab_ico_shopping_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_shopping_image.png",
+          "android/res/drawable-xxhdpi/theme_maintab_ico_shopping_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_chatroom_bubble_me_01_image.9.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_chatroom_bubble_me_01_image.9.png"
+        ]
+      },
+      {
+        "id": "android/theme_chatroom_bubble_me_02_image.9.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_chatroom_bubble_me_02_image.9.png"
+        ]
+      },
+      {
+        "id": "android/theme_chatroom_bubble_you_01_image.9.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_chatroom_bubble_you_01_image.9.png"
+        ]
+      },
+      {
+        "id": "android/theme_chatroom_bubble_you_02_image.9.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_chatroom_bubble_you_02_image.9.png"
+        ]
+      },
+      {
+        "id": "android/theme_find_add_friend_button_image.png",
+        "screens": [
+          "friends",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_find_add_friend_button_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_find_add_friend_button_pressed_image.png",
+        "screens": [
+          "friends",
+          "components"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_find_add_friend_button_pressed_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_passcode_01_checked_image.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_passcode_01_checked_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_passcode_01_image.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_passcode_01_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_passcode_02_checked_image.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_passcode_02_checked_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_passcode_02_image.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_passcode_02_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_passcode_03_checked_image.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_passcode_03_checked_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_passcode_03_image.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_passcode_03_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_passcode_04_checked_image.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_passcode_04_checked_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_passcode_04_image.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_passcode_04_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_profile_01_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "chat"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_profile_01_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_profile_02_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "chat"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_profile_02_image.png"
+        ]
+      },
+      {
+        "id": "android/theme_profile_03_image.png",
+        "screens": [
+          "friends",
+          "chats",
+          "chat"
+        ],
+        "files": [
+          "android/res/drawable-xxhdpi/theme_profile_03_image.png"
+        ]
+      },
+      {
+        "id": "android/icon.png",
+        "screens": [
+          "identity"
+        ],
+        "files": [
+          "android/res/drawable/icon.png"
+        ]
+      },
+      {
+        "id": "ios/chatroomBgImage.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "ios/Images/chatroomBgImage@2x.png",
+          "ios/Images/chatroomBgImage@3x.png"
+        ]
+      },
+      {
+        "id": "ios/chatroomBubbleReceive01.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "ios/Images/chatroomBubbleReceive01@2x.png",
+          "ios/Images/chatroomBubbleReceive01@3x.png"
+        ]
+      },
+      {
+        "id": "ios/chatroomBubbleReceive01Selected.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "ios/Images/chatroomBubbleReceive01Selected@2x.png",
+          "ios/Images/chatroomBubbleReceive01Selected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/chatroomBubbleReceive02.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "ios/Images/chatroomBubbleReceive02@2x.png",
+          "ios/Images/chatroomBubbleReceive02@3x.png"
+        ]
+      },
+      {
+        "id": "ios/chatroomBubbleReceive02Selected.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "ios/Images/chatroomBubbleReceive02Selected@2x.png",
+          "ios/Images/chatroomBubbleReceive02Selected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/chatroomBubbleSend01.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "ios/Images/chatroomBubbleSend01@2x.png",
+          "ios/Images/chatroomBubbleSend01@3x.png"
+        ]
+      },
+      {
+        "id": "ios/chatroomBubbleSend01Selected.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "ios/Images/chatroomBubbleSend01Selected@2x.png",
+          "ios/Images/chatroomBubbleSend01Selected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/chatroomBubbleSend02.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "ios/Images/chatroomBubbleSend02@2x.png",
+          "ios/Images/chatroomBubbleSend02@3x.png"
+        ]
+      },
+      {
+        "id": "ios/chatroomBubbleSend02Selected.png",
+        "screens": [
+          "chat"
+        ],
+        "files": [
+          "ios/Images/chatroomBubbleSend02Selected@2x.png",
+          "ios/Images/chatroomBubbleSend02Selected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/commonIcoTheme.png",
+        "screens": [
+          "identity"
+        ],
+        "files": [
+          "ios/Images/commonIcoTheme.png"
+        ]
+      },
+      {
+        "id": "ios/findBtnAddFriend.png",
+        "screens": [
+          "friends",
+          "components"
+        ],
+        "files": [
+          "ios/Images/findBtnAddFriend@2x.png",
+          "ios/Images/findBtnAddFriend@3x.png"
+        ]
+      },
+      {
+        "id": "ios/mainBgImage.png",
+        "screens": [
+          "friends",
+          "chats"
+        ],
+        "files": [
+          "ios/Images/mainBgImage@2x.png",
+          "ios/Images/mainBgImage@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabBgImage.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabBgImage@2x.png",
+          "ios/Images/maintabBgImage@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoCall.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoCall@2x.png",
+          "ios/Images/maintabIcoCall@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoCallSelected.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoCallSelected@2x.png",
+          "ios/Images/maintabIcoCallSelected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoChats.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoChats@2x.png",
+          "ios/Images/maintabIcoChats@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoChatsSelected.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoChatsSelected@2x.png",
+          "ios/Images/maintabIcoChatsSelected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoFriends.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoFriends@2x.png",
+          "ios/Images/maintabIcoFriends@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoFriendsSelected.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoFriendsSelected@2x.png",
+          "ios/Images/maintabIcoFriendsSelected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoLocal.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoLocal@2x.png",
+          "ios/Images/maintabIcoLocal@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoLocalSelected.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoLocalSelected@2x.png",
+          "ios/Images/maintabIcoLocalSelected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoMore.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoMore@2x.png",
+          "ios/Images/maintabIcoMore@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoMoreSelected.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoMoreSelected@2x.png",
+          "ios/Images/maintabIcoMoreSelected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoNow.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoNow@2x.png",
+          "ios/Images/maintabIcoNow@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoNowSelected.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoNowSelected@2x.png",
+          "ios/Images/maintabIcoNowSelected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoPiccoma.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoPiccoma@2x.png",
+          "ios/Images/maintabIcoPiccoma@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoPiccomaSelected.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoPiccomaSelected@2x.png",
+          "ios/Images/maintabIcoPiccomaSelected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoShopping.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoShopping@2x.png",
+          "ios/Images/maintabIcoShopping@3x.png"
+        ]
+      },
+      {
+        "id": "ios/maintabIcoShoppingSelected.png",
+        "screens": [
+          "friends",
+          "chats",
+          "components"
+        ],
+        "files": [
+          "ios/Images/maintabIcoShoppingSelected@2x.png",
+          "ios/Images/maintabIcoShoppingSelected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/passcodeBgImage.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "ios/Images/passcodeBgImage@2x.png",
+          "ios/Images/passcodeBgImage@3x.png"
+        ]
+      },
+      {
+        "id": "ios/passcodeImgCode01.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "ios/Images/passcodeImgCode01@2x.png",
+          "ios/Images/passcodeImgCode01@3x.png"
+        ]
+      },
+      {
+        "id": "ios/passcodeImgCode01Selected.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "ios/Images/passcodeImgCode01Selected@2x.png",
+          "ios/Images/passcodeImgCode01Selected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/passcodeImgCode02.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "ios/Images/passcodeImgCode02@2x.png",
+          "ios/Images/passcodeImgCode02@3x.png"
+        ]
+      },
+      {
+        "id": "ios/passcodeImgCode02Selected.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "ios/Images/passcodeImgCode02Selected@2x.png",
+          "ios/Images/passcodeImgCode02Selected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/passcodeImgCode03.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "ios/Images/passcodeImgCode03@2x.png",
+          "ios/Images/passcodeImgCode03@3x.png"
+        ]
+      },
+      {
+        "id": "ios/passcodeImgCode03Selected.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "ios/Images/passcodeImgCode03Selected@2x.png",
+          "ios/Images/passcodeImgCode03Selected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/passcodeImgCode04.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "ios/Images/passcodeImgCode04@2x.png",
+          "ios/Images/passcodeImgCode04@3x.png"
+        ]
+      },
+      {
+        "id": "ios/passcodeImgCode04Selected.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "ios/Images/passcodeImgCode04Selected@2x.png",
+          "ios/Images/passcodeImgCode04Selected@3x.png"
+        ]
+      },
+      {
+        "id": "ios/passcodeKeypadPressed.png",
+        "screens": [
+          "passcode"
+        ],
+        "files": [
+          "ios/Images/passcodeKeypadPressed@2x.png",
+          "ios/Images/passcodeKeypadPressed@3x.png"
+        ]
+      },
+      {
+        "id": "ios/profileImg01.png",
+        "screens": [
+          "friends",
+          "chats",
+          "chat"
+        ],
+        "files": [
+          "ios/Images/profileImg01@2x.png",
+          "ios/Images/profileImg01@3x.png"
+        ]
+      }
+    ]
+  },
+  "actualAppVerified": false
+}

@@ -1,0 +1,33 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
+import { chromium } from 'playwright';
+import sharp from 'sharp';
+import JSZip from 'jszip';
+import { ROOT } from '../src/core.mjs';
+import { createStudio } from '../src/server.mjs';
+const out=path.join(ROOT,'test-results');await fs.mkdir(out,{recursive:true});
+const dataRoot=path.join(ROOT,'.test-data',`browser-${Date.now()}`);const studio=await createStudio({dataRoot});await new Promise((resolve,reject)=>{studio.server.once('error',reject);studio.server.listen(0,'127.0.0.1',resolve);});const base=`http://127.0.0.1:${studio.server.address().port}`;
+let browser;const failures=[];const evidence=[];const password=crypto.randomBytes(18).toString('base64url');
+try{
+ assert.equal((await fetch(`${base}/api/status`)).status,403);
+ assert.equal((await fetch(`${base}/api/status`,{headers:{Authorization:`Bearer ${studio.token}`,Origin:'https://untrusted.invalid'}})).status,403);
+ assert.equal((await fetch(`${base}/api/preview-file?revision=${'a'.repeat(64)}&name=../../keys/index.json`,{headers:{Authorization:`Bearer ${studio.token}`}})).status,400);evidence.push('API authentication, cross-origin and path traversal checks');
+ browser=await chromium.launch({headless:true});const page=await browser.newPage({viewport:{width:1480,height:1050},deviceScaleFactor:1});page.on('pageerror',e=>failures.push(e.message));
+ await page.goto(`${base}/#${studio.token}`);await page.getByText('예상 화면 · 실제 카카오톡의 글꼴·배치와 차이가 있을 수 있습니다.').waitFor();
+ await page.locator('[data-panel=palette]').click();await page.getByRole('textbox',{name:'테마 이름',exact:true}).fill('나의 숲 테마');await page.getByRole('textbox',{name:'강조색 HEX'}).fill('#607C64');await page.getByRole('textbox',{name:'강조색 HEX'}).press('Tab');
+ await page.getByRole('button',{name:'채팅방 디자인',exact:false}).click();await page.getByRole('slider',{name:'글자 좌우 여백'}).fill('18');await page.getByRole('checkbox',{name:'긴 메시지'}).check();
+ await page.getByRole('button',{name:'이미지 리소스',exact:false}).click();const png=await sharp({create:{width:300,height:600,channels:4,background:'#DDE8DA'}}).png().toBuffer();await page.locator('#asset-controls .asset-row').filter({has:page.getByText('채팅방 배경',{exact:true})}).locator('input[type=file]').setInputFiles({name:'background.png',mimeType:'image/png',buffer:png});await page.getByText('이미지 리소스를 등록했습니다.').waitFor();
+ await page.waitForFunction(()=>document.querySelector('#save-status').textContent==='자동 저장됨');
+ await page.getByRole('button',{name:'새 프로젝트',exact:true}).click();await page.getByRole('textbox',{name:'테마 이름',exact:true}).fill('두 번째 테마');await page.waitForFunction(()=>document.querySelector('#save-status').textContent==='자동 저장됨');
+ const opts=await page.locator('#projects option').evaluateAll(xs=>xs.map(x=>({id:x.value,name:x.textContent})));const original=opts.find(x=>x.name==='나의 숲 테마');assert.ok(original);await page.getByRole('combobox',{name:'프로젝트 선택'}).selectOption(original.id);await page.waitForFunction(()=>document.querySelector('#theme-name').value==='나의 숲 테마');evidence.push('Create, save, switch projects and restore uploaded image / palette / bubble policy');
+ await page.getByRole('button',{name:'제작자 서명키 관리',exact:false}).click();await page.locator('#key-password').fill(password);await page.getByRole('button',{name:'새 키 생성',exact:true}).click();await page.locator('#key-dialog').waitFor({state:'hidden'});evidence.push('Create author release key via UI');
+ await page.getByRole('button',{name:'두 플랫폼 생성',exact:false}).click();await page.getByRole('heading',{name:'두 플랫폼 테마를 생성했습니다.'}).waitFor({timeout:120000});
+ const dl=page.waitForEvent('download');await page.getByRole('button',{name:'Android APK ↓',exact:true}).click();await(await dl).saveAs(path.join(out,'browser-built.apk'));evidence.push('Generate both formats and download signed APK via UI');
+ const dl2=page.waitForEvent('download');await page.getByRole('button',{name:'프로젝트 백업',exact:true}).click();const portable=await dl2;await portable.saveAs(path.join(out,'browser-project.zip'));const z=await JSZip.loadAsync(await fs.readFile(path.join(out,'browser-project.zip')));assert.equal(JSON.parse(await z.file('theme.json').async('string')).signingKeyId,null);assert.ok(Object.keys(z.files).some(n=>n.startsWith('assets/')));assert.ok(!Object.keys(z.files).some(n=>n.endsWith('.p12')));evidence.push('Portable project preserves images and excludes signing key');
+ for(const label of ['친구','채팅 목록','잠금화면','채팅방']){await page.getByRole('button',{name:label,exact:true}).click();await page.screenshot({path:path.join(out,`screen-${label}.png`),fullPage:true});}await page.getByRole('button',{name:'색상과 분위기',exact:false}).click();await page.screenshot({path:path.join(out,'editor.png'),fullPage:true});
+ const capture=page.waitForEvent('download');await page.getByRole('button',{name:'미리보기 PNG ↓',exact:true}).click();await(await capture).saveAs(path.join(out,'theme-preview.png'));evidence.push('Four preview screens and PNG capture');
+ await page.reload();await page.getByText('예상 화면 · 실제 카카오톡의 글꼴·배치와 차이가 있을 수 있습니다.').waitFor();await page.getByRole('combobox',{name:'프로젝트 선택'}).selectOption(original.id);await page.waitForFunction(()=>document.querySelector('#theme-name').value==='나의 숲 테마');
+ assert.deepEqual(failures,[]);await fs.writeFile(path.join(out,'browser-report.json'),JSON.stringify({passed:true,evidence,pageErrors:failures,dataRoot,deviceVerified:false},null,2));console.log('PASS:',evidence.join('; '));
+}finally{if(browser)await browser.close();studio.server.closeAllConnections();await new Promise(r=>studio.server.close(r));}

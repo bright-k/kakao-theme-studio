@@ -1,0 +1,68 @@
+const cssColor=(platform,value)=>platform==='android'&&/^#[\da-f]{8}$/i.test(value)?'#'+value.slice(3)+value.slice(1,3):value;
+function rr(ctx,x,y,w,h,r,color){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=color;ctx.fill();}
+function text(ctx,s,x,y,size,color,weight=400){ctx.fillStyle=color;ctx.font=`${weight} ${size}px -apple-system,BlinkMacSystemFont,sans-serif`;ctx.fillText(s,x,y);}
+function cover(ctx,img,x,y,w,h){if(!img)return;const f=Math.max(w/img.width,h/img.height),sw=w/f,sh=h/f;ctx.drawImage(img,(img.width-sw)/2,(img.height-sh)/2,sw,sh,x,y,w,h);}
+export function sliceAxis(length,runs,target,scale){
+ const points=[...new Set([0,...runs.flat(),length])].sort((a,b)=>a-b);const segments=points.slice(0,-1).map((a,i)=>({start:a,end:points[i+1],stretch:runs.some(([x,y])=>a>=x&&points[i+1]<=y)}));
+ const fixed=segments.filter(s=>!s.stretch).reduce((sum,s)=>sum+(s.end-s.start)/scale,0);const flexible=segments.filter(s=>s.stretch).reduce((sum,s)=>sum+s.end-s.start,0);let offset=0;
+ return segments.map(s=>{const size=target<fixed?(s.end-s.start)/length*target:s.stretch?(s.end-s.start)/flexible*(target-fixed):(s.end-s.start)/scale;const result={...s,offset,size};offset+=size;return result;});
+}
+export function drawNine(ctx,img,x,y,w,h,{patch,scale=2,stretch=[30,26]}={}){
+ if(!img||w<=0||h<=0)return;const border=patch?1:0,iw=img.width-2*border,ih=img.height-2*border;
+ const xr=patch?.stretchX??[[stretch[0]*scale,(stretch[0]+1)*scale]],yr=patch?.stretchY??[[stretch[1]*scale,(stretch[1]+1)*scale]];
+ // Assemble slices on shared integer pixel edges, then composite once. Drawing
+ // fractional slice rectangles directly can leave antialiased seams on the GPU.
+ // Overlapping slices would hide gaps but darken translucent artwork instead.
+ const width=Math.max(1,Math.ceil(w)),height=Math.max(1,Math.ceil(h));
+ const surface=typeof OffscreenCanvas==='function'?new OffscreenCanvas(width,height):ctx.canvas.ownerDocument.createElement('canvas');surface.width=width;surface.height=height;
+ const tile=surface.getContext('2d'),xs=sliceAxis(iw,xr,width,scale),ys=sliceAxis(ih,yr,height,scale);
+ for(const a of xs)for(const b of ys){const left=Math.round(a.offset),top=Math.round(b.offset),right=Math.round(a.offset+a.size),bottom=Math.round(b.offset+b.size);if(right>left&&bottom>top&&a.end>a.start&&b.end>b.start)tile.drawImage(img,a.start+border,b.start+border,a.end-a.start,b.end-b.start,left,top,right-left,bottom-top);}
+ ctx.drawImage(surface,0,0,width,height,x,y,w,h);
+}
+const wrap=(ctx,str,max)=>{const lines=[];let line='';for(const ch of str){if(ctx.measureText(line+ch).width>max){lines.push(line);line=ch;}else line+=ch;}if(line)lines.push(line);return lines;};
+export function renderPlatform(canvas,platform,preview,images,{screen,longMessage,selected,pattern=false,passcodeDigits=2,pressedDigit=1,activeTab='auto',profileVariant=1,profileFull=false,bubbleFlow='mixed',buttonState='normal',bannerState='normal'}){
+ const ctx=canvas.getContext('2d'),view=preview.views?.[platform],b=preview.bubble,c=Object.fromEntries(Object.entries(view?.palette??preview.palette).map(([k,v])=>[k,cssColor(platform,v)]));
+ const values=view?.values??{};const value=(ios,android,fallback)=>cssColor(platform,values[platform==='ios'?ios:android]??fallback);
+ const img=name=>images[`${platform}.${name==='profile'&&platform==='android'?'profile'+(profileFull?'Full':'')+profileVariant:name}`];const file=name=>preview.files?.[preview[platform]?.[name]];
+ ctx.clearRect(0,0,390,780);ctx.fillStyle=screen==='passcode'?value('BackgroundStyle-Passcode/background-color','theme_passcode_background_color',c.main):c.main;ctx.fillRect(0,0,390,780);cover(ctx,img(screen==='chat'?'background':screen==='passcode'?'lock':'main'),0,0,390,780);
+ text(ctx,'9:41',25,28,13,c.text,650);text(ctx,'▮▮  ▰',320,28,12,c.text);if(platform==='ios')rr(ctx,148,8,94,23,15,'#222a25');else rr(ctx,190,10,10,10,5,'#222a25');
+ if(profileFull&&['friends','chats','chat'].includes(screen)){
+  text(ctx,platform==='ios'?'iOS 기본 프로필':'Android 전체 프로필 '+profileVariant,25,90,23,c.text,650);const image=img('profile');if(image)ctx.drawImage(image,35,160,320,320);text(ctx,platform==='ios'?'iOS에는 별도의 전체 프로필 슬롯이 없습니다.':'전체 프로필 원본 이미지 검토',25,530,12,c.secondary);
+ }else if(screen==='chat'){
+ 
+  text(ctx,'‹',18,80,35,c.text);text(ctx,'숲속의 대화',58,73,19,c.text,650);text(ctx,'⌕   ☰',310,73,21,c.text);rr(ctx,120,107,150,25,12,c.main);text(ctx,'2026년 10월 25일',140,125,11,c.secondary);
+  const bubble=(str,out,y,group=false)=>{group=bubbleFlow==='continuous'?true:bubbleFlow==='first'?false:group;const prefix='MessageCellStyle-'+(out?'Send':'Receive'),name=(out?'sent':'received')+(group?'Group':'')+(selected&&platform==='ios'?'Selected':'');const image=img(name),meta=file(name);const scale=platform==='ios'?2:3;
+   const insets=platform==='ios'?(values[prefix+'/-ios-'+(group?'group-':'')+'title-edgeinsets']??[b.paddingY,b.paddingX,b.paddingY,b.paddingX]):meta?.patch?.insets.map(n=>n/scale)??[b.paddingY,b.paddingX,b.paddingY,b.paddingX];const [top,left,bottom,right]=insets;
+   ctx.font='14px -apple-system,sans-serif';const lines=wrap(ctx,str,218),w=Math.max(90,Math.max(...lines.map(s=>ctx.measureText(s).width))+left+right),h=Math.max(56,lines.length*23+top+bottom),x=out?365-w:73;
+   const cap=values[prefix+'/-ios-'+(group?'group-':'')+(selected?'selected-':'')+'background-image']??[b.stretchX,b.stretchY];drawNine(ctx,image,x,y,w,h,{patch:meta?.patch,scale,stretch:cap});
+   const foreground=value(prefix+'/-ios-'+(selected?'selected-':'')+'text-color',out?'theme_chatroom_bubble_me_color':'theme_chatroom_bubble_you_color',out?c.sentText:c.receivedText);lines.forEach((s,i)=>text(ctx,s,x+left,y+top+17+i*23,14,foreground));text(ctx,'오전 9:41',out?x-57:x+w+7,y+h-6,9,c.secondary);return h;};
+  cover(ctx,img('profile'),20,163,38,38);text(ctx,'나무',75,154,11,c.secondary);bubble('오늘은 어떤 하루였나요? 🌿',false,162);const sentHeight=bubble(longMessage?'보낸 말풍선도 긴 문장에서 모서리와 글자 여백이 자연스럽게 유지되는지 확인합니다.':'조금 느리게, 편안하게.',true,258),thirdTop=Math.max(353,258+sentHeight+24);cover(ctx,img('profile'),20,thirdTop,38,38);text(ctx,'나무',75,thirdTop-8,11,c.secondary);const third=bubble(longMessage?'길어진 메시지도 자연스럽게 늘어나야 해요. 말풍선 모서리와 장식이 찌그러지지 않는지, 글자가 가장자리에 닿지 않는지 살펴보세요. 🌱':'좋아요. 잠깐 쉬어가요.',false,thirdTop);if(!longMessage)bubble('서두르지 않아도 괜찮아요.',false,thirdTop+third+8,true);
+  ctx.fillStyle=c.input;ctx.fillRect(0,706,390,74);text(ctx,'＋',16,747,25,value('InputBarStyle-Chat/-ios-button-'+(buttonState==='normal'?'normal':'highlighted')+'-foreground-color','theme_chatroom_input_bar_menu_icon_color',c.secondary));rr(ctx,52,718,275,39,18,c.main);text(ctx,'메시지 입력',68,742,13,value('InputBarStyle-Chat/-ios-button-text-color','theme_chatroom_input_bar_color',c.text));rr(ctx,337,721,36,34,11,value('InputBarStyle-Chat/-ios-send-'+(buttonState==='normal'?'normal':'highlighted')+'-background-color','theme_chatroom_input_bar_send_button_color',c.sent));text(ctx,'↑',348,744,20,value('InputBarStyle-Chat/-ios-send-'+(buttonState==='normal'?'normal':'highlighted')+'-foreground-color','theme_chatroom_input_bar_send_icon_color',c.sentText),700);
+ }else if(screen==='passcode'){
+  const color=value('LabelStyle-PasscodeTitle/-ios-text-color','theme_passcode_color',c.text);text(ctx,'잠금 해제',141,155,24,color,650);text(ctx,'비밀번호를 입력해주세요.',114,191,13,color);for(let i=0;i<4;i++){const image=img('passcode'+(i+1)+(i<passcodeDigits?'Selected':''));if(image)ctx.drawImage(image,130+i*34,225,28,28);}
+  ctx.fillStyle=value('PasscodeStyle/-ios-keypad-background-color','theme_passcode_keypad_background_color',c.main);ctx.fillRect(0,300,390,450);
+  if(selected){const key=pressedDigit===0?11:pressedDigit,px=63+((key-1)%3)*108,py=335+Math.floor((key-1)/3)*90;if(platform==='ios'&&img('keypadPressed'))ctx.drawImage(img('keypadPressed'),px,py,68,68);else rr(ctx,px,py,68,68,30,value('PasscodeStyle/-ios-keypad-background-color','theme_passcode_keypad_pressed_background_color',c.chat));}
+  if(pattern&&platform==='android'){ctx.beginPath();ctx.moveTo(98,375);ctx.lineTo(206,375);ctx.lineTo(206,465);ctx.lineTo(314,555);ctx.strokeStyle=value('PasscodeStyle/-ios-keypad-text-normal-color','theme_passcode_pattern_line_color',c.accent);ctx.lineWidth=5;ctx.stroke();for(let n=0;n<9;n++)rr(ctx,91+(n%3)*108,368+Math.floor(n/3)*90,14,14,7,c.secondary);text(ctx,'패턴 연결선 예상 화면',124,650,12,c.secondary);}
+  else{for(let n=1;n<=9;n++){const x=86+((n-1)%3)*108,y=380+Math.floor((n-1)/3)*90;text(ctx,String(n),x,y,28,value('PasscodeStyle/-ios-keypad-text-normal-color',selected&&n===pressedDigit?'theme_passcode_keypad_pressed_color':'theme_passcode_keypad_color',c.text));}text(ctx,'0',194,650,28,value('PasscodeStyle/-ios-keypad-text-normal-color',selected&&pressedDigit===0?'theme_passcode_keypad_pressed_color':'theme_passcode_keypad_color',c.text));text(ctx,'취소',305,650,13,color);}
+ }else if(screen==='identity'){
+  ctx.fillStyle=c.main;ctx.fillRect(0,40,390,720);
+  if(platform==='android')cover(ctx,img('splash'),0,40,390,720);
+  rr(ctx,30,122,330,238,24,'#FFFFFFE8');text(ctx,'테마 아이콘',133,159,20,c.text,650);
+  if(img('themeIcon'))ctx.drawImage(img('themeIcon'),149,185,92,92);
+  text(ctx,platform==='ios'?'iOS 테마 목록 아이콘':'Android 앱 아이콘',113,310,13,c.text);
+  rr(ctx,22,570,346,135,16,'#FFFFFFE8');text(ctx,'원본 이미지 검토',42,601,16,c.text,650);
+  text(ctx,platform==='android'?'배경: Android 12 미만용 시작 이미지':'iOS 시작화면 이미지는 제공되지 않습니다.',42,632,12,c.secondary);
+  text(ctx,'화면 크기별 원본은 오른쪽 이미지 탭에서 확인',42,662,11,c.secondary);
+ }else if(screen==='components'){
+  text(ctx,'구성 요소 검토',23,85,25,c.text,700);text(ctx,'실제 출력 설정의 색상과 이미지',23,113,12,c.secondary);
+  rr(ctx,20,150,350,95,15,value('BackgroundStyle-MessageNotificationBar/background-color','theme_notification_background_color',c.main));text(ctx,'새 메시지 · 나무',36,184,16,value('LabelStyle-MessageNotificationBarName/-ios-text-color','theme_notification_color',c.text),650);text(ctx,'오늘도 좋은 하루 보내요 🌿',36,216,13,value('LabelStyle-MessageNotificationBarMessage/-ios-text-color','theme_notification_color',c.secondary));
+  rr(ctx,20,272,350,85,15,value('BackgroundStyle-DirectShareBar/background-color','theme_direct_share_background_color',c.input));text(ctx,'메시지를 전달했습니다.',36,307,15,value('LabelStyle-DirectShareBarName/-ios-text-color','theme_direct_share_color',c.text));text(ctx,'대화방으로 이동',36,337,12,value('LabelStyle-DirectShareBarMessage/-ios-text-color','theme_direct_share_button_color',c.accent));
+  rr(ctx,25,401,154,55,12,value(buttonState==='normal'?'ButtonStyle-Main/background-color':'ButtonStyle-Main/-ios-'+(buttonState==='selected'?'selected':'highlighted')+'-background-color','theme_button_'+(buttonState==='normal'?'':buttonState+'_')+'background_color',c.chat));rr(ctx,197,401,168,55,12,value('ButtonStyle-Main/-ios-highlighted-background-color','theme_button_pressed_background_color',c.chat));text(ctx,buttonState==='normal'?'기본 버튼':buttonState==='pressed'?'누른 버튼':'선택 버튼',52,434,14,c.text);const friend=img('friendButton'+(buttonState==='pressed'&&platform==='android'?'Pressed':''));if(friend)ctx.drawImage(friend,295,590,48,39);text(ctx,'누른 버튼',231,434,14,c.text);
+  text(ctx,'탭 배너',24,505,12,c.secondary);rr(ctx,23,523,344,58,8,value((bannerState==='light'?'BottomBannerStyle-Light':'BottomBannerStyle')+'/background-color',bannerState==='light'?'theme_tab_lightbannerbadge_background_color':'theme_tab_bannerbadge_background_color',c.accent));text(ctx,'배너 배경색 검토',43,559,14,'#FFFFFF');text(ctx,'기본 / 누름 상태는 설정별로 다릅니다.',24,634,11,c.secondary);
+ }else{
+  text(ctx,screen==='friends'?'친구':'채팅',23,85,27,value('HeaderStyle-Main/-ios-text-color','theme_header_color',c.text),700);text(ctx,'⌕  ⚙',300,80,20,c.text);const names=screen==='friends'?['내 프로필','나무','소소한 일상','오늘도 좋은 하루','초록빛 친구']:['숲속의 대화','우리의 작은 모임','주말 산책','메모하는 하루','디자인 이야기'];for(let i=0;i<names.length;i++){const y=133+i*95,active=i===1&&buttonState!=='normal';const row=value('MainViewStyle-Primary/-ios-'+(active?'selected':'normal')+'-background-color',active?'theme_body_cell_pressed_color':'theme_body_cell_color',c.main);ctx.save();ctx.globalAlpha=platform==='ios'?(values['MainViewStyle-Primary/-ios-'+(active?'selected':'normal')+'-background-alpha']??1):1;ctx.fillStyle=row;ctx.fillRect(0,y-8,390,88);ctx.restore();ctx.save();ctx.beginPath();ctx.roundRect(23,y,53,53,19);ctx.clip();cover(ctx,img('profile'),23,y,53,53);ctx.restore();text(ctx,names[i],94,y+19,15,active?value('MainViewStyle-Primary/-ios-highlighted-text-color','theme_title_pressed_color',c.text):c.text,550);text(ctx,screen==='friends'?'편안한 하루를 보내세요 🌿':'오늘은 어떤 하루였나요?',94,y+43,12,active?value('MainViewStyle-Primary/-ios-paragraph-highlighted-text-color','theme_paragraph_pressed_color',c.secondary):c.secondary);if(screen==='chats')text(ctx,'오전 9:41',313,y+19,10,c.secondary);ctx.save();ctx.globalAlpha=.15;ctx.fillStyle=c.secondary;ctx.fillRect(23,y+76,344,1);ctx.restore();}
+  ctx.fillStyle=c.main;ctx.fillRect(0,704,390,76);if(platform==='android'&&img('tab'))drawNine(ctx,img('tab'),0,704,390,76,{patch:file('tab')?.patch,scale:3});else cover(ctx,img('tab'),0,704,390,76);
+  const selectedTab=activeTab==='auto'?(screen==='friends'?'friends':'chats'):activeTab,kinds=['friends','chats','now','shopping','more'];if(!kinds.includes(selectedTab))kinds[2]=selectedTab;const labels={friends:'친구',chats:'채팅',now:'지금',shopping:'쇼핑',more:'더보기',local:'로컬',call:'통화',piccoma:'만화'};kinds.forEach((kind,i)=>{const s=labels[kind],active=kind===selectedTab,image=img(kind+'Icon'+(active?'Selected':''));if(image)ctx.drawImage(image,25+i*76,710,32,32);text(ctx,s,28+i*76,761,10,c.secondary);});
+ }
+ if(platform==='ios')rr(ctx,137,769,116,4,3,c.text);else rr(ctx,157,769,76,3,2,c.text);
+}

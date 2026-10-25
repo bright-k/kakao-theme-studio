@@ -1,0 +1,49 @@
+{
+  "inspectedAt": "2026-10-25",
+  "sourcePage": "https://cs.kakao.com/helps_html/1073209428?locale=ko",
+  "sourceArchiveUrl": "https://t1.kakaocdn.net/kakaotalk_theme/kakaotalk_theme_user_guide.zip",
+  "sourceArchiveSha256": "82c0cf80993072d855010a9e3a8eb03281f70da3af287e54526f59a05ab308df",
+  "sampleVersion": "26.9.0",
+  "verificationScope": "Static inspection and relevant PDF page rendering only. No build, signing, device installation, or KakaoTalk rendering validation performed.",
+  "ios": {
+    "cssFile": "KakaoTalkTheme.css",
+    "imageCount": 66,
+    "imageScales": {
+      "@3x": 39,
+      "@2x": 26,
+      "unscaled": 1
+    }
+  },
+  "android": {
+    "colorCount": 49,
+    "pngCount": 82,
+    "ninePatchCount": 6,
+    "resourceDirectories": [
+      "drawable-land-xhdpi",
+      "drawable-land-xxhdpi",
+      "drawable-sw600dp-land-xxhdpi",
+      "drawable-sw600dp-xxhdpi",
+      "drawable-sw600dp-xxxhdpi",
+      "drawable-xhdpi",
+      "drawable-xxhdpi",
+      "values",
+      "values-ja",
+      "values-ko"
+    ],
+    "build": {
+      "agp": "8.7.2",
+      "gradle": "8.10.2",
+      "kotlin": "1.9.25",
+      "compileSdk": 35,
+      "targetSdk": 35,
+      "minSdk": 28,
+      "javaSourceTarget": 21
+    },
+    "settingsFilePresent": false
+  },
+  "mismatches": [
+    "PDF Android build example uses SDK 34/minSdk 26 while included source uses SDK 35/minSdk 28.",
+    "iOS PDF requests 2x images, while included sample contains both 2x and 3x resources with some assets only at 3x.",
+    "Android PDF lists six image qualifier directories, while the source also includes drawable-sw600dp-xxxhdpi."
+  ]
+}

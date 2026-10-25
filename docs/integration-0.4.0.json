@@ -1,0 +1,93 @@
+{
+  "firstBuild": {
+    "id": "572b5e91-4d50-448a-9afb-c0c0aea6065a",
+    "projectId": "1871ea0a-7fe7-4e7b-bfe5-2bff5bc8d477",
+    "projectName": "이끼 숲 · 검증",
+    "revision": "c66b40191addc96daacf8c7bc09842d0142e4706486ce8da18342cf923e6c5ba",
+    "createdAt": "2026-10-25T09:03:42.008Z",
+    "profile": "kakaotalk-26.9.0",
+    "compilerVersion": "0.4.0",
+    "coverage": {
+      "scope": "26.9.0 official sample plus identified documented optional resources; actual KakaoTalk application unverified",
+      "iosProperties": 105,
+      "androidColors": 49,
+      "sampleImages": 127,
+      "imageVariants": 146,
+      "emitted": 146,
+      "intentionallyDisabled": [],
+      "missing": [],
+      "complete": true,
+      "actualAppVerified": false
+    },
+    "diagnostics": [],
+    "deviceVerified": false,
+    "outputs": {
+      "theme-ios.ktheme": "8f81364d78d8e7954595ab4e4a9b95896fe4ae93c7eca725dc5aebc333806965",
+      "theme-android.apk": "aa0275936bd60d00e6226f72e051dac2f6365cad6a29283e8dfbc522f32842bc"
+    },
+    "android": {
+      "status": "success",
+      "packageId": "studio.localtheme.t1871ea0a7fe74e7bbfe52bff5bc8d477",
+      "versionCode": 1,
+      "fingerprint": "79:48:C6:06:91:A1:2B:43:74:2B:EA:60:47:AC:03:AC:43:C8:0B:C1:9E:64:0E:6B:37:1B:7B:1E:2B:4A:2A:41",
+      "tools": {
+        "java": "Home",
+        "buildTools": "33.0.1",
+        "compileSdk": 33,
+        "targetSdk": 33,
+        "minSdk": 28
+      }
+    },
+    "ios": {
+      "status": "success"
+    },
+    "status": "success"
+  },
+  "updateBuild": {
+    "id": "98a4d84c-658a-410d-9806-634a95c19d9b",
+    "projectId": "1871ea0a-7fe7-4e7b-bfe5-2bff5bc8d477",
+    "projectName": "이끼 숲 · 검증",
+    "revision": "ba80261201896ca08a6173307298d05566b8584772b9327fd7f4a6656f808351",
+    "createdAt": "2026-10-25T09:03:48.653Z",
+    "profile": "kakaotalk-26.9.0",
+    "compilerVersion": "0.4.0",
+    "coverage": {
+      "scope": "26.9.0 official sample plus identified documented optional resources; actual KakaoTalk application unverified",
+      "iosProperties": 105,
+      "androidColors": 49,
+      "sampleImages": 127,
+      "imageVariants": 146,
+      "emitted": 146,
+      "intentionallyDisabled": [],
+      "missing": [],
+      "complete": true,
+      "actualAppVerified": false
+    },
+    "diagnostics": [],
+    "deviceVerified": false,
+    "outputs": {
+      "theme-ios.ktheme": "0bbc19dfce5e3660c04ed3b1a18f31bf53c724ee6adb224201540a140415cf87",
+      "theme-android.apk": "815ecd901d8d0d7c56fef9a97ae49c426cc4a69ae4b9acaac01eecddc1103a43"
+    },
+    "android": {
+      "status": "success",
+      "packageId": "studio.localtheme.t1871ea0a7fe74e7bbfe52bff5bc8d477",
+      "versionCode": 2,
+      "fingerprint": "79:48:C6:06:91:A1:2B:43:74:2B:EA:60:47:AC:03:AC:43:C8:0B:C1:9E:64:0E:6B:37:1B:7B:1E:2B:4A:2A:41",
+      "tools": {
+        "java": "Home",
+        "buildTools": "33.0.1",
+        "compileSdk": 33,
+        "targetSdk": 33,
+        "minSdk": 28
+      }
+    },
+    "ios": {
+      "status": "success"
+    },
+    "status": "success"
+  },
+  "wrongKeyBlocked": true,
+  "keyBackupRestored": true,
+  "deviceVerified": false
+}

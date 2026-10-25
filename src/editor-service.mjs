@@ -1,0 +1,43 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import JSZip from 'jszip';
+import { CATALOG, RESOURCE_FILES, RESOURCES, publicCatalog } from './catalog.mjs';
+import { assertValid, compile, projectRevision, atomic, readJson, writeTree, normalizeUpload, sha } from './core.mjs';
+import { readNinePatch, matchResourceNames } from './resources.mjs';
+import { resolveStyles } from './styles.mjs';
+import {resourceSource} from './provenance.mjs';
+
+export function makeEditorService(dataRoot){
+ const pending=new Map();let compileQueue=Promise.resolve();
+ async function preview(p){assertValid(p);const revision=projectRevision(p);const dir=path.join(dataRoot,'previews',revision);const hit=await readJson(path.join(dir,'ready.json'),null);if(hit)return hit;
+  if(pending.has(revision))return pending.get(revision);
+  const work=compileQueue.then(async()=>{const c=await compile(p,dataRoot);await writeTree(c.files,dir);const files=Object.fromEntries(Object.entries(c.files).filter(([name])=>name.endsWith('.png')).map(([name,buf])=>[name,{width:buf.readUInt32BE(16),height:buf.readUInt32BE(20),bytes:buf.length,hash:sha(buf),source:resourceSource(p,RESOURCE_FILES.get(name)),geometrySource:p.resourceGeometry?.[name]?'출력별 편집':p.nativeNinePatch?.includes(name)?'원본 9-patch 가이드':'공통 말풍선 정책 / 자동 가이드',...(name.endsWith('.9.png')?{patch:readNinePatch(buf)}:{})}]));
+   const ios={background:'ios/Images/chatroomBgImage@2x.png',main:'ios/Images/mainBgImage@2x.png',lock:'ios/Images/passcodeBgImage@2x.png',tab:'ios/Images/maintabBgImage@2x.png',sent:'ios/Images/chatroomBubbleSend01@2x.png',received:'ios/Images/chatroomBubbleReceive01@2x.png',profile:'ios/Images/profileImg01@2x.png',sentSelected:'ios/Images/chatroomBubbleSend01Selected@2x.png',receivedSelected:'ios/Images/chatroomBubbleReceive01Selected@2x.png',sentGroup:'ios/Images/chatroomBubbleSend02@2x.png',receivedGroup:'ios/Images/chatroomBubbleReceive02@2x.png',sentGroupSelected:'ios/Images/chatroomBubbleSend02Selected@2x.png',receivedGroupSelected:'ios/Images/chatroomBubbleReceive02Selected@2x.png',keypadPressed:'ios/Images/passcodeKeypadPressed@2x.png'};
+   const android={background:'android/res/drawable-xxhdpi/theme_chatroom_background_image.png',main:'android/res/drawable-xxhdpi/theme_background_image.png',lock:'android/res/drawable-xxhdpi/theme_passcode_background_image.png',tab:'android/res/drawable-xxhdpi/theme_maintab_cell_image.9.png',sent:'android/res/drawable-xxhdpi/theme_chatroom_bubble_me_01_image.9.png',received:'android/res/drawable-xxhdpi/theme_chatroom_bubble_you_01_image.9.png',profile:'android/res/drawable-xxhdpi/theme_profile_01_image.png',sentGroup:'android/res/drawable-xxhdpi/theme_chatroom_bubble_me_02_image.9.png',receivedGroup:'android/res/drawable-xxhdpi/theme_chatroom_bubble_you_02_image.9.png'};
+   for(const k of ['friends','chats','now','shopping','more','local','call','piccoma'])for(const selected of [false,true]){const key=k+'Icon'+(selected?'Selected':'');ios[key]=`ios/Images/maintabIco${k[0].toUpperCase()+k.slice(1)}${selected?'Selected':''}@2x.png`;android[key]=`android/res/drawable-xxhdpi/theme_maintab_ico_${k}${selected?'_focused':''}_image.png`;}
+   for(let n=1;n<=4;n++)for(const selected of [false,true]){const key='passcode'+n+(selected?'Selected':'');ios[key]=`ios/Images/passcodeImgCode0${n}${selected?'Selected':''}@2x.png`;android[key]=`android/res/drawable-xxhdpi/theme_passcode_0${n}${selected?'_checked':''}_image.png`;}
+   for(let n=1;n<=3;n++){android['profile'+n]='android/res/drawable-xxhdpi/theme_profile_0'+n+'_image.png';android['profileFull'+n]='android/res/drawable-nodpi/theme_profile_0'+n+'_image_full.png';}
+   ios.friendButton='ios/Images/findBtnAddFriend@2x.png';android.friendButton='android/res/drawable-xxhdpi/theme_find_add_friend_button_image.png';android.friendButtonPressed='android/res/drawable-xxhdpi/theme_find_add_friend_button_pressed_image.png';
+   const data={sources:Object.fromEntries(CATALOG.files.map(f=>[f.path,resourceSource(p,f)])),revision,visualRevision:c.visualRevision,palette:p.palette,bubble:p.bubble,mode:p.mode,diagnostics:c.diagnostics,views:c.preview.views,styles:c.styles,files,coverage:c.coverage,ios:Object.fromEntries(Object.entries(ios).filter(([,v])=>files[v])),android:Object.fromEntries(Object.entries(android).filter(([,v])=>files[v]))};await atomic(path.join(dir,'ready.json'),JSON.stringify(data));return data;
+  });compileQueue=work.catch(()=>{});pending.set(revision,work);try{return await work;}finally{pending.delete(revision);}
+ }
+ async function applyResources(p,items){assertValid(p);const plan=matchResourceNames(items);if(plan.conflicts.length)throw new Error('같은 리소스에 여러 파일이 지정됐습니다: '+plan.conflicts.join(', '));if(!plan.matched.length)throw new Error('파일명과 맞는 테마 리소스가 없습니다. 리소스 템플릿 ZIP의 파일명을 사용하세요.');
+  const next=structuredClone(p);next.resourceOverrides??={};const native=new Set(next.nativeNinePatch??[]);const writes=[];
+  for(const match of plan.matched){const item=items.find(x=>x.name===match.name);const buf=await normalizeUpload(item.buffer);const ref=`assets/${sha(buf)}.png`;const isNinePatch=item.nativeNinePatch===true||item.name.endsWith('.9.png');if(isNinePatch){if(match.targets.some(t=>!RESOURCE_FILES.get(t).ninePatch))throw new Error('9-patch는 해당 Android 리소스에만 등록할 수 있습니다.');readNinePatch(buf);}
+   for(const target of match.targets){next.resourceOverrides[target]=ref;if(isNinePatch)native.add(target);else native.delete(target);}writes.push([ref,buf]);
+  }
+  next.nativeNinePatch=[...native];assertValid(next);for(const [ref,buf] of writes)await atomic(path.join(dataRoot,ref),buf);return {project:next,plan};
+ }
+ async function singleResource(p,{file,resourceId,base64,nativeNinePatch=false}){let targets;if(file){if(!RESOURCE_FILES.has(file))throw new Error('알 수 없는 리소스입니다.');targets=[file];}else{const r=RESOURCES.find(r=>r.id===resourceId);if(!r)throw new Error('알 수 없는 리소스입니다.');targets=r.variants.map(f=>f.path);}
+  const items=targets.map(name=>({name,buffer:Buffer.from(base64,'base64'),nativeNinePatch}));
+  // A normal PNG targeting a .9.png slot receives generated guides, unless explicitly supplied as .9.png.
+  const renamed=items.map(x=>({...x,name:x.name.endsWith('.9.png')&&!nativeNinePatch?x.name.replace('.9.png','.png'):x.name}));
+  if(targets.some(t=>t.endsWith('.9.png'))&&!nativeNinePatch){const next=structuredClone(p);next.resourceOverrides??={};const buf=await normalizeUpload(items[0].buffer);const ref=`assets/${sha(buf)}.png`;for(const target of targets)next.resourceOverrides[target]=ref;next.nativeNinePatch=(next.nativeNinePatch??[]).filter(x=>!targets.includes(x));assertValid(next);await atomic(path.join(dataRoot,ref),buf);return {project:next,plan:{matched:targets,unmatched:[]}};}
+  return applyResources(p,items);
+ }
+ async function bulkItems(body){if(body.zip){const data=Buffer.from(body.zip,'base64');if(data.length>24*1024*1024)throw new Error('리소스 ZIP은 24MB 이하만 지원합니다.');const zip=await JSZip.loadAsync(data);const entries=Object.entries(zip.files).filter(([,f])=>!f.dir);if(entries.length>300)throw new Error('한 번에 최대 300개 파일을 등록하세요.');if(entries.reduce((sum,[,f])=>sum+(f._data?.uncompressedSize??0),0)>128*1024*1024)throw new Error('압축 해제 크기는 128MB 이하만 지원합니다.');const items=[];for(const [name,f] of entries){if(name.includes('..')||name.startsWith('/')||name.includes('\\')||f.unsafeOriginalName&&f.unsafeOriginalName!==name)throw new Error('ZIP 경로가 잘못되었습니다.');if(/\.(png|jpe?g|webp)$/i.test(name))items.push({name,buffer:await f.async('nodebuffer')});}return items;}
+  if(!Array.isArray(body.items)||body.items.length>300)throw new Error('파일 목록을 확인하세요.');return body.items.map(i=>({name:i.name,buffer:Buffer.from(i.base64,'base64')}));
+ }
+ async function resourceTemplate(p){const c=await compile(p,dataRoot);const zip=new JSZip();for(const f of CATALOG.files)if(c.files[f.path])zip.file(f.path,c.files[f.path]);zip.file('RESOURCE-INDEX.json',JSON.stringify(publicCatalog(),null,2));return zip.generateAsync({type:'nodebuffer',compression:'DEFLATE'});}
+ return {preview,applyResources,singleResource,bulkItems,resourceTemplate,details:p=>({catalog:publicCatalog(),styles:resolveStyles(p)})};
+}

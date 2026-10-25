@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "evidence": [
+    "All six screen editors expose the expected properties and all 82 image groups / 146 output slots",
+    "Every common source slot, including full profiles, selected tabs, bubble states and buttons, has an upload control",
+    "Inline color edit reaches the rendered preview; resetting another screen preserves the edit",
+    "Next-screen navigation and full catalog round trip retain screen context"
+  ],
+  "pageErrors": [],
+  "counts": {
+    "ios": 105,
+    "android": 49,
+    "logicalImages": 82,
+    "outputImages": 146
+  },
+  "deviceVerified": false
+}

@@ -1,0 +1,28 @@
+{
+  "testedAt": "2026-10-25",
+  "toolVersion": "0.2.0",
+  "avd": "Pixel_6_API_33",
+  "readOnly": true,
+  "os": "Android 13 / API 33",
+  "firstInstall": "Success",
+  "activityLaunch": "Status: ok / COLD",
+  "updateInstall": "Success",
+  "installedVersionCode": 2,
+  "installedVersionName": "1.0.1",
+  "packageId": "studio.localtheme.t6bfcbaa069b44e029317c1521807f569",
+  "fingerprint": "CE:85:AB:5E:75:A4:3C:3A:FD:37:E4:88:1B:90:3C:5D:66:AF:13:CB:16:77:D4:67:A2:96:37:07:C5:F0:AC:69",
+  "kakaoTalkThemeApplied": false,
+  "iOSApplied": false,
+  "coverage": {
+    "scope": "26.9.0 official sample plus identified documented optional resources; actual KakaoTalk application unverified",
+    "iosProperties": 105,
+    "androidColors": 49,
+    "sampleImages": 127,
+    "imageVariants": 146,
+    "emitted": 146,
+    "intentionallyDisabled": [],
+    "missing": [],
+    "complete": true,
+    "actualAppVerified": false
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "evidence": [
+    "Undo and redo restore design policy",
+    "Duplicate retains design and creates a new theme/app identity",
+    "Independent iOS state color and Android ARGB color reach preview",
+    "Dedicated passcode editor exposes eight image states, keypad pressed image, colors and Android pattern",
+    "Selected icon replacement propagates to both scales while normal state stays independent",
+    "Bulk resource import matches known filenames and reports unmatched files",
+    "Resource background policy can be undone",
+    "Resource template includes password states, variants, guides and catalog"
+  ],
+  "pageErrors": []
+}

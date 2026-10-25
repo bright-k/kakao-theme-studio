@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "evidence": [
+    "Passcode 0–4 entered states and pressed zero key use actual independent images/colors",
+    "Regional selected tabs and full profiles 1–3 can be inspected on both platform previews",
+    "Continuous selected sent bubble is reachable in context",
+    "Button pressed/selected assets and colors render without modifying the project during state inspection",
+    "Current output provenance and common-source shadowing agree with preview pixels",
+    "iOS drag changes shared group insets, independent stretch, and supports undo/redo",
+    "Android drag and multi-run add/remove editing reach generated PNG without changing artwork; reset restores native guides"
+  ],
+  "pageErrors": [],
+  "deviceVerified": false
+}

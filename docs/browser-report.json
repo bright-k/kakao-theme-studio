@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "evidence": [
+    "API authentication, cross-origin and path traversal checks",
+    "Create, save, switch projects and restore uploaded image / palette / bubble policy",
+    "Create author release key via UI",
+    "Generate both formats and download signed APK via UI",
+    "Portable project preserves images and excludes signing key",
+    "Four preview screens and PNG capture"
+  ],
+  "pageErrors": [],
+  "dataRoot": "/Users/bright/Documents/New project/kakao-theme-studio-v3/.test-data/browser-1792917335233",
+  "deviceVerified": false
+}

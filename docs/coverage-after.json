@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-25",
+  "scope": "26.9.0 official sample plus identified documented optional resources; actual KakaoTalk application unverified",
+  "iosProperties": 105,
+  "androidColors": 49,
+  "sampleImages": 127,
+  "imageVariants": 146,
+  "emitted": 146,
+  "intentionallyDisabled": [],
+  "missing": [],
+  "complete": true,
+  "actualAppVerified": false,
+  "logicalImageGroups": 82,
+  "editableIOSProperties": 66,
+  "metadataEditImageHashesStable": true,
+  "performance": {
+    "firstCompileMs": 361.8,
+    "metadataEditMs": 2.3
+  },
+  "scopeNote": "Coverage is defined against the bundled official 26.9.0 sample and identified guide additions, not every KakaoTalk version or actual application."
+}

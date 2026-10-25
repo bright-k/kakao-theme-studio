@@ -1,0 +1,2363 @@
+{
+  "profile": "kakaotalk-26.9.0",
+  "sourceUrl": "https://t1.kakaocdn.net/kakaotalk_theme/kakaotalk_theme_user_guide.zip",
+  "archiveSha256": "82c0cf80993072d855010a9e3a8eb03281f70da3af287e54526f59a05ab308df",
+  "scope": "26.9.0 official sample plus identified documented optional resources; actual KakaoTalk application unverified",
+  "iosProperties": [
+    {
+      "id": "ManifestStyle/-kakaotalk-theme-name",
+      "selector": "ManifestStyle",
+      "name": "-kakaotalk-theme-name",
+      "default": "'Apeach'",
+      "kind": "text",
+      "editable": false
+    },
+    {
+      "id": "ManifestStyle/-kakaotalk-theme-version",
+      "selector": "ManifestStyle",
+      "name": "-kakaotalk-theme-version",
+      "default": "'26.9.0'",
+      "kind": "text",
+      "editable": false
+    },
+    {
+      "id": "ManifestStyle/-kakaotalk-theme-url",
+      "selector": "ManifestStyle",
+      "name": "-kakaotalk-theme-url",
+      "default": "'http://www.kakao.com'",
+      "kind": "text",
+      "editable": false
+    },
+    {
+      "id": "ManifestStyle/-kakaotalk-author-name",
+      "selector": "ManifestStyle",
+      "name": "-kakaotalk-author-name",
+      "default": "'Kakao Corp.'",
+      "kind": "text",
+      "editable": false
+    },
+    {
+      "id": "ManifestStyle/-kakaotalk-theme-id",
+      "selector": "ManifestStyle",
+      "name": "-kakaotalk-theme-id",
+      "default": "'com.kakao.talk.theme.apeachios'",
+      "kind": "text",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/background-color",
+      "selector": "TabBarStyle-Main",
+      "name": "background-color",
+      "default": "",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-background-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-background-image",
+      "default": "'maintabBgImage.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-background-sidebar-color",
+      "selector": "TabBarStyle-Main",
+      "name": "-background-sidebar-color",
+      "default": "#FFDEDE",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-friends-normal-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-friends-normal-icon-image",
+      "default": "'maintabIcoFriends.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-friends-selected-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-friends-selected-icon-image",
+      "default": "'maintabIcoFriendsSelected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-chats-normal-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-chats-normal-icon-image",
+      "default": "'maintabIcoChats.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-chats-selected-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-chats-selected-icon-image",
+      "default": "'maintabIcoChatsSelected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-now-normal-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-now-normal-icon-image",
+      "default": "'maintabIcoNow.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-now-selected-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-now-selected-icon-image",
+      "default": "'maintabIcoNowSelected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-local-normal-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-local-normal-icon-image",
+      "default": "'maintabIcoLocal.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-local-selected-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-local-selected-icon-image",
+      "default": "'maintabIcoLocalSelected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-piccoma-normal-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-piccoma-normal-icon-image",
+      "default": "'maintabIcoPiccoma.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-piccoma-selected-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-piccoma-selected-icon-image",
+      "default": "'maintabIcoPiccomaSelected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-shopping-normal-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-shopping-normal-icon-image",
+      "default": "'maintabIcoShopping.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-shopping-selected-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-shopping-selected-icon-image",
+      "default": "'maintabIcoShoppingSelected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-call-normal-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-call-normal-icon-image",
+      "default": "'maintabIcoCall.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-call-selected-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-call-selected-icon-image",
+      "default": "'maintabIcoCallSelected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-more-normal-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-more-normal-icon-image",
+      "default": "'maintabIcoMore.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-more-selected-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-more-selected-icon-image",
+      "default": "'maintabIcoMoreSelected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-openchats-normal-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-openchats-normal-icon-image",
+      "default": "'maintabIcoNow.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "TabBarStyle-Main/-ios-openchats-selected-icon-image",
+      "selector": "TabBarStyle-Main",
+      "name": "-ios-openchats-selected-icon-image",
+      "default": "'maintabIcoNowSelected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "HeaderStyle-Main/-ios-text-color",
+      "selector": "HeaderStyle-Main",
+      "name": "-ios-text-color",
+      "default": "#664242",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "HeaderStyle-Main/-ios-tab-text-color",
+      "selector": "HeaderStyle-Main",
+      "name": "-ios-tab-text-color",
+      "default": "#B39898",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "HeaderStyle-Main/-ios-tab-highlighted-text-color",
+      "selector": "HeaderStyle-Main",
+      "name": "-ios-tab-highlighted-text-color",
+      "default": "#664242",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MainViewStyle-Primary/background-color",
+      "selector": "MainViewStyle-Primary",
+      "name": "background-color",
+      "default": "#FFDEDE",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MainViewStyle-Primary/-ios-background-image",
+      "selector": "MainViewStyle-Primary",
+      "name": "-ios-background-image",
+      "default": "'mainBgImage.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "MainViewStyle-Primary/-ios-text-color",
+      "selector": "MainViewStyle-Primary",
+      "name": "-ios-text-color",
+      "default": "#664242",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MainViewStyle-Primary/-ios-highlighted-text-color",
+      "selector": "MainViewStyle-Primary",
+      "name": "-ios-highlighted-text-color",
+      "default": "#946C6C",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MainViewStyle-Primary/-ios-description-text-color",
+      "selector": "MainViewStyle-Primary",
+      "name": "-ios-description-text-color",
+      "default": "#805959",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MainViewStyle-Primary/-ios-description-highlighted-text-color",
+      "selector": "MainViewStyle-Primary",
+      "name": "-ios-description-highlighted-text-color",
+      "default": "#946C6C",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MainViewStyle-Primary/-ios-paragraph-text-color",
+      "selector": "MainViewStyle-Primary",
+      "name": "-ios-paragraph-text-color",
+      "default": "#805959",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MainViewStyle-Primary/-ios-paragraph-highlighted-text-color",
+      "selector": "MainViewStyle-Primary",
+      "name": "-ios-paragraph-highlighted-text-color",
+      "default": "#946C6C",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MainViewStyle-Primary/-ios-normal-background-color",
+      "selector": "MainViewStyle-Primary",
+      "name": "-ios-normal-background-color",
+      "default": "#F66C6C",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MainViewStyle-Primary/-ios-normal-background-alpha",
+      "selector": "MainViewStyle-Primary",
+      "name": "-ios-normal-background-alpha",
+      "default": "0.0",
+      "kind": "number",
+      "editable": true
+    },
+    {
+      "id": "MainViewStyle-Primary/-ios-selected-background-color",
+      "selector": "MainViewStyle-Primary",
+      "name": "-ios-selected-background-color",
+      "default": "#664242",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MainViewStyle-Primary/-ios-selected-background-alpha",
+      "selector": "MainViewStyle-Primary",
+      "name": "-ios-selected-background-alpha",
+      "default": "0.05",
+      "kind": "number",
+      "editable": true
+    },
+    {
+      "id": "MainViewStyle-Secondary/background-color",
+      "selector": "MainViewStyle-Secondary",
+      "name": "background-color",
+      "default": "#FFDEDE",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "SectionTitleStyle-Main/border-color",
+      "selector": "SectionTitleStyle-Main",
+      "name": "border-color",
+      "default": "#F66C6C",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "SectionTitleStyle-Main/border-alpha",
+      "selector": "SectionTitleStyle-Main",
+      "name": "border-alpha",
+      "default": "0.09",
+      "kind": "number",
+      "editable": true
+    },
+    {
+      "id": "SectionTitleStyle-Main/-ios-text-color",
+      "selector": "SectionTitleStyle-Main",
+      "name": "-ios-text-color",
+      "default": "#F66C6C",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "SectionTitleStyle-Main/-ios-text-alpha",
+      "selector": "SectionTitleStyle-Main",
+      "name": "-ios-text-alpha",
+      "default": "1.0",
+      "kind": "number",
+      "editable": true
+    },
+    {
+      "id": "FeatureStyle-Primary/-ios-text-color",
+      "selector": "FeatureStyle-Primary",
+      "name": "-ios-text-color",
+      "default": "#805959",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "ButtonStyle-Main/background-color",
+      "selector": "ButtonStyle-Main",
+      "name": "background-color",
+      "default": "#F3D2D2",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "ButtonStyle-Main/-ios-highlighted-background-color",
+      "selector": "ButtonStyle-Main",
+      "name": "-ios-highlighted-background-color",
+      "default": "#DFC1C1",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "ButtonStyle-Main/-ios-selected-background-color",
+      "selector": "ButtonStyle-Main",
+      "name": "-ios-selected-background-color",
+      "default": "#664242",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "ButtonStyle-AddFriend/-ios-image",
+      "selector": "ButtonStyle-AddFriend",
+      "name": "-ios-image",
+      "default": "'findBtnAddFriend.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "DefaultProfileStyle/-ios-profile-images",
+      "selector": "DefaultProfileStyle",
+      "name": "-ios-profile-images",
+      "default": "'profileImg01.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "BackgroundStyle-ChatRoom/background-color",
+      "selector": "BackgroundStyle-ChatRoom",
+      "name": "background-color",
+      "default": "#FFDEDE",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "BackgroundStyle-ChatRoom/-ios-background-image",
+      "selector": "BackgroundStyle-ChatRoom",
+      "name": "-ios-background-image",
+      "default": "'chatroomBgImage.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "InputBarStyle-Chat/background-color",
+      "selector": "InputBarStyle-Chat",
+      "name": "background-color",
+      "default": "#FFFFFF",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "InputBarStyle-Chat/-ios-send-normal-background-color",
+      "selector": "InputBarStyle-Chat",
+      "name": "-ios-send-normal-background-color",
+      "default": "#FF7F7F",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "InputBarStyle-Chat/-ios-send-normal-foreground-color",
+      "selector": "InputBarStyle-Chat",
+      "name": "-ios-send-normal-foreground-color",
+      "default": "#FFFFFF",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "InputBarStyle-Chat/-ios-send-highlighted-background-color",
+      "selector": "InputBarStyle-Chat",
+      "name": "-ios-send-highlighted-background-color",
+      "default": "#F27979",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "InputBarStyle-Chat/-ios-send-highlighted-foreground-color",
+      "selector": "InputBarStyle-Chat",
+      "name": "-ios-send-highlighted-foreground-color",
+      "default": "#FFDEDE",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "InputBarStyle-Chat/-ios-button-normal-foreground-color",
+      "selector": "InputBarStyle-Chat",
+      "name": "-ios-button-normal-foreground-color",
+      "default": "#E86464",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "InputBarStyle-Chat/-ios-button-highlighted-foreground-color",
+      "selector": "InputBarStyle-Chat",
+      "name": "-ios-button-highlighted-foreground-color",
+      "default": "#CB6F6F",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "InputBarStyle-Chat/-ios-button-text-color",
+      "selector": "InputBarStyle-Chat",
+      "name": "-ios-button-text-color",
+      "default": "#191919",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "InputBarStyle-Chat/-ios-button-normal-background-color",
+      "selector": "InputBarStyle-Chat",
+      "name": "-ios-button-normal-background-color",
+      "default": "#000000",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "InputBarStyle-Chat/-ios-button-normal-background-alpha",
+      "selector": "InputBarStyle-Chat",
+      "name": "-ios-button-normal-background-alpha",
+      "default": "0.04",
+      "kind": "number",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Send/-ios-background-image",
+      "selector": "MessageCellStyle-Send",
+      "name": "-ios-background-image",
+      "default": "'chatroomBubbleSend01.png' 17px 17px",
+      "kind": "stretch",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Send/-ios-selected-background-image",
+      "selector": "MessageCellStyle-Send",
+      "name": "-ios-selected-background-image",
+      "default": "'chatroomBubbleSend01Selected.png' 17px 17px",
+      "kind": "stretch",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Send/-ios-group-background-image",
+      "selector": "MessageCellStyle-Send",
+      "name": "-ios-group-background-image",
+      "default": "'chatroomBubbleSend02.png' 17px 17px",
+      "kind": "stretch",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Send/-ios-group-selected-background-image",
+      "selector": "MessageCellStyle-Send",
+      "name": "-ios-group-selected-background-image",
+      "default": "'chatroomBubbleSend02Selected.png' 17px 17px",
+      "kind": "stretch",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Send/-ios-title-edgeinsets",
+      "selector": "MessageCellStyle-Send",
+      "name": "-ios-title-edgeinsets",
+      "default": "10px 11px 7px 17px",
+      "kind": "insets",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Send/-ios-group-title-edgeinsets",
+      "selector": "MessageCellStyle-Send",
+      "name": "-ios-group-title-edgeinsets",
+      "default": "10px 11px 7px 17px",
+      "kind": "insets",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Send/-ios-text-color",
+      "selector": "MessageCellStyle-Send",
+      "name": "-ios-text-color",
+      "default": "#FFFFFF",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Send/-ios-selected-text-color",
+      "selector": "MessageCellStyle-Send",
+      "name": "-ios-selected-text-color",
+      "default": "#FFFFFF",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Send/-ios-unread-text-color",
+      "selector": "MessageCellStyle-Send",
+      "name": "-ios-unread-text-color",
+      "default": "#FF7F7F",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Receive/-ios-background-image",
+      "selector": "MessageCellStyle-Receive",
+      "name": "-ios-background-image",
+      "default": "'chatroomBubbleReceive01.png' 22px 17px",
+      "kind": "stretch",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Receive/-ios-selected-background-image",
+      "selector": "MessageCellStyle-Receive",
+      "name": "-ios-selected-background-image",
+      "default": "'chatroomBubbleReceive01Selected.png' 22px 17px",
+      "kind": "stretch",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Receive/-ios-group-background-image",
+      "selector": "MessageCellStyle-Receive",
+      "name": "-ios-group-background-image",
+      "default": "'chatroomBubbleReceive02.png' 22px 17px",
+      "kind": "stretch",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Receive/-ios-group-selected-background-image",
+      "selector": "MessageCellStyle-Receive",
+      "name": "-ios-group-selected-background-image",
+      "default": "'chatroomBubbleReceive02Selected.png' 22px 17px",
+      "kind": "stretch",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Receive/-ios-title-edgeinsets",
+      "selector": "MessageCellStyle-Receive",
+      "name": "-ios-title-edgeinsets",
+      "default": "10px 17px 7px 11px",
+      "kind": "insets",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Receive/-ios-group-title-edgeinsets",
+      "selector": "MessageCellStyle-Receive",
+      "name": "-ios-group-title-edgeinsets",
+      "default": "10px 17px 7px 11px",
+      "kind": "insets",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Receive/-ios-text-color",
+      "selector": "MessageCellStyle-Receive",
+      "name": "-ios-text-color",
+      "default": "#4D4D4D",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Receive/-ios-selected-text-color",
+      "selector": "MessageCellStyle-Receive",
+      "name": "-ios-selected-text-color",
+      "default": "#4D4D4D",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "MessageCellStyle-Receive/-ios-unread-text-color",
+      "selector": "MessageCellStyle-Receive",
+      "name": "-ios-unread-text-color",
+      "default": "#FF7F7F",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "BackgroundStyle-Passcode/background-color",
+      "selector": "BackgroundStyle-Passcode",
+      "name": "background-color",
+      "default": "#FFDEDE",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "BackgroundStyle-Passcode/-ios-background-image",
+      "selector": "BackgroundStyle-Passcode",
+      "name": "-ios-background-image",
+      "default": "'passcodeBgImage.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "LabelStyle-PasscodeTitle/-ios-text-color",
+      "selector": "LabelStyle-PasscodeTitle",
+      "name": "-ios-text-color",
+      "default": "#664242",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "PasscodeStyle/-ios-bullet-first-image",
+      "selector": "PasscodeStyle",
+      "name": "-ios-bullet-first-image",
+      "default": "'passcodeImgCode01.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "PasscodeStyle/-ios-bullet-second-image",
+      "selector": "PasscodeStyle",
+      "name": "-ios-bullet-second-image",
+      "default": "'passcodeImgCode02.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "PasscodeStyle/-ios-bullet-third-image",
+      "selector": "PasscodeStyle",
+      "name": "-ios-bullet-third-image",
+      "default": "'passcodeImgCode03.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "PasscodeStyle/-ios-bullet-fourth-image",
+      "selector": "PasscodeStyle",
+      "name": "-ios-bullet-fourth-image",
+      "default": "'passcodeImgCode04.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "PasscodeStyle/-ios-bullet-selected-first-image",
+      "selector": "PasscodeStyle",
+      "name": "-ios-bullet-selected-first-image",
+      "default": "'passcodeImgCode01Selected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "PasscodeStyle/-ios-bullet-selected-second-image",
+      "selector": "PasscodeStyle",
+      "name": "-ios-bullet-selected-second-image",
+      "default": "'passcodeImgCode02Selected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "PasscodeStyle/-ios-bullet-selected-third-image",
+      "selector": "PasscodeStyle",
+      "name": "-ios-bullet-selected-third-image",
+      "default": "'passcodeImgCode03Selected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "PasscodeStyle/-ios-bullet-selected-fourth-image",
+      "selector": "PasscodeStyle",
+      "name": "-ios-bullet-selected-fourth-image",
+      "default": "'passcodeImgCode04Selected.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "PasscodeStyle/-ios-keypad-background-color",
+      "selector": "PasscodeStyle",
+      "name": "-ios-keypad-background-color",
+      "default": "#FFF2F2",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "PasscodeStyle/-ios-keypad-text-normal-color",
+      "selector": "PasscodeStyle",
+      "name": "-ios-keypad-text-normal-color",
+      "default": "#664242",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "PasscodeStyle/-ios-keypad-number-highlighted-image",
+      "selector": "PasscodeStyle",
+      "name": "-ios-keypad-number-highlighted-image",
+      "default": "'passcodeKeypadPressed.png'",
+      "kind": "image",
+      "editable": false
+    },
+    {
+      "id": "BackgroundStyle-MessageNotificationBar/background-color",
+      "selector": "BackgroundStyle-MessageNotificationBar",
+      "name": "background-color",
+      "default": "#FCC5C5",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "LabelStyle-MessageNotificationBarName/-ios-text-color",
+      "selector": "LabelStyle-MessageNotificationBarName",
+      "name": "-ios-text-color",
+      "default": "#604242",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "LabelStyle-MessageNotificationBarMessage/-ios-text-color",
+      "selector": "LabelStyle-MessageNotificationBarMessage",
+      "name": "-ios-text-color",
+      "default": "#805959",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "BackgroundStyle-DirectShareBar/background-color",
+      "selector": "BackgroundStyle-DirectShareBar",
+      "name": "background-color",
+      "default": "#FFFFFF",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "LabelStyle-DirectShareBarName/-ios-text-color",
+      "selector": "LabelStyle-DirectShareBarName",
+      "name": "-ios-text-color",
+      "default": "#B35959",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "LabelStyle-DirectShareBarMessage/-ios-text-color",
+      "selector": "LabelStyle-DirectShareBarMessage",
+      "name": "-ios-text-color",
+      "default": "#D47B82",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "BottomBannerStyle/background-color",
+      "selector": "BottomBannerStyle",
+      "name": "background-color",
+      "default": "#664142",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "BottomBannerStyle-Light/background-color",
+      "selector": "BottomBannerStyle-Light",
+      "name": "background-color",
+      "default": "#664242",
+      "kind": "color",
+      "editable": true
+    },
+    {
+      "id": "ManifestStyle/-kakaotalk-theme-style",
+      "selector": "ManifestStyle",
+      "name": "-kakaotalk-theme-style",
+      "default": "'light'",
+      "kind": "text",
+      "editable": false,
+      "source": "guide"
+    }
+  ],
+  "androidColors": [
+    {
+      "id": "theme_header_color",
+      "default": "#664242"
+    },
+    {
+      "id": "theme_section_title_color",
+      "default": "#F66C6C"
+    },
+    {
+      "id": "theme_title_color",
+      "default": "#664242"
+    },
+    {
+      "id": "theme_title_pressed_color",
+      "default": "#B06B6B"
+    },
+    {
+      "id": "theme_paragraph_color",
+      "default": "#805959"
+    },
+    {
+      "id": "theme_paragraph_pressed_color",
+      "default": "#B06B6B"
+    },
+    {
+      "id": "theme_description_color",
+      "default": "#805959"
+    },
+    {
+      "id": "theme_description_pressed_color",
+      "default": "#B06B6B"
+    },
+    {
+      "id": "theme_feature_primary_color",
+      "default": "#805959"
+    },
+    {
+      "id": "theme_feature_primary_pressed_color",
+      "default": "#B06B6B"
+    },
+    {
+      "id": "theme_feature_browse_tab_color",
+      "default": "#D49B9B"
+    },
+    {
+      "id": "theme_feature_browse_tab_focused_color",
+      "default": "#664242"
+    },
+    {
+      "id": "theme_background_color",
+      "default": "#FFDEDE"
+    },
+    {
+      "id": "theme_chatroom_background_color",
+      "default": "#FFDEDE"
+    },
+    {
+      "id": "theme_passcode_background_color",
+      "default": "#FCC5C5"
+    },
+    {
+      "id": "theme_header_cell_color",
+      "default": "#FFDEDE"
+    },
+    {
+      "id": "theme_body_cell_color",
+      "default": "#00FFDEDE"
+    },
+    {
+      "id": "theme_body_cell_pressed_color",
+      "default": "#FFB3B3"
+    },
+    {
+      "id": "theme_body_cell_border_color",
+      "default": "#26664242"
+    },
+    {
+      "id": "theme_body_secondary_cell_color",
+      "default": "#FFDEDE"
+    },
+    {
+      "id": "theme_maintab_cell_color",
+      "default": "#00FFFFFF"
+    },
+    {
+      "id": "theme_tab_lightbannerbadge_background_color",
+      "default": "#664242"
+    },
+    {
+      "id": "theme_tab_bannerbadge_background_color",
+      "default": "#664142"
+    },
+    {
+      "id": "theme_direct_share_color",
+      "default": "#664242"
+    },
+    {
+      "id": "theme_direct_share_button_color",
+      "default": "#E87D7D"
+    },
+    {
+      "id": "theme_direct_share_background_color",
+      "default": "#FFF2F2"
+    },
+    {
+      "id": "theme_notification_color",
+      "default": "#664242"
+    },
+    {
+      "id": "theme_notification_background_color",
+      "default": "#FFD4D4"
+    },
+    {
+      "id": "theme_notification_background_pressed_color",
+      "default": "#FFB3B3"
+    },
+    {
+      "id": "theme_passcode_color",
+      "default": "#664242"
+    },
+    {
+      "id": "theme_passcode_keypad_color",
+      "default": "#664242"
+    },
+    {
+      "id": "theme_passcode_keypad_pressed_color",
+      "default": "#CCB8B8"
+    },
+    {
+      "id": "theme_passcode_keypad_background_color",
+      "default": "#FFF2F2"
+    },
+    {
+      "id": "theme_passcode_keypad_pressed_background_color",
+      "default": "#99FFDEDE"
+    },
+    {
+      "id": "theme_passcode_pattern_line_color",
+      "default": "#FCC5C5"
+    },
+    {
+      "id": "theme_chatroom_bubble_me_color",
+      "default": "#FFFFFF"
+    },
+    {
+      "id": "theme_chatroom_bubble_you_color",
+      "default": "#4D4D4D"
+    },
+    {
+      "id": "theme_chatroom_unread_count_color",
+      "default": "#FF7F7F"
+    },
+    {
+      "id": "theme_chatroom_input_bar_color",
+      "default": "#191919"
+    },
+    {
+      "id": "theme_chatroom_input_bar_background_color",
+      "default": "#FFFFFF"
+    },
+    {
+      "id": "theme_chatroom_input_bar_menu_icon_color",
+      "default": "#E86464"
+    },
+    {
+      "id": "theme_chatroom_input_bar_menu_button_color",
+      "default": "#0A000000"
+    },
+    {
+      "id": "theme_chatroom_input_bar_send_icon_color",
+      "default": "#FFFFFF"
+    },
+    {
+      "id": "theme_chatroom_input_bar_send_button_color",
+      "default": "#FF7F7F"
+    },
+    {
+      "id": "theme_button_background_color",
+      "default": "#F3D2D2"
+    },
+    {
+      "id": "theme_button_pressed_background_color",
+      "default": "#E0C1C1"
+    },
+    {
+      "id": "theme_button_selected_background_color",
+      "default": "#664242"
+    },
+    {
+      "id": "theme_navigationbar_background_color",
+      "default": "#FFFFFF"
+    },
+    {
+      "id": "theme_navigationrail_background_color",
+      "default": "#FFDEDE"
+    }
+  ],
+  "files": [
+    {
+      "path": "android/res/drawable-land-xhdpi/theme_splash_image.png",
+      "platform": "android",
+      "fileName": "theme_splash_image.png",
+      "width": 1280,
+      "height": 720,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-land-xxhdpi/theme_splash_image.png",
+      "platform": "android",
+      "fileName": "theme_splash_image.png",
+      "width": 2560,
+      "height": 1440,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-nodpi/theme_profile_01_image_full.png",
+      "platform": "android",
+      "fileName": "theme_profile_01_image_full.png",
+      "width": 320,
+      "height": 320,
+      "ninePatch": false,
+      "source": "guide"
+    },
+    {
+      "path": "android/res/drawable-nodpi/theme_profile_02_image_full.png",
+      "platform": "android",
+      "fileName": "theme_profile_02_image_full.png",
+      "width": 320,
+      "height": 320,
+      "ninePatch": false,
+      "source": "guide"
+    },
+    {
+      "path": "android/res/drawable-nodpi/theme_profile_03_image_full.png",
+      "platform": "android",
+      "fileName": "theme_profile_03_image_full.png",
+      "width": 320,
+      "height": 320,
+      "ninePatch": false,
+      "source": "guide"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-land-xxhdpi/theme_splash_image.png",
+      "platform": "android",
+      "fileName": "theme_splash_image.png",
+      "width": 2560,
+      "height": 1440,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxhdpi/theme_background_image.png",
+      "platform": "android",
+      "fileName": "theme_background_image.png",
+      "width": 1440,
+      "height": 2880,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxhdpi/theme_chatroom_background_image.png",
+      "platform": "android",
+      "fileName": "theme_chatroom_background_image.png",
+      "width": 1440,
+      "height": 2880,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxhdpi/theme_maintab_cell_image.9.png",
+      "platform": "android",
+      "fileName": "theme_maintab_cell_image.9.png",
+      "width": 1442,
+      "height": 214,
+      "ninePatch": true,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxhdpi/theme_passcode_background_image.png",
+      "platform": "android",
+      "fileName": "theme_passcode_background_image.png",
+      "width": 1440,
+      "height": 1440,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxhdpi/theme_splash_image.png",
+      "platform": "android",
+      "fileName": "theme_splash_image.png",
+      "width": 1440,
+      "height": 2560,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_call_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_call_focused_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_call_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_call_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_chats_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_chats_focused_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_chats_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_chats_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_friends_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_friends_focused_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_friends_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_friends_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_local_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_local_focused_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_local_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_local_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_more_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_more_focused_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_more_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_more_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_now_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_now_focused_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_now_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_now_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_piccoma_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_piccoma_focused_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_piccoma_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_piccoma_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_shopping_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_shopping_focused_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-sw600dp-xxxhdpi/theme_maintab_ico_shopping_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_shopping_image.png",
+      "width": 152,
+      "height": 152,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xhdpi/theme_splash_image.png",
+      "platform": "android",
+      "fileName": "theme_splash_image.png",
+      "width": 720,
+      "height": 1280,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_background_image.png",
+      "platform": "android",
+      "fileName": "theme_background_image.png",
+      "width": 1440,
+      "height": 2880,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_chatroom_background_image.png",
+      "platform": "android",
+      "fileName": "theme_chatroom_background_image.png",
+      "width": 1440,
+      "height": 2880,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_chatroom_bubble_me_01_image.9.png",
+      "platform": "android",
+      "fileName": "theme_chatroom_bubble_me_01_image.9.png",
+      "width": 124,
+      "height": 114,
+      "ninePatch": true,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_chatroom_bubble_me_02_image.9.png",
+      "platform": "android",
+      "fileName": "theme_chatroom_bubble_me_02_image.9.png",
+      "width": 124,
+      "height": 114,
+      "ninePatch": true,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_chatroom_bubble_you_01_image.9.png",
+      "platform": "android",
+      "fileName": "theme_chatroom_bubble_you_01_image.9.png",
+      "width": 124,
+      "height": 114,
+      "ninePatch": true,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_chatroom_bubble_you_02_image.9.png",
+      "platform": "android",
+      "fileName": "theme_chatroom_bubble_you_02_image.9.png",
+      "width": 124,
+      "height": 114,
+      "ninePatch": true,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_find_add_friend_button_image.png",
+      "platform": "android",
+      "fileName": "theme_find_add_friend_button_image.png",
+      "width": 126,
+      "height": 102,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_find_add_friend_button_pressed_image.png",
+      "platform": "android",
+      "fileName": "theme_find_add_friend_button_pressed_image.png",
+      "width": 126,
+      "height": 102,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_cell_image.9.png",
+      "platform": "android",
+      "fileName": "theme_maintab_cell_image.9.png",
+      "width": 1442,
+      "height": 214,
+      "ninePatch": true,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_call_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_call_focused_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_call_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_call_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_chats_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_chats_focused_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_chats_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_chats_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_friends_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_friends_focused_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_friends_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_friends_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_local_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_local_focused_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_local_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_local_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_more_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_more_focused_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_more_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_more_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_now_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_now_focused_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_now_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_now_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_piccoma_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_piccoma_focused_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_piccoma_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_piccoma_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_shopping_focused_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_shopping_focused_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_maintab_ico_shopping_image.png",
+      "platform": "android",
+      "fileName": "theme_maintab_ico_shopping_image.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_passcode_01_checked_image.png",
+      "platform": "android",
+      "fileName": "theme_passcode_01_checked_image.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_passcode_01_image.png",
+      "platform": "android",
+      "fileName": "theme_passcode_01_image.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_passcode_02_checked_image.png",
+      "platform": "android",
+      "fileName": "theme_passcode_02_checked_image.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_passcode_02_image.png",
+      "platform": "android",
+      "fileName": "theme_passcode_02_image.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_passcode_03_checked_image.png",
+      "platform": "android",
+      "fileName": "theme_passcode_03_checked_image.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_passcode_03_image.png",
+      "platform": "android",
+      "fileName": "theme_passcode_03_image.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_passcode_04_checked_image.png",
+      "platform": "android",
+      "fileName": "theme_passcode_04_checked_image.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_passcode_04_image.png",
+      "platform": "android",
+      "fileName": "theme_passcode_04_image.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_passcode_background_image.png",
+      "platform": "android",
+      "fileName": "theme_passcode_background_image.png",
+      "width": 1440,
+      "height": 1440,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_profile_01_image.png",
+      "platform": "android",
+      "fileName": "theme_profile_01_image.png",
+      "width": 240,
+      "height": 240,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_profile_02_image.png",
+      "platform": "android",
+      "fileName": "theme_profile_02_image.png",
+      "width": 220,
+      "height": 220,
+      "ninePatch": false,
+      "source": "guide"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_profile_03_image.png",
+      "platform": "android",
+      "fileName": "theme_profile_03_image.png",
+      "width": 220,
+      "height": 220,
+      "ninePatch": false,
+      "source": "guide"
+    },
+    {
+      "path": "android/res/drawable-xxhdpi/theme_splash_image.png",
+      "platform": "android",
+      "fileName": "theme_splash_image.png",
+      "width": 1440,
+      "height": 2560,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "android/res/drawable/icon.png",
+      "platform": "android",
+      "fileName": "icon.png",
+      "width": 144,
+      "height": 144,
+      "ninePatch": false,
+      "source": "guide"
+    },
+    {
+      "path": "ios/Images/chatroomBgImage@2x.png",
+      "platform": "ios",
+      "fileName": "chatroomBgImage@2x.png",
+      "width": 750,
+      "height": 1500,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/chatroomBgImage@3x.png",
+      "platform": "ios",
+      "fileName": "chatroomBgImage@3x.png",
+      "width": 1125,
+      "height": 2250,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleReceive01@2x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleReceive01@2x.png",
+      "width": 80,
+      "height": 70,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleReceive01@3x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleReceive01@3x.png",
+      "width": 120,
+      "height": 105,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleReceive01Selected@2x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleReceive01Selected@2x.png",
+      "width": 80,
+      "height": 70,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleReceive01Selected@3x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleReceive01Selected@3x.png",
+      "width": 121,
+      "height": 105,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleReceive02@2x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleReceive02@2x.png",
+      "width": 80,
+      "height": 70,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleReceive02@3x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleReceive02@3x.png",
+      "width": 120,
+      "height": 105,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleReceive02Selected@2x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleReceive02Selected@2x.png",
+      "width": 80,
+      "height": 70,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleReceive02Selected@3x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleReceive02Selected@3x.png",
+      "width": 121,
+      "height": 105,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleSend01@2x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleSend01@2x.png",
+      "width": 80,
+      "height": 70,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleSend01@3x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleSend01@3x.png",
+      "width": 120,
+      "height": 105,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleSend01Selected@2x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleSend01Selected@2x.png",
+      "width": 80,
+      "height": 70,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleSend01Selected@3x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleSend01Selected@3x.png",
+      "width": 120,
+      "height": 105,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleSend02@2x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleSend02@2x.png",
+      "width": 80,
+      "height": 70,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleSend02@3x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleSend02@3x.png",
+      "width": 120,
+      "height": 105,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleSend02Selected@2x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleSend02Selected@2x.png",
+      "width": 80,
+      "height": 70,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/chatroomBubbleSend02Selected@3x.png",
+      "platform": "ios",
+      "fileName": "chatroomBubbleSend02Selected@3x.png",
+      "width": 120,
+      "height": 105,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/commonIcoTheme.png",
+      "platform": "ios",
+      "fileName": "commonIcoTheme.png",
+      "width": 162,
+      "height": 162,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/findBtnAddFriend@2x.png",
+      "platform": "ios",
+      "fileName": "findBtnAddFriend@2x.png",
+      "width": 84,
+      "height": 68,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/findBtnAddFriend@3x.png",
+      "platform": "ios",
+      "fileName": "findBtnAddFriend@3x.png",
+      "width": 126,
+      "height": 102,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/mainBgImage@2x.png",
+      "platform": "ios",
+      "fileName": "mainBgImage@2x.png",
+      "width": 750,
+      "height": 1500,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/mainBgImage@3x.png",
+      "platform": "ios",
+      "fileName": "mainBgImage@3x.png",
+      "width": 1125,
+      "height": 2250,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabBgImage@2x.png",
+      "platform": "ios",
+      "fileName": "maintabBgImage@2x.png",
+      "width": 940,
+      "height": 98,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabBgImage@3x.png",
+      "platform": "ios",
+      "fileName": "maintabBgImage@3x.png",
+      "width": 1410,
+      "height": 147,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoCall@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoCall@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoCall@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoCall@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoCallSelected@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoCallSelected@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoCallSelected@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoCallSelected@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoChats@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoChats@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoChats@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoChats@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoChatsSelected@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoChatsSelected@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoChatsSelected@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoChatsSelected@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoFriends@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoFriends@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoFriends@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoFriends@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoFriendsSelected@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoFriendsSelected@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoFriendsSelected@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoFriendsSelected@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoLocal@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoLocal@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoLocal@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoLocal@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoLocalSelected@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoLocalSelected@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoLocalSelected@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoLocalSelected@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoMore@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoMore@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoMore@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoMore@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoMoreSelected@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoMoreSelected@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoMoreSelected@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoMoreSelected@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoNow@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoNow@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoNow@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoNow@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoNowSelected@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoNowSelected@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoNowSelected@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoNowSelected@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoPiccoma@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoPiccoma@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoPiccoma@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoPiccoma@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoPiccomaSelected@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoPiccomaSelected@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoPiccomaSelected@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoPiccomaSelected@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoShopping@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoShopping@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoShopping@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoShopping@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoShoppingSelected@2x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoShoppingSelected@2x.png",
+      "width": 76,
+      "height": 76,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/maintabIcoShoppingSelected@3x.png",
+      "platform": "ios",
+      "fileName": "maintabIcoShoppingSelected@3x.png",
+      "width": 114,
+      "height": 114,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/passcodeBgImage@2x.png",
+      "platform": "ios",
+      "fileName": "passcodeBgImage@2x.png",
+      "width": 800,
+      "height": 800,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/passcodeBgImage@3x.png",
+      "platform": "ios",
+      "fileName": "passcodeBgImage@3x.png",
+      "width": 1200,
+      "height": 1200,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode01@2x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode01@2x.png",
+      "width": 88,
+      "height": 88,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode01@3x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode01@3x.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode01Selected@2x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode01Selected@2x.png",
+      "width": 88,
+      "height": 88,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode01Selected@3x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode01Selected@3x.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode02@2x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode02@2x.png",
+      "width": 88,
+      "height": 88,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode02@3x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode02@3x.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode02Selected@2x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode02Selected@2x.png",
+      "width": 88,
+      "height": 88,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode02Selected@3x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode02Selected@3x.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode03@2x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode03@2x.png",
+      "width": 88,
+      "height": 88,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode03@3x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode03@3x.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode03Selected@2x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode03Selected@2x.png",
+      "width": 88,
+      "height": 88,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode03Selected@3x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode03Selected@3x.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode04@2x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode04@2x.png",
+      "width": 88,
+      "height": 88,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode04@3x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode04@3x.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode04Selected@2x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode04Selected@2x.png",
+      "width": 88,
+      "height": 88,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/passcodeImgCode04Selected@3x.png",
+      "platform": "ios",
+      "fileName": "passcodeImgCode04Selected@3x.png",
+      "width": 132,
+      "height": 132,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/passcodeKeypadPressed@2x.png",
+      "platform": "ios",
+      "fileName": "passcodeKeypadPressed@2x.png",
+      "width": 120,
+      "height": 120,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/passcodeKeypadPressed@3x.png",
+      "platform": "ios",
+      "fileName": "passcodeKeypadPressed@3x.png",
+      "width": 180,
+      "height": 180,
+      "ninePatch": false,
+      "source": "sample"
+    },
+    {
+      "path": "ios/Images/profileImg01@2x.png",
+      "platform": "ios",
+      "fileName": "profileImg01@2x.png",
+      "width": 240,
+      "height": 240,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/profileImg01@3x.png",
+      "platform": "ios",
+      "fileName": "profileImg01@3x.png",
+      "width": 360,
+      "height": 360,
+      "ninePatch": false,
+      "source": "sample"
+    }
+  ]
+}

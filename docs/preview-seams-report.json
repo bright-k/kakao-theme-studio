@@ -1,0 +1,71 @@
+{
+  "browser": "chromium",
+  "sourceInteriorUniform": true,
+  "cases": [
+    {
+      "alpha": 1,
+      "scale": 2,
+      "multiple": false,
+      "alphas": [
+        255
+      ]
+    },
+    {
+      "alpha": 1,
+      "scale": 2,
+      "multiple": true,
+      "alphas": [
+        255
+      ]
+    },
+    {
+      "alpha": 1,
+      "scale": 3,
+      "multiple": false,
+      "alphas": [
+        255
+      ]
+    },
+    {
+      "alpha": 1,
+      "scale": 3,
+      "multiple": true,
+      "alphas": [
+        255
+      ]
+    },
+    {
+      "alpha": 0.5,
+      "scale": 2,
+      "multiple": false,
+      "alphas": [
+        128
+      ]
+    },
+    {
+      "alpha": 0.5,
+      "scale": 2,
+      "multiple": true,
+      "alphas": [
+        128
+      ]
+    },
+    {
+      "alpha": 0.5,
+      "scale": 3,
+      "multiple": false,
+      "alphas": [
+        128
+      ]
+    },
+    {
+      "alpha": 0.5,
+      "scale": 3,
+      "multiple": true,
+      "alphas": [
+        128
+      ]
+    }
+  ],
+  "deviceVerified": false
+}

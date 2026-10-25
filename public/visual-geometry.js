@@ -1,0 +1,43 @@
+import {iosGeometryBinding,resizeGeometry,moveGuide} from './geometry-model.js';
+const make=(tag,text)=>{const el=document.createElement(tag);if(text)el.textContent=text;return el;};
+export function createVisualGeometry({host,resource,getProject,getPreview,getVariant,edit,toast}){
+ const ios=resource.platform==='ios',binding=iosGeometryBinding(resource.name);
+ if(ios?!binding:!resource.variants.some(f=>f.ninePatch))return {update(){},destroy(){}};
+ const box=make('section');box.className='visual-geometry';box.append(make('h3','늘림·여백 시각 편집'));
+ const note=make('p',ios?'초록/파랑: 늘림 지점 · 주황: 내용 여백. iOS 1배수 좌표입니다. 선택 상태와 기본 상태는 내용 여백을 공유합니다.':'초록/파랑: 늘림 구간 · 주황: 내용 영역. 원본의 여러 늘림 구간을 유지하며 출력별 픽셀 좌표로 편집합니다.');note.className='muted';box.append(note);
+ const mode=make('select');mode.setAttribute('aria-label','가이드 편집 모드');mode.append(new Option('늘림 영역','stretch'),new Option('내용 여백','insets'));box.append(mode);
+ const guide=make('select');guide.setAttribute('aria-label','조정할 가이드');box.append(guide);
+ const canvas=make('canvas');canvas.width=560;canvas.height=320;canvas.className='geometry-canvas';canvas.setAttribute('aria-label','늘림·여백 드래그 편집');canvas.style.touchAction='none';box.append(canvas);
+ const status=make('p');status.className='muted';box.append(status);const fields=make('div');fields.className='geometry-fields';box.append(fields);
+ const reset=make('button','이 늘림·여백을 자동으로');reset.type='button';box.append(reset);host.append(box);
+ let image=null,meta=null,path=null,frame=null,g=null,handles=[],dragging=null,gesture=0,structure=null,destroyed=false;
+ function targets(){const variant=getVariant();return variant==='all'?resource.variants.map(f=>f.path):[variant];}
+ function current(){const p=getProject();if(ios){const v=getPreview()?.views?.ios?.values??{},xy=p.overrides?.ios?.[binding.stretch]??v[binding.stretch]??[p.bubble.stretchX,p.bubble.stretchY],insets=p.overrides?.ios?.[binding.insets]??v[binding.insets]??[p.bubble.paddingY,p.bubble.paddingX,p.bubble.paddingY,p.bubble.paddingX];return {width:64,height:56,stretchX:[[xy[0],xy[0]+1]],stretchY:[[xy[1],xy[1]+1]],insets:[...insets]};}
+  const patch=meta?.patch;if(!patch)return null;return p.resourceGeometry?.[path]?resizeGeometry(p.resourceGeometry[path],patch.width,patch.height):structuredClone(patch);
+ }
+ function commit(next){g=next;edit(p=>{if(ios){p.overrides??={};p.overrides.ios??={};p.overrides.ios[binding.stretch]=[g.stretchX[0][0],g.stretchY[0][0]];p.overrides.ios[binding.insets]=[...g.insets];}else{p.resourceGeometry??={};for(const f of targets())p.resourceGeometry[f]=structuredClone(g);}},(dragging?'geometry-drag:'+gesture+':':'geometry:')+resource.id);updateFields();draw();}
+ function descriptors(){if(!g)return [];if(mode.value==='insets')return ['위쪽 여백','왼쪽 여백','아래쪽 여백','오른쪽 여백'].map((label,index)=>({axis:'insets',index,label}));return ['stretchX','stretchY'].flatMap(axis=>g[axis].flatMap((r,index)=>(ios?[0]:[0,1]).map(edge=>({axis,index,edge,label:`${axis==='stretchX'?'가로':'세로'} 늘림 ${index+1} ${edge?'끝':'시작'}`}))));}
+ function guideList(){const old=guide.value;guide.replaceChildren(...descriptors().map((d,i)=>new Option(d.label,String(i))));guide.value=[...guide.options].some(o=>o.value===old)?old:'0';}
+ function coords(d){if(d.axis==='insets'){const i=d.index;return {vertical:i%2===1,value:i===0?g.insets[0]:i===1?g.insets[1]:i===2?g.height-g.insets[2]:g.width-g.insets[3]};}return {vertical:d.axis==='stretchX',value:g[d.axis]?.[d.index]?.[d.edge]};}
+ function draw(){const ctx=canvas.getContext('2d');ctx.clearRect(0,0,560,320);if(!image||!g||!frame)return;ctx.drawImage(image,0,0);handles=[];const {x,y,w,h}=frame;
+  ctx.fillStyle='#39a96544';for(const [a,b] of g.stretchX)ctx.fillRect(x+a/g.width*w,y,(b-a)/g.width*w,h);ctx.fillStyle='#598bd344';for(const [a,b] of g.stretchY)ctx.fillRect(x,y+a/g.height*h,w,(b-a)/g.height*h);
+  ctx.strokeStyle='#cd742e';ctx.lineWidth=2;ctx.strokeRect(x+g.insets[1]/g.width*w,y+g.insets[0]/g.height*h,w*(1-(g.insets[1]+g.insets[3])/g.width),h*(1-(g.insets[0]+g.insets[2])/g.height));
+  descriptors().forEach((d,i)=>{const c=coords(d),v=c.vertical?x+c.value/g.width*w:y+c.value/g.height*h;const hx=c.vertical?v:x+w/2,hy=c.vertical?y+h/2:v;ctx.strokeStyle=d.axis==='insets'?'#cd742e':c.vertical?'#258a4b':'#3978bf';ctx.lineWidth=i===Number(guide.value)?3:1;ctx.beginPath();if(c.vertical){ctx.moveTo(v,y);ctx.lineTo(v,y+h);}else{ctx.moveTo(x,v);ctx.lineTo(x+w,v);}ctx.stroke();ctx.fillStyle=ctx.strokeStyle;ctx.fillRect(hx-5,hy-5,10,10);handles.push({x:hx,y:hy,d,index:i});});
+  status.textContent=`${ios?'논리':'출력'} ${g.width}×${g.height} · ${getVariant()==='all'?'모든 배율·화면에 비례 적용':'선택한 출력에만 적용'} · 가이드를 드래그하거나 아래 숫자로 조정하세요.`;
+ }
+ function value(d){return d.axis==='insets'?g.insets[d.index]:g[d.axis]?.[d.index]?.[d.edge];}
+ function change(d,v){if(!Number.isFinite(v))return;let next;if(ios&&d.axis!=='insets'){next=structuredClone(g);const n=Math.max(0,Math.min((d.axis==='stretchX'?g.width:g.height)-2,Math.round(v)));next[d.axis]=[[n,n+1]];}else{if(ios&&d.axis==='insets')v=Math.min(28,v);next=moveGuide(g,d,v);}commit(next);}
+ function updateFields(){for(const input of fields.querySelectorAll('input')){const d=JSON.parse(input.dataset.guide);input.value=value(d);}}
+ function buildFields(){fields.replaceChildren();for(const d of [...['stretchX','stretchY'].flatMap(axis=>g[axis].flatMap((r,index)=>(ios?[0]:[0,1]).map(edge=>({axis,index,edge,label:`${axis==='stretchX'?'가로':'세로'} 늘림 ${index+1} ${edge?'끝':'시작'}`})))),...['위쪽 여백','왼쪽 여백','아래쪽 여백','오른쪽 여백'].map((label,index)=>({axis:'insets',index,label}))]){
+  const label=make('label',d.label),input=make('input');input.type='number';input.min=0;input.step=1;input.value=value(d);input.dataset.guide=JSON.stringify(d);input.setAttribute('aria-label','시각 편집 '+d.label);input.onchange=()=>change(d,Number(input.value));label.append(input);fields.append(label);
+ }
+ if(!ios)for(const axis of ['stretchX','stretchY']){const add=make('button',(axis==='stretchX'?'가로':'세로')+' 늘림 구간 추가');add.type='button';add.onclick=()=>{const size=axis==='stretchX'?g.width:g.height;let start=0;while(start<size&&!g[axis].every(([a,b])=>start+1<a||start>b))start++;if(start>=size){toast('구간 사이에 한 픽셀 이상의 간격을 남길 공간이 없습니다.');return;}const next=structuredClone(g);next[axis].push([start,start+1]);next[axis].sort((a,b)=>a[0]-b[0]);commit(next);guideList();buildFields();draw();};fields.append(add);g[axis].forEach((r,index)=>{const remove=make('button',`${axis==='stretchX'?'가로':'세로'} 늘림 ${index+1} 삭제`);remove.type='button';remove.disabled=g[axis].length===1;remove.onclick=()=>{const next=structuredClone(g);next[axis].splice(index,1);commit(next);guideList();buildFields();draw();};fields.append(remove);});}
+ }
+ mode.onchange=()=>{guideList();draw();};guide.onchange=draw;
+ const position=e=>{const rect=canvas.getBoundingClientRect();return {x:(e.clientX-rect.left)/rect.width*560,y:(e.clientY-rect.top)/rect.height*320};};
+ canvas.onpointerdown=e=>{if(!g||!frame)return;const p=position(e),nearest=handles.reduce((best,h)=>{const distance=Math.hypot(p.x-h.x,p.y-h.y);return !best||distance<best.distance?{...h,distance}:best;},null);if(!nearest||nearest.distance>24)return;dragging=nearest.d;gesture++;guide.value=String(nearest.index);canvas.setPointerCapture(e.pointerId);draw();e.preventDefault();};
+ canvas.onpointermove=e=>{if(!dragging)return;const p=position(e),c=coords(dragging);let v=c.vertical?(p.x-frame.x)/frame.w*g.width:(p.y-frame.y)/frame.h*g.height;if(dragging.axis==='insets'&&(dragging.index===2||dragging.index===3))v=(c.vertical?g.width:g.height)-v;change(dragging,v);};
+ canvas.onpointerup=canvas.onpointercancel=e=>{dragging=null;if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);};
+ reset.onclick=()=>{edit(p=>{if(ios){delete p.overrides?.ios?.[binding.stretch];delete p.overrides?.ios?.[binding.insets];}else for(const f of targets())delete p.resourceGeometry?.[f];},'geometry-reset:'+resource.id);toast(ios?'공통 말풍선 정책으로 복귀합니다.':'원본 9-patch 또는 자동 가이드로 복귀합니다.');};
+ return {update(bitmap,nextMeta,file){if(destroyed||dragging)return;meta=nextMeta;path=file;g=current();if(!g)return;const b=meta.patch?1:0,iw=bitmap.width-b*2,ih=bitmap.height-b*2,factor=Math.min(500/iw,260/ih);frame={x:(560-iw*factor)/2,y:(320-ih*factor)/2,w:iw*factor,h:ih*factor};image=document.createElement('canvas');image.width=560;image.height=320;image.getContext('2d').drawImage(bitmap,b,b,iw,ih,frame.x,frame.y,frame.w,frame.h);const shape=g.stretchX.length+':'+g.stretchY.length;if(structure!==shape){guideList();buildFields();structure=shape;}else updateFields();draw();},destroy(){destroyed=true;image=null;box.remove();}};
+}
