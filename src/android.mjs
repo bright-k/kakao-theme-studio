@@ -11,15 +11,17 @@ export async function run(exe,args,{env={},cwd,timeout=120000}={}){
 }
 const exists=async p=>fs.access(p).then(()=>true,()=>false);
 const newest=xs=>xs.sort((a,b)=>b.localeCompare(a,undefined,{numeric:true}))[0];
-export async function doctor(){
- const sdk=process.env.ANDROID_SDK_ROOT??process.env.ANDROID_HOME??path.join(os.homedir(),'Library/Android/sdk');
- const homes=[process.env.JAVA_HOME,process.env.STUDIO_JAVA_HOME,path.join(os.homedir(),'Library/Java/JavaVirtualMachines/azul-17.0.5/Contents/Home'),'/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home'].filter(Boolean);
+export const ANDROID_TARGET_SDK=37;
+export const ANDROID_BUILD_TOOLS_MAJOR=37;
+export async function doctor({sdk=process.env.ANDROID_SDK_ROOT??process.env.ANDROID_HOME??path.join(os.homedir(),'Library/Android/sdk'),javaHomes}={}){
+ const homes=javaHomes??[process.env.JAVA_HOME,process.env.STUDIO_JAVA_HOME,...await fs.readdir(path.join(os.homedir(),'Library/Java/JavaVirtualMachines')).catch(()=>[]).then(xs=>xs.map(x=>path.join(os.homedir(),'Library/Java/JavaVirtualMachines',x,'Contents/Home'))),'/opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home'].filter(Boolean);
  let javaHome;for(const h of homes)if(await exists(path.join(h,'bin/javac'))){javaHome=h;break;}
- let tools,platform;try{tools=newest((await fs.readdir(path.join(sdk,'build-tools'))).filter(x=>/^\d/.test(x)));platform=newest((await fs.readdir(path.join(sdk,'platforms'))).filter(x=>/^android-\d+$/.test(x)));}catch{}
+ const tools=newest((await fs.readdir(path.join(sdk,'build-tools')).catch(()=>[])).filter(x=>/^\d+\.\d+\.\d+$/.test(x)));
+ const platforms=[];for(const name of await fs.readdir(path.join(sdk,'platforms')).catch(()=>[])){if(!/^android-\d+(?:\.\d+)?$/.test(name))continue;const props=await fs.readFile(path.join(sdk,'platforms',name,'source.properties'),'utf8').catch(()=>'');const codename=props.match(/^AndroidVersion.CodeName[ \t]*=[ \t]*([^\r\n]*)/m)?.[1]?.trim();if(codename&&codename!=='REL'||!await exists(path.join(sdk,'platforms',name,'android.jar')))continue;platforms.push(name);}const platform=newest(platforms);
  const toolDir=tools?path.join(sdk,'build-tools',tools):'';
- const missing=[];if(!javaHome)missing.push('JDK (JAVA_HOME)');if(!platform)missing.push('Android SDK Platform');
- for(const tool of ['aapt2','d8','zipalign','apksigner'])if(!toolDir||!await exists(path.join(toolDir,tool)))missing.push(tool);
- return {ok:missing.length===0,sdk,javaHome,buildTools:tools,platform,api:platform?Number(platform.slice(8)):null,missing,node:process.version};
+ const api=platform?parseInt(platform.slice(8),10):null,missing=[];if(!javaHome)missing.push('JDK 17 이상 (JAVA_HOME)');if(!api||api<ANDROID_TARGET_SDK)missing.push(`Android SDK Platform ${ANDROID_TARGET_SDK} 이상`);if(!tools||Number(tools.split('.')[0])<ANDROID_BUILD_TOOLS_MAJOR)missing.push(`Android SDK Build-Tools ${ANDROID_BUILD_TOOLS_MAJOR} 이상`);
+ for(const tool of ['aapt','aapt2','d8','zipalign','apksigner'])if(!toolDir||!await exists(path.join(toolDir,tool)))missing.push(tool);
+ return {ok:missing.length===0,sdk,javaHome,buildTools:tools,platform,api,targetSdk:ANDROID_TARGET_SDK,minSdk:28,installCommand:`sdkmanager "platforms;android-${ANDROID_TARGET_SDK}.2" "build-tools;${ANDROID_BUILD_TOOLS_MAJOR}.0.0"`,missing,node:process.version};
 }
 function toolEnv(env){return {JAVA_HOME:env.javaHome,PATH:`${env.javaHome}/bin:${process.env.PATH??'/usr/bin:/bin'}`};}
 export class KeyStore {
@@ -36,7 +38,7 @@ export class KeyStore {
  async import(label,password,buffer){if(this.busy)throw new Error('키 작업이 진행 중입니다.');if(buffer.length>1024*1024)throw new Error('키 파일이 너무 큽니다.');if(typeof label!=='string'||!label.trim()||label.length>60||typeof password!=='string'||password.length<8||password.length>128)throw new Error('키 이름과 8~128자 비밀번호가 필요합니다.');this.busy=true;const id=crypto.randomUUID();const file=path.join(this.root,'keys',`${id}.p12`);try{await atomic(file,buffer);let fp;try{fp=await this.fingerprint(file,password);}catch{await fs.unlink(file);throw new Error('키 파일, theme alias 또는 비밀번호를 확인하세요.');}const records=await this.records();const existing=records.find(k=>k.fingerprint===fp);if(existing){await fs.unlink(file);this.passwords.set(existing.id,password);return existing;}const k={id,label,fingerprint:fp,createdAt:new Date().toISOString()};records.push(k);await atomic(path.join(this.root,'keys/index.json'),JSON.stringify(records,null,2));this.passwords.set(id,password);return k;}finally{this.busy=false;}}
  async signing(id){if(!validId(id))throw new Error('서명키를 선택하세요.');const k=(await this.records()).find(k=>k.id===id);if(!k)throw new Error('서명키를 찾을 수 없습니다. 백업 키를 복원하세요.');const password=this.passwords.get(id);if(!password)throw new Error('서명키 비밀번호를 입력해 잠금을 해제하세요.');return {...k,password,file:path.join(this.root,'keys',`${id}.p12`)};}
 }
-export function manifest(p,versionCode,api){return `<?xml version="1.0" encoding="utf-8"?>
+export function manifest(p,versionCode,api=ANDROID_TARGET_SDK){return `<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="${p.packageId}" android:versionCode="${versionCode}" android:versionName="${p.version}">
  <uses-sdk android:minSdkVersion="28" android:targetSdkVersion="${api}"/>
  <uses-permission android:name="com.kakao.talk.v2.theme"/>
@@ -50,12 +52,13 @@ export function manifest(p,versionCode,api){return `<?xml version="1.0" encoding
 function activity(p){return `package ${p.packageId};
 import android.app.Activity; import android.os.Bundle; import android.content.Intent; import android.net.Uri; import android.widget.*;
 public class MainActivity extends Activity {
- @Override public void onCreate(Bundle b){super.onCreate(b);LinearLayout layout=new LinearLayout(this);layout.setOrientation(1);layout.setPadding(48,100,48,48);TextView title=new TextView(this);title.setText(getApplicationInfo().loadLabel(getPackageManager()));title.setTextSize(28);layout.addView(title);TextView info=new TextView(this);info.setText("카카오톡 테마 설정에서 이 테마를 선택하세요.");layout.addView(info);Button apply=new Button(this);apply.setText("카카오톡에서 적용하기");apply.setOnClickListener(v->{try{startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("kakaotalk://settings/theme/"+getPackageName())));}catch(Exception e){Toast.makeText(this,"카카오톡 설치 여부를 확인하세요.",Toast.LENGTH_LONG).show();}});layout.addView(apply);setContentView(layout);}
+ private int dp(int n){return Math.round(n*getResources().getDisplayMetrics().density);}
+ @Override public void onCreate(Bundle b){super.onCreate(b);LinearLayout layout=new LinearLayout(this);layout.setOrientation(1);layout.setPadding(dp(24),dp(48),dp(24),dp(24));layout.setOnApplyWindowInsetsListener((v,i)->{v.setPadding(dp(24)+i.getSystemWindowInsetLeft(),dp(32)+i.getSystemWindowInsetTop(),dp(24)+i.getSystemWindowInsetRight(),dp(24)+i.getSystemWindowInsetBottom());return i;});TextView title=new TextView(this);title.setText(getApplicationInfo().loadLabel(getPackageManager()));title.setTextSize(28);layout.addView(title);TextView info=new TextView(this);info.setText("카카오톡 테마 설정에서 이 테마를 선택하세요.");layout.addView(info);Button apply=new Button(this);apply.setText("카카오톡에서 적용하기");apply.setOnClickListener(v->{try{startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("kakaotalk://settings/theme/"+getPackageName())));}catch(Exception e){Toast.makeText(this,"카카오톡 설치 여부를 확인하세요.",Toast.LENGTH_LONG).show();}});layout.addView(apply);setContentView(layout);layout.requestApplyInsets();}
 }`;}
 export async function buildAndroid(compiled,dir,versionCode,key,onStep=()=>{}){
- const e=await doctor();if(!e.ok)throw new Error(`빌드 도구가 없습니다: ${e.missing.join(', ')}`);
+ const e=await doctor();if(!e.ok)throw new Error(`Android API ${ANDROID_TARGET_SDK} 빌드 환경을 확인하세요: ${e.missing.join(', ')}. ${e.installCommand}`);
  const t=n=>path.join(e.sdk,'build-tools',e.buildTools,n);const env=toolEnv(e);const jar=path.join(e.sdk,'platforms',e.platform,'android.jar');const p=compiled.project;
- const source=path.join(dir,'android-source');await writeTree(compiled.files,source,'android/');await fs.mkdir(path.join(source,'java'),{recursive:true});await fs.writeFile(path.join(source,'AndroidManifest.xml'),manifest(p,versionCode,e.api));const javaFile=path.join(source,'java/MainActivity.java');await fs.writeFile(javaFile,activity(p));
+ const source=path.join(dir,'android-source');await writeTree(compiled.files,source,'android/');await fs.mkdir(path.join(source,'java'),{recursive:true});await fs.writeFile(path.join(source,'AndroidManifest.xml'),manifest(p,versionCode,e.targetSdk));const javaFile=path.join(source,'java/MainActivity.java');await fs.writeFile(javaFile,activity(p));
  const flat=path.join(dir,'resources.zip');onStep('Android 리소스 컴파일');await run(t('aapt2'),['compile','--dir',path.join(source,'res'),'-o',flat],{env});
  const resourceApk=path.join(dir,'resources.apk');await run(t('aapt2'),['link','-o',resourceApk,'--manifest',path.join(source,'AndroidManifest.xml'),'-I',jar,flat,'--auto-add-overlay'],{env});
  onStep('Android 실행 코드 생성');const classes=path.join(dir,'classes');await fs.mkdir(classes,{recursive:true});await run(path.join(e.javaHome,'bin/javac'),['--release','8','-encoding','UTF-8','-classpath',jar,'-d',classes,javaFile],{env});
@@ -63,7 +66,8 @@ export async function buildAndroid(compiled,dir,versionCode,key,onStep=()=>{}){
  const zip=await JSZip.loadAsync(await fs.readFile(resourceApk));zip.file('classes.dex',await fs.readFile(path.join(dex,'classes.dex')));const table=await zip.file('resources.arsc').async('nodebuffer');zip.file('resources.arsc',table,{compression:'STORE'});const unsigned=path.join(dir,'unsigned.apk');await fs.writeFile(unsigned,await zip.generateAsync({type:'nodebuffer',compression:'DEFLATE'}));
  onStep('APK 정렬 · 자체 서명');const aligned=path.join(dir,'aligned.apk');const apk=path.join(dir,'theme-android.apk');await run(t('zipalign'),['-f','4',unsigned,aligned],{env});await run(t('apksigner'),['sign','--ks',key.file,'--ks-key-alias','theme','--ks-pass','env:STUDIO_KEY_PASSWORD','--key-pass','env:STUDIO_KEY_PASSWORD','--out',apk,aligned],{env:{...env,STUDIO_KEY_PASSWORD:key.password}});
  onStep('APK 서명 검증');const verify=await run(t('apksigner'),['verify','--verbose','--print-certs',apk],{env});const badging=await run(t('aapt'),['dump','badging',apk],{env});if(!badging.includes(`name='${p.packageId}'`)||!badging.includes(`versionCode='${versionCode}'`))throw new Error('생성 APK의 ID 또는 버전이 다릅니다.');const certHex=key.fingerprint.replaceAll(':','').toLowerCase();if(!verify.toLowerCase().includes(certHex))throw new Error('서명 인증서가 선택한 키와 다릅니다.');await run(t('zipalign'),['-c','4',apk],{env});
- await fs.writeFile(path.join(dir,'signature-verification.txt'),verify);return {apk,versionCode,fingerprint:key.fingerprint,tools:{java:path.basename(e.javaHome),buildTools:e.buildTools,compileSdk:e.api,targetSdk:e.api,minSdk:28},badging};
+ if(!badging.includes(`targetSdkVersion:'${e.targetSdk}'`)||!badging.includes("sdkVersion:'28'"))throw new Error('생성 APK의 Android 대상/최소 API가 빌드 정책과 다릅니다.');
+ await fs.writeFile(path.join(dir,'signature-verification.txt'),verify);return {apk,versionCode,fingerprint:key.fingerprint,tools:{java:path.basename(e.javaHome),buildTools:e.buildTools,compileSdk:e.api,targetSdk:e.targetSdk,minSdk:28,platform:e.platform},badging};
 }
 export async function buildBoth(compiled,dataRoot,keyStore,onStep=()=>{},{projectRoot=dataRoot}={}){
  const p=compiled.project;const id=crypto.randomUUID();const dir=path.join(projectRoot,'builds',id);await fs.mkdir(dir,{recursive:true});

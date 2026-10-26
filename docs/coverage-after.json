@@ -14,8 +14,8 @@
   "editableIOSProperties": 66,
   "metadataEditImageHashesStable": true,
   "performance": {
-    "firstCompileMs": 468.4,
-    "metadataEditMs": 2.3
+    "firstCompileMs": 304.9,
+    "metadataEditMs": 2.4
   },
   "scopeNote": "Coverage is defined against the bundled official 26.9.0 sample and identified guide additions, not every KakaoTalk version or actual application."
 }

@@ -1,3 +1,4 @@
+import {assetReferences} from './asset-references.js';
 export class ProjectHistory {
  constructor(project,limit=60){this.limit=limit;this.reset(project);}
  reset(project){this.states=[structuredClone(project)];this.index=0;this.group=null;this.at=0;}
@@ -8,6 +9,7 @@ export class ProjectHistory {
   else{this.states.push(structuredClone(project));if(this.states.length>this.limit)this.states.shift();this.index=this.states.length-1;}
   this.group=group;this.at=now;
  }
+ get referencedAssets(){return [...new Set(this.states.flatMap(assetReferences))];}
  get canUndo(){return this.index>0;}
  get canRedo(){return this.index<this.states.length-1;}
  undo(){if(this.canUndo)this.index--;this.group=null;return structuredClone(this.states[this.index]);}

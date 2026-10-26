@@ -1,3 +1,4 @@
+import {platformBubbleAssets} from '../public/bubble-model.js';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -21,7 +22,7 @@ export async function writeAsset(root,ref,bytes,{expectedHash,target}={}){
 }
 export async function registerAsset(root,project,target,bytes,{nativeNinePatch=false}={}){
  if(!/^assets\/(common|ios|android)\/(?:[a-z0-9][a-z0-9_-]*\/)*[a-z][a-z0-9_-]*$/.test(target.base))throw new Error('원본 등록 위치를 확인하세요.');
- return queued(root,async()=>{await assetRoot(root,{create:true});const data=await index(root),known=new Set([...Object.keys(data.files),...Object.keys(project.assetHashes??{}),...Object.values(project.assets??{}),...Object.values(project.resourceOverrides??{})]);const ext=nativeNinePatch?'.9.png':'.png';let n=1,ref;
+ return queued(root,async()=>{await assetRoot(root,{create:true});const data=await index(root),known=new Set([...Object.keys(data.files),...Object.keys(project.assetHashes??{}),...Object.values(project.assets??{}),...Object.values(project.resourceOverrides??{}),...platformBubbleAssets(project).map(e=>e.ref)]);const ext=nativeNinePatch?'.9.png':'.png';let n=1,ref;
  for(;;n++){if(n>999999999)throw new Error('원본 버전 범위를 초과했습니다.');ref=target.base+'-v'+String(n).padStart(4,'0')+ext;if(known.has(ref))continue;const file=await assetFile(root,ref,{create:true});try{await fs.lstat(file);}catch(e){if(e.code==='ENOENT')break;throw e;}}
  const file=await assetFile(root,ref,{create:true}),digest=hash(bytes);await fs.writeFile(file,bytes,{mode:0o600,flag:'wx'});data.files[ref]={sha256:digest,bytes:bytes.length,target};try{await atomic(path.join(root,'assets','index.json'),JSON.stringify(data,null,2));}catch(e){await fs.unlink(file);throw e;}
  project.assetHashes??={};project.assetHashes[ref]=digest;return ref;

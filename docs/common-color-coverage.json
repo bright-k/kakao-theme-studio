@@ -1,0 +1,733 @@
+{
+  "compilerVersion": "0.12.0",
+  "counts": {
+    "policies": 39,
+    "ios": 48,
+    "android": 39,
+    "exceptions": {
+      "ios": {
+        "SectionTitleStyle-Main/border-color": "구역 구분선 전용. Android 목록 항목 구분선과 적용 위치가 다릅니다.",
+        "SectionTitleStyle-Main/border-alpha": "iOS 구역 구분선 투명도. Android와 적용 위치가 다릅니다.",
+        "MessageCellStyle-Send/-ios-text-color": "기존 공통 말풍선의 보낸 글자색으로 관리합니다.",
+        "MessageCellStyle-Send/-ios-selected-text-color": "기존 공통 말풍선 글자색을 따르며 선택 상태를 개별 조정할 수 있습니다.",
+        "MessageCellStyle-Receive/-ios-text-color": "기존 공통 말풍선의 받은 글자색으로 관리합니다.",
+        "MessageCellStyle-Receive/-ios-selected-text-color": "기존 공통 말풍선 글자색을 따르며 선택 상태를 개별 조정할 수 있습니다."
+      },
+      "android": {
+        "theme_feature_primary_pressed_color": "iOS에 같은 주요 기능의 누름 색상 슬롯이 없습니다.",
+        "theme_header_cell_color": "Android 헤더 셀 배경 전용입니다.",
+        "theme_body_cell_border_color": "목록 항목 구분선 전용. iOS 구역 구분선과 적용 위치가 다릅니다.",
+        "theme_notification_background_pressed_color": "iOS에 같은 알림 누름 배경 슬롯이 없습니다.",
+        "theme_passcode_keypad_pressed_color": "Android 키패드 누름 숫자색 전용입니다.",
+        "theme_passcode_keypad_pressed_background_color": "Android 키패드 누름 배경색 전용입니다. iOS는 별도 이미지를 사용합니다.",
+        "theme_passcode_pattern_line_color": "Android 패턴 잠금 전용입니다.",
+        "theme_chatroom_bubble_me_color": "기존 공통 말풍선의 보낸 글자색으로 관리합니다.",
+        "theme_chatroom_bubble_you_color": "기존 공통 말풍선의 받은 글자색으로 관리합니다.",
+        "theme_navigationbar_background_color": "Android 시스템 내비게이션 영역 전용입니다."
+      }
+    }
+  },
+  "policies": [
+    {
+      "id": "mainBackground",
+      "label": "기본 화면 배경",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "MainViewStyle-Primary/background-color"
+      ],
+      "android": [
+        "theme_background_color"
+      ],
+      "fallback": "main",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "headerText",
+      "label": "화면 제목 글자",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "HeaderStyle-Main/-ios-text-color"
+      ],
+      "android": [
+        "theme_header_color"
+      ],
+      "fallback": "text",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "headerTabText",
+      "label": "상단 탭 글자",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "HeaderStyle-Main/-ios-tab-text-color"
+      ],
+      "android": [
+        "theme_feature_browse_tab_color"
+      ],
+      "fallback": "secondary",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "headerTabSelectedText",
+      "label": "상단 탭 선택 글자",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "HeaderStyle-Main/-ios-tab-highlighted-text-color"
+      ],
+      "android": [
+        "theme_feature_browse_tab_focused_color"
+      ],
+      "fallback": "accent",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "listTitle",
+      "label": "목록 이름 글자",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "MainViewStyle-Primary/-ios-text-color"
+      ],
+      "android": [
+        "theme_title_color"
+      ],
+      "fallback": "text",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "listTitlePressed",
+      "label": "누른 목록 이름 글자",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "MainViewStyle-Primary/-ios-highlighted-text-color"
+      ],
+      "android": [
+        "theme_title_pressed_color"
+      ],
+      "fallback": "accent",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "listDescription",
+      "label": "목록 설명 글자",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "MainViewStyle-Primary/-ios-description-text-color"
+      ],
+      "android": [
+        "theme_description_color"
+      ],
+      "fallback": "secondary",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "listDescriptionPressed",
+      "label": "누른 목록 설명 글자",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "MainViewStyle-Primary/-ios-description-highlighted-text-color"
+      ],
+      "android": [
+        "theme_description_pressed_color"
+      ],
+      "fallback": "accent",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "listParagraph",
+      "label": "목록 보조 글자",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "MainViewStyle-Primary/-ios-paragraph-text-color"
+      ],
+      "android": [
+        "theme_paragraph_color"
+      ],
+      "fallback": "secondary",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "listParagraphPressed",
+      "label": "누른 목록 보조 글자",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "MainViewStyle-Primary/-ios-paragraph-highlighted-text-color"
+      ],
+      "android": [
+        "theme_paragraph_pressed_color"
+      ],
+      "fallback": "accent",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "listBackground",
+      "label": "목록 항목 배경",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "MainViewStyle-Primary/-ios-normal-background-color"
+      ],
+      "android": [
+        "theme_body_cell_color"
+      ],
+      "fallback": "main",
+      "note": "공통색은 불투명 색상입니다. 투명도는 플랫폼별 세부 설정에서 조절합니다.",
+      "alpha": [
+        "MainViewStyle-Primary/-ios-normal-background-alpha"
+      ],
+      "opacity": 0
+    },
+    {
+      "id": "listPressedBackground",
+      "label": "누른 목록 항목 배경",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "MainViewStyle-Primary/-ios-selected-background-color"
+      ],
+      "android": [
+        "theme_body_cell_pressed_color"
+      ],
+      "fallback": "chat",
+      "note": "",
+      "alpha": [
+        "MainViewStyle-Primary/-ios-selected-background-alpha"
+      ],
+      "opacity": 0.05
+    },
+    {
+      "id": "secondaryBackground",
+      "label": "보조 목록 배경",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "MainViewStyle-Secondary/background-color"
+      ],
+      "android": [
+        "theme_body_secondary_cell_color"
+      ],
+      "fallback": "main",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "sectionTitle",
+      "label": "구역 제목 글자",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "SectionTitleStyle-Main/-ios-text-color"
+      ],
+      "android": [
+        "theme_section_title_color"
+      ],
+      "fallback": "accent",
+      "note": "",
+      "alpha": [
+        "SectionTitleStyle-Main/-ios-text-alpha"
+      ],
+      "opacity": 1
+    },
+    {
+      "id": "featureText",
+      "label": "주요 기능 글자",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "FeatureStyle-Primary/-ios-text-color"
+      ],
+      "android": [
+        "theme_feature_primary_color"
+      ],
+      "fallback": "accent",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "tabBackground",
+      "label": "하단 탭 배경",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "TabBarStyle-Main/background-color"
+      ],
+      "android": [
+        "theme_maintab_cell_color"
+      ],
+      "fallback": "main",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "sidebarBackground",
+      "label": "태블릿 사이드바 배경",
+      "screens": [
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "TabBarStyle-Main/-background-sidebar-color"
+      ],
+      "android": [
+        "theme_navigationrail_background_color"
+      ],
+      "fallback": "main",
+      "note": "태블릿·가로의 사이드바/내비게이션 레일에 사용합니다.",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "chatBackground",
+      "label": "대화방 배경",
+      "screens": [
+        "chat"
+      ],
+      "ios": [
+        "BackgroundStyle-ChatRoom/background-color"
+      ],
+      "android": [
+        "theme_chatroom_background_color"
+      ],
+      "fallback": "chat",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "unreadText",
+      "label": "읽지 않은 메시지 숫자",
+      "screens": [
+        "chat"
+      ],
+      "ios": [
+        "MessageCellStyle-Send/-ios-unread-text-color",
+        "MessageCellStyle-Receive/-ios-unread-text-color"
+      ],
+      "android": [
+        "theme_chatroom_unread_count_color"
+      ],
+      "fallback": "accent",
+      "note": "Android는 보낸 쪽·받은 쪽이 한 색상을 공유합니다.",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "inputBackground",
+      "label": "메시지 입력창 배경",
+      "screens": [
+        "chat"
+      ],
+      "ios": [
+        "InputBarStyle-Chat/background-color"
+      ],
+      "android": [
+        "theme_chatroom_input_bar_background_color"
+      ],
+      "fallback": "input",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "inputText",
+      "label": "메시지 입력 글자",
+      "screens": [
+        "chat"
+      ],
+      "ios": [
+        "InputBarStyle-Chat/-ios-button-text-color"
+      ],
+      "android": [
+        "theme_chatroom_input_bar_color"
+      ],
+      "fallback": "text",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "inputMenuIcon",
+      "label": "입력창 메뉴 아이콘",
+      "screens": [
+        "chat"
+      ],
+      "ios": [
+        "InputBarStyle-Chat/-ios-button-normal-foreground-color",
+        "InputBarStyle-Chat/-ios-button-highlighted-foreground-color"
+      ],
+      "android": [
+        "theme_chatroom_input_bar_menu_icon_color"
+      ],
+      "fallback": "accent",
+      "note": "Android는 기본·누름 상태가 같은 색상을 사용합니다.",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "inputMenuBackground",
+      "label": "입력창 메뉴 버튼 배경",
+      "screens": [
+        "chat"
+      ],
+      "ios": [
+        "InputBarStyle-Chat/-ios-button-normal-background-color"
+      ],
+      "android": [
+        "theme_chatroom_input_bar_menu_button_color"
+      ],
+      "fallback": "input",
+      "note": "",
+      "alpha": [
+        "InputBarStyle-Chat/-ios-button-normal-background-alpha"
+      ],
+      "opacity": 0.04
+    },
+    {
+      "id": "sendBackground",
+      "label": "보내기 버튼 배경",
+      "screens": [
+        "chat"
+      ],
+      "ios": [
+        "InputBarStyle-Chat/-ios-send-normal-background-color",
+        "InputBarStyle-Chat/-ios-send-highlighted-background-color"
+      ],
+      "android": [
+        "theme_chatroom_input_bar_send_button_color"
+      ],
+      "fallback": "sent",
+      "note": "Android는 기본·누름 상태가 같은 색상을 사용합니다.",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "sendIcon",
+      "label": "보내기 버튼 아이콘",
+      "screens": [
+        "chat"
+      ],
+      "ios": [
+        "InputBarStyle-Chat/-ios-send-normal-foreground-color",
+        "InputBarStyle-Chat/-ios-send-highlighted-foreground-color"
+      ],
+      "android": [
+        "theme_chatroom_input_bar_send_icon_color"
+      ],
+      "fallback": "sentText",
+      "note": "Android는 기본·누름 상태가 같은 색상을 사용합니다.",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "passcodeBackground",
+      "label": "잠금화면 배경",
+      "screens": [
+        "passcode"
+      ],
+      "ios": [
+        "BackgroundStyle-Passcode/background-color"
+      ],
+      "android": [
+        "theme_passcode_background_color"
+      ],
+      "fallback": "main",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "passcodeTitle",
+      "label": "잠금 안내 글자",
+      "screens": [
+        "passcode"
+      ],
+      "ios": [
+        "LabelStyle-PasscodeTitle/-ios-text-color"
+      ],
+      "android": [
+        "theme_passcode_color"
+      ],
+      "fallback": "text",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "keypadBackground",
+      "label": "키패드 배경",
+      "screens": [
+        "passcode"
+      ],
+      "ios": [
+        "PasscodeStyle/-ios-keypad-background-color"
+      ],
+      "android": [
+        "theme_passcode_keypad_background_color"
+      ],
+      "fallback": "main",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "keypadText",
+      "label": "키패드 숫자",
+      "screens": [
+        "passcode"
+      ],
+      "ios": [
+        "PasscodeStyle/-ios-keypad-text-normal-color"
+      ],
+      "android": [
+        "theme_passcode_keypad_color"
+      ],
+      "fallback": "text",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "buttonBackground",
+      "label": "공통 버튼 배경",
+      "screens": [
+        "friends",
+        "components"
+      ],
+      "ios": [
+        "ButtonStyle-Main/background-color"
+      ],
+      "android": [
+        "theme_button_background_color"
+      ],
+      "fallback": "chat",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "buttonPressedBackground",
+      "label": "누른 공통 버튼 배경",
+      "screens": [
+        "friends",
+        "components"
+      ],
+      "ios": [
+        "ButtonStyle-Main/-ios-highlighted-background-color"
+      ],
+      "android": [
+        "theme_button_pressed_background_color"
+      ],
+      "fallback": "accent",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "buttonSelectedBackground",
+      "label": "선택 공통 버튼 배경",
+      "screens": [
+        "friends",
+        "components"
+      ],
+      "ios": [
+        "ButtonStyle-Main/-ios-selected-background-color"
+      ],
+      "android": [
+        "theme_button_selected_background_color"
+      ],
+      "fallback": "accent",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "notificationBackground",
+      "label": "앱 안 알림 배경",
+      "screens": [
+        "components"
+      ],
+      "ios": [
+        "BackgroundStyle-MessageNotificationBar/background-color"
+      ],
+      "android": [
+        "theme_notification_background_color"
+      ],
+      "fallback": "main",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "notificationText",
+      "label": "앱 안 알림 글자",
+      "screens": [
+        "components"
+      ],
+      "ios": [
+        "LabelStyle-MessageNotificationBarName/-ios-text-color",
+        "LabelStyle-MessageNotificationBarMessage/-ios-text-color"
+      ],
+      "android": [
+        "theme_notification_color"
+      ],
+      "fallback": "text",
+      "note": "Android는 이름·내용이 한 색상을 공유합니다. iOS에서만 나누려면 세부 설정을 사용하세요.",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "shareBackground",
+      "label": "메시지 전달 안내 배경",
+      "screens": [
+        "components"
+      ],
+      "ios": [
+        "BackgroundStyle-DirectShareBar/background-color"
+      ],
+      "android": [
+        "theme_direct_share_background_color"
+      ],
+      "fallback": "input",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "shareText",
+      "label": "메시지 전달 안내 글자",
+      "screens": [
+        "components"
+      ],
+      "ios": [
+        "LabelStyle-DirectShareBarName/-ios-text-color"
+      ],
+      "android": [
+        "theme_direct_share_color"
+      ],
+      "fallback": "text",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "shareAction",
+      "label": "전달 후 대화방 이동 글자",
+      "screens": [
+        "components"
+      ],
+      "ios": [
+        "LabelStyle-DirectShareBarMessage/-ios-text-color"
+      ],
+      "android": [
+        "theme_direct_share_button_color"
+      ],
+      "fallback": "secondary",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "tabBannerBackground",
+      "label": "하단 탭 위 안내 배너",
+      "screens": [
+        "components",
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "BottomBannerStyle/background-color"
+      ],
+      "android": [
+        "theme_tab_bannerbadge_background_color"
+      ],
+      "fallback": "accent",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    },
+    {
+      "id": "tabLightBannerBackground",
+      "label": "하단 탭 위 라이트 안내 배너",
+      "screens": [
+        "components",
+        "friends",
+        "chats"
+      ],
+      "ios": [
+        "BottomBannerStyle-Light/background-color"
+      ],
+      "android": [
+        "theme_tab_lightbannerbadge_background_color"
+      ],
+      "fallback": "accent",
+      "note": "",
+      "alpha": [],
+      "opacity": 1
+    }
+  ],
+  "unclassified": []
+}

@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 import {PNG} from 'pngjs';
-import {ROOT,newProject,compile,atomic,sha,exportProject,importProject,cloneProject,validate} from '../src/core.mjs';
+import {ROOT,newProject,compile,bubbleImage,atomic,sha,exportProject,importProject,cloneProject,validate} from '../src/core.mjs';
 import {makeEditorService} from '../src/editor-service.mjs';
 import {readNinePatch,patchImage} from '../src/resources.mjs';
 import {resourceSource} from '../src/provenance.mjs';
@@ -52,6 +52,17 @@ test('first and continuous bubbles have independent optional bodies and characte
  const {root,p,asset}=await fixture();try{
  const firstRef=await asset('receivedBubbleDecoration','#EE2222'),groupRef=await asset('receivedBubbleGroupDecoration','#2244EE');await asset('receivedBubbleGroup','#BB8822',64,56);p.bubbleDesign={received:{body:'color',color:'#228844',size:32,group:{body:'image',decorationMode:'separate',size:24,gap:2,anchor:'right'}}};
  let c=await compile(p,root);const first='ios/Images/chatroomBubbleReceive01@2x.png',group='ios/Images/chatroomBubbleReceive02@2x.png',g=bubbleGeometry(p,'received',true);assert.notEqual(bubbleGeometry(p,'received').height,g.height);assert.deepEqual(pixel(c.files[group],30,(g.header+30)*2),[187,136,34,255]);assert.deepEqual(pixel(c.files[group],(g.decoration.x+12)*2,12*2),[34,68,238,255]);assert.equal(resourceSource(p,CATALOG.files.find(f=>f.path===group)).components.decoration.ref,groupRef);assert.equal(resourceSource(p,CATALOG.files.find(f=>f.path===first)).components.decoration.ref,firstRef);
- p.bubbleDesign.received.decorationEnabled=false;c=await compile(p,root);assert.equal(PNG.sync.read(c.files[first]).height,112);assert.equal(PNG.sync.read(c.files[group]).height,g.height*2);p.bubbleDesign.received.group.decorationMode='none';c=await compile(p,root);assert.equal(PNG.sync.read(c.files[group]).height,112);assert.equal(p.assets.receivedBubbleGroupDecoration,groupRef);const restored=await importProject(await exportProject(p,root),root);assert.deepEqual(restored.bubbleDesign,p.bubbleDesign);assert.equal(restored.assets.receivedBubbleGroupDecoration,groupRef);
+ p.bubbleDesign.received.decorationEnabled=false;c=await compile(p,root);assert.equal(PNG.sync.read(c.files[first]).height,bubbleGeometry(p,'received').height*2);assert.equal(PNG.sync.read(c.files[group]).height,g.height*2);p.bubbleDesign.received.group.decorationMode='none';c=await compile(p,root);assert.equal(PNG.sync.read(c.files[group]).height,bubbleGeometry(p,'received',true).height*2);assert.equal(p.assets.receivedBubbleGroupDecoration,groupRef);const restored=await importProject(await exportProject(p,root),root);assert.deepEqual(restored.bubbleDesign,p.bubbleDesign);assert.equal(restored.assets.receivedBubbleGroupDecoration,groupRef);
+ }finally{await fs.rm(root,{recursive:true,force:true});}
+});
+test('promoting a padded character bubble removes only added stretch strips and preserves body artwork pixels',async()=>{
+ const {root,p,asset}=await fixture();try{
+  await asset('sentBubbleDecoration','#EC1234');const image=new PNG({width:64,height:56});for(let y=0;y<56;y++)for(let x=0;x<64;x++){const i=(y*64+x)*4;image.data.set([x*3,y*4,(x+y)*2,255],i);}const body=PNG.sync.write(image),ref='assets/'+sha(body)+'.png';await atomic(path.join(root,ref),body);p.assets.sentBubble=ref;p.bubbleDesign={sent:{body:'image',size:48}};const editor=makeEditorService(root),result=await editor.promoteResource(p,{file:'ios/Images/chatroomBubbleSend01@2x.png',slot:'sentBubble'}),promoted=PNG.sync.read(await fs.readFile(path.join(root,result.project.assets.sentBubble))),expected=PNG.sync.read(await sharp(body).resize(128,112,{fit:'fill'}).png().toBuffer());assert.deepEqual([promoted.width,promoted.height],[128,112]);assert.deepEqual(promoted.data,expected.data);
+ }finally{await fs.rm(root,{recursive:true,force:true});}
+});
+test('compact color bodies promote with their corners and tail intact at either character anchor',async()=>{
+ const {root,p,asset}=await fixture();try{
+  await asset('sentBubbleDecoration','#EC1234');p.palette.sent='#1255AA';p.bubble.radius=18;const expected=PNG.sync.read(await bubbleImage(p,'sent',2,false,true,root));const editor=makeEditorService(root);
+  for(const anchor of ['left','right'])for(const size of [12,72]){p.bubbleDesign={sent:{body:'color',color:'#1255AA',radius:18,anchor,size}};const result=await editor.promoteResource(p,{file:'ios/Images/chatroomBubbleSend01@2x.png',slot:'sentBubble'}),actual=PNG.sync.read(await fs.readFile(path.join(root,result.project.assets.sentBubble)));assert.deepEqual(actual.data,expected.data,anchor+' '+size);}
  }finally{await fs.rm(root,{recursive:true,force:true});}
 });

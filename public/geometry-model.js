@@ -5,6 +5,7 @@ export function iosGeometryBinding(name){
 }
 export function validGeometry(g){
  if(!g||!Number.isInteger(g.width)||!Number.isInteger(g.height)||g.width<1||g.height<1||g.width>4096||g.height>4096)return false;
+ if(g.bodyRect!==undefined){const b=g.bodyRect;if(!b||Object.keys(b).some(k=>!['x','y','width','height'].includes(k))||![b.x,b.y,b.width,b.height].every(Number.isInteger)||b.x<0||b.y<0||b.width<1||b.height<1||b.x+b.width>g.width||b.y+b.height>g.height)return false;}
  for(const [axis,size] of [['stretchX',g.width],['stretchY',g.height]]){const runs=g[axis];if(!Array.isArray(runs)||!runs.length||runs.length>size)return false;let end=0;for(const r of runs){if(!Array.isArray(r)||r.length!==2||!r.every(Number.isInteger)||r[0]<end||r[0]<0||r[1]>size||r[0]>=r[1])return false;end=r[1];}}
  return Array.isArray(g.insets)&&g.insets.length===4&&g.insets.every(n=>Number.isInteger(n)&&n>=0)&&g.insets[0]+g.insets[2]<g.height&&g.insets[1]+g.insets[3]<g.width;
 }

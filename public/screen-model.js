@@ -5,7 +5,7 @@ export const SCREENS = [
  {id:'chats',label:'채팅 목록',title:'채팅 목록 화면',note:'목록 배경·글자·프로필·탭 변경은 친구 화면에도 반영됩니다.'},
  {id:'chat',label:'채팅방',title:'채팅방 디자인',note:'말풍선의 첫 번째·연속·선택 상태와 입력창을 함께 확인하세요. 선택 이미지는 iOS에 적용됩니다. 프로필은 목록과 공통입니다.'},
  {id:'passcode',label:'잠금화면',title:'잠금화면 디자인',note:'비밀번호 1~4번의 입력 전·후, 키패드 눌림 이미지와 Android 패턴 색상을 지원합니다.'},
- {id:'components',label:'배너·버튼',title:'배너·버튼 디자인',note:'알림·전달 배너와 공통 버튼을 검토합니다. 입력창 설정은 채팅방에서도 편집할 수 있습니다.'},
+ {id:'components',label:'배너·버튼',title:'배너·버튼 디자인',note:'적용 장면에서 새 메시지 알림·전달 안내·친구 추가·탭 위 배너를 선택하세요. 그림을 누르면 해당 설정이 열립니다.'},
  {id:'identity',label:'아이콘·시작화면',title:'아이콘·시작화면',note:'테마 아이콘과 Android 12 미만용 시작 이미지입니다. 가로·태블릿 변형은 이미지 탭의 출력 대상에서 확인하세요.'}
 ];
 const list=['friends','chats'];
@@ -63,5 +63,6 @@ export function auditScreenCoverage(catalog){
   for(const item of items){const contexts=contextsFor(item,kind);if(!contexts.length||contexts.some(s=>s!=='settings'&&!SCREENS.some(x=>x.id===s)))throw new Error('잘못된 화면 연결: '+item.id);}
   counts[kind]=items.length;
  }
+ for(const source of catalog.bubblePlatformSources??[]){if(source.screen!=='chat'||!['ios','android'].includes(source.platform)||!['sent','received'].includes(source.who)||!['body','character'].includes(source.kind)||!source.files.length||source.files.some(file=>!catalog.files.some(f=>f.path===file&&f.platform===source.platform)))throw new Error('플랫폼 말풍선 화면 연결을 확인하세요.');}
  return {...counts,files:catalog.resources.reduce((n,r)=>n+r.variants.length,0)};
 }

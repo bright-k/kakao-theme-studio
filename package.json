@@ -1,6 +1,6 @@
 {
   "name": "kakao-theme-studio-local",
-  "version": "0.7.0",
+  "version": "0.12.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -17,8 +17,19 @@
     "test:screens": "node test/screen-workflow.mjs",
     "audit:screens": "node scripts/audit-screens.mjs",
     "test:preview": "node test/preview-seams.mjs",
+    "test:projects": "node test/project-management.mjs",
+    "test:asset-cleanup": "node test/asset-cleanup.mjs",
     "test:storage": "node test/storage-workflow.mjs",
     "test:unified": "node test/unified-design.mjs",
+    "test:platform-bubbles": "node test/platform-bubbles.mjs",
+    "test:shared-body": "node test/shared-bubble-body.mjs",
+    "test:android-guides": "node test/android-composed-guides.mjs",
+    "test:live-preview": "node test/live-preview.mjs",
+    "test:placement": "node test/character-placement.mjs",
+    "test:bubble-body": "node test/bubble-body-size.mjs",
+    "test:common-policy": "node test/common-policy-workflow.mjs",
+    "audit:common-colors": "node scripts/audit-common-colors.mjs",
+    "test:preview-context": "node test/preview-context.mjs",
     "test:states": "node test/state-geometry.mjs"
   },
   "dependencies": {

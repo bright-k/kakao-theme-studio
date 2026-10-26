@@ -16,3 +16,7 @@ export function outputTarget(file,{resourceId}={}){
  let qualifier='';if(resourceId){const r=RESOURCES.find(r=>r.id===resourceId);if(!r?.variants.some(v=>v.path===file))throw new Error('리소스 그룹과 출력이 일치하지 않습니다.');}else qualifier=f.platform==='ios'?(f.fileName.match(/@([23])x/)?.[1]??'1')+'x':f.path.split('/')[2];
  return {base:['assets',f.platform,...parts,...(qualifier?[qualifier]:[]),name].join('/'),kind:resourceId?'resource':'file',...(resourceId?{resourceId}:{file})};
 }
+export function platformBubbleTarget(platform,who,group,kind){
+ if(!['ios','android'].includes(platform)||!['sent','received'].includes(who)||typeof group!=='boolean'||!['body','character'].includes(kind))throw new Error('플랫폼 말풍선 원본 대상을 확인하세요.');
+ const slot=who+'Bubble'+(group?'Group':'')+(kind==='character'?'Decoration':'');return {base:'assets/'+platform+'/'+commonRole(slot)+'-source',kind:'platform-bubble-'+kind,platform,who,group};
+}

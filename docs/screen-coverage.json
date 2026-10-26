@@ -1,6 +1,6 @@
 {
   "profile": "kakaotalk-26.9.0",
-  "toolVersion": "0.7.0",
+  "toolVersion": "0.12.0",
   "counts": {
     "ios": 105,
     "android": 49,
@@ -8,6 +8,192 @@
     "files": 146
   },
   "commonSourceSlots": 51,
+  "platformBubbleSources": [
+    {
+      "platform": "ios",
+      "who": "sent",
+      "group": false,
+      "kind": "body",
+      "screen": "chat",
+      "files": [
+        "ios/Images/chatroomBubbleSend01@2x.png",
+        "ios/Images/chatroomBubbleSend01@3x.png",
+        "ios/Images/chatroomBubbleSend01Selected@2x.png",
+        "ios/Images/chatroomBubbleSend01Selected@3x.png"
+      ]
+    },
+    {
+      "platform": "ios",
+      "who": "sent",
+      "group": false,
+      "kind": "character",
+      "screen": "chat",
+      "files": [
+        "ios/Images/chatroomBubbleSend01@2x.png",
+        "ios/Images/chatroomBubbleSend01@3x.png",
+        "ios/Images/chatroomBubbleSend01Selected@2x.png",
+        "ios/Images/chatroomBubbleSend01Selected@3x.png"
+      ]
+    },
+    {
+      "platform": "ios",
+      "who": "sent",
+      "group": true,
+      "kind": "body",
+      "screen": "chat",
+      "files": [
+        "ios/Images/chatroomBubbleSend02@2x.png",
+        "ios/Images/chatroomBubbleSend02@3x.png",
+        "ios/Images/chatroomBubbleSend02Selected@2x.png",
+        "ios/Images/chatroomBubbleSend02Selected@3x.png"
+      ]
+    },
+    {
+      "platform": "ios",
+      "who": "sent",
+      "group": true,
+      "kind": "character",
+      "screen": "chat",
+      "files": [
+        "ios/Images/chatroomBubbleSend02@2x.png",
+        "ios/Images/chatroomBubbleSend02@3x.png",
+        "ios/Images/chatroomBubbleSend02Selected@2x.png",
+        "ios/Images/chatroomBubbleSend02Selected@3x.png"
+      ]
+    },
+    {
+      "platform": "ios",
+      "who": "received",
+      "group": false,
+      "kind": "body",
+      "screen": "chat",
+      "files": [
+        "ios/Images/chatroomBubbleReceive01@2x.png",
+        "ios/Images/chatroomBubbleReceive01@3x.png",
+        "ios/Images/chatroomBubbleReceive01Selected@2x.png",
+        "ios/Images/chatroomBubbleReceive01Selected@3x.png"
+      ]
+    },
+    {
+      "platform": "ios",
+      "who": "received",
+      "group": false,
+      "kind": "character",
+      "screen": "chat",
+      "files": [
+        "ios/Images/chatroomBubbleReceive01@2x.png",
+        "ios/Images/chatroomBubbleReceive01@3x.png",
+        "ios/Images/chatroomBubbleReceive01Selected@2x.png",
+        "ios/Images/chatroomBubbleReceive01Selected@3x.png"
+      ]
+    },
+    {
+      "platform": "ios",
+      "who": "received",
+      "group": true,
+      "kind": "body",
+      "screen": "chat",
+      "files": [
+        "ios/Images/chatroomBubbleReceive02@2x.png",
+        "ios/Images/chatroomBubbleReceive02@3x.png",
+        "ios/Images/chatroomBubbleReceive02Selected@2x.png",
+        "ios/Images/chatroomBubbleReceive02Selected@3x.png"
+      ]
+    },
+    {
+      "platform": "ios",
+      "who": "received",
+      "group": true,
+      "kind": "character",
+      "screen": "chat",
+      "files": [
+        "ios/Images/chatroomBubbleReceive02@2x.png",
+        "ios/Images/chatroomBubbleReceive02@3x.png",
+        "ios/Images/chatroomBubbleReceive02Selected@2x.png",
+        "ios/Images/chatroomBubbleReceive02Selected@3x.png"
+      ]
+    },
+    {
+      "platform": "android",
+      "who": "sent",
+      "group": false,
+      "kind": "body",
+      "screen": "chat",
+      "files": [
+        "android/res/drawable-xxhdpi/theme_chatroom_bubble_me_01_image.9.png"
+      ]
+    },
+    {
+      "platform": "android",
+      "who": "sent",
+      "group": false,
+      "kind": "character",
+      "screen": "chat",
+      "files": [
+        "android/res/drawable-xxhdpi/theme_chatroom_bubble_me_01_image.9.png"
+      ]
+    },
+    {
+      "platform": "android",
+      "who": "sent",
+      "group": true,
+      "kind": "body",
+      "screen": "chat",
+      "files": [
+        "android/res/drawable-xxhdpi/theme_chatroom_bubble_me_02_image.9.png"
+      ]
+    },
+    {
+      "platform": "android",
+      "who": "sent",
+      "group": true,
+      "kind": "character",
+      "screen": "chat",
+      "files": [
+        "android/res/drawable-xxhdpi/theme_chatroom_bubble_me_02_image.9.png"
+      ]
+    },
+    {
+      "platform": "android",
+      "who": "received",
+      "group": false,
+      "kind": "body",
+      "screen": "chat",
+      "files": [
+        "android/res/drawable-xxhdpi/theme_chatroom_bubble_you_01_image.9.png"
+      ]
+    },
+    {
+      "platform": "android",
+      "who": "received",
+      "group": false,
+      "kind": "character",
+      "screen": "chat",
+      "files": [
+        "android/res/drawable-xxhdpi/theme_chatroom_bubble_you_01_image.9.png"
+      ]
+    },
+    {
+      "platform": "android",
+      "who": "received",
+      "group": true,
+      "kind": "body",
+      "screen": "chat",
+      "files": [
+        "android/res/drawable-xxhdpi/theme_chatroom_bubble_you_02_image.9.png"
+      ]
+    },
+    {
+      "platform": "android",
+      "who": "received",
+      "group": true,
+      "kind": "character",
+      "screen": "chat",
+      "files": [
+        "android/res/drawable-xxhdpi/theme_chatroom_bubble_you_02_image.9.png"
+      ]
+    }
+  ],
   "missing": [],
   "items": {
     "ios": [

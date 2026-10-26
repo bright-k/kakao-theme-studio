@@ -138,3 +138,81 @@ assets/index.json(version=1)은 원본 경로별 SHA-256·크기·업로드 대�
 ProjectStore는 기존 패키지별 theme/storage 사본을 backups/asset-names-<UUID>/에 먼저 저장하고, 새 원본 등록·검증 후 theme 참조를 atomic rename으로 바꾼다. 구형 평면 저장소·백업 가져오기·복제는 준비 폴더에서 변환 후 등록한다. 기존 해시 파일·사용자 키·bindings·빌드는 삭제하거나 수정하지 않는다. storageVersion=2, assetNamingVersion=1이며 완료 프로젝트 재시작 시 재변환하지 않는다. 중간 실패 시 기존 참조와 원본이 남아 재시도할 수 있다.
 
 백업 포맷 3은 활성 참조의 깊은 경로를 폴더 항목 생성 없이 ZIP에 넣어 146개 전체 원본도 기존 파일 수 한도로 복원한다. 해시는 theme.json과 manifest에 포함하며 index.json은 복원 시 재구성한다. 비활성 과거 원본과 키·세션은 포함하지 않는다. ZIP 포맷 1·2의 해시 이름 원본은 검증 후 이름을 변환한다. 같은 경로가 다른 프로젝트에 있어도 별도 루트/독립 파일이므로 충돌하지 않는다. 상세 근거는 REVIEW-0.7.0.md를 따른다.
+
+## 0.7.1 합성 캐릭터의 최소 내용 여백
+
+카카오톡은 내용과 여백으로 표시 크기를 결정하므로 PNG 크기 자체를 최소 크기로 가정하지 않는다. 장식이 있는 bubbleGeometry는 가로 여백 합계를 width−1, 세로 여백 합계를 height−1 이상으로 보정해 1논리픽셀의 늘림 띠를 제외한 고정 구간을 확보한다. 부족분을 양쪽에 정수 분배하며 위쪽 헤더를 보존한다. src/core.mjs의 ninePatch는 네 방향 insets를 받아 iOS와 같은 내용 영역을 출력한다. 비장식 경로와 사용자 개별 가이드/원본 재정의 우선순위는 유지한다.
+
+합성 미리보기는 텍스트 측정값+실제 출력 여백으로 크기를 구하고 PNG 최소 크기 강제를 사용하지 않는다. 가로 여백을 제외한 너비에서 줄바꿈해 화면 폭을 유지한다. 짧은 메시지의 여유 공간 증가는 합성 이미지로 캐릭터 크기를 보존하는 제약이며 독립된 카카오톡 캐릭터 슬롯을 가정하지 않는다. compilerVersion 0.7.1로 이전 출력/descriptor 캐시를 분리한다.
+
+## 0.8.0 Android 대상과 미리보기 좌표·장면
+
+src/android.mjs의 ANDROID_TARGET_SDK=37, ANDROID_BUILD_TOOLS_MAJOR=37을 빌드 계약으로 사용한다. doctor는 안정 플랫폼(37.2 같은 소수 버전 경로 포함)과 정식 도구만 선택하고 SDK의 CodeName이 빈 값/REL인지 확인한다. 구형 SDK만 있으면 실패하며 설치 명령을 제공한다. compileSdk는 선택한 플랫폼의 major API, targetSdk는37, minSdk는28이다. aapt badging으로 최종 APK의 min/target/ID/versionCode를 확인한다. 자동 JDK 탐색은 버전 이름을 하드코딩하지 않는다. Java Activity는 dp와 WindowInsets를 사용한다.
+
+public/preview-interaction.js는 DOM border box와 절대 위치의 padding box 차이를 보정한다. Canvas의 client rect와 고유 크기로 포인터를 역변환하고, 프레임의 CSS 배율·스크롤을 반영해 선택 DOM 위치를 구한다. 선택 DOM은 Canvas와 분리돼 내보내는 PNG에 섞이지 않는다. preview-renderer의 hit는 현재 clip과 교차하며, 실제 이미지 사각형·글자 측정값을 사용한다. nineRect는 drawNine과 같은 정수 분할 좌표를 사용해 수동 가이드를 포함한 캐릭터 사각형을 투영한다.
+
+component-preview.js는 4개 대표 적용 장면의 렌더링과 속성 연결을 담당한다. 선택한 장면·플랫폼 보기·상태는 DOM에만 있으며 프로젝트 revision·백업을 변경하지 않는다. 카탈로그 jump와 화면 연결은 기존 한 인스턴스를 사용한다. 전달 장면은 실제 생성 PNG와 CSS/9-patch 기하를 사용하고, 다른 장면도 실제 출력 색상과 원본 이미지를 읽는다. 시연 문구·비편집 고정 글자색의 대비는 배치 이해를 위한 표현이며 카카오톡 레이아웃 변경을 주장하지 않는다. 새 브라우저 모듈은 server의 명시적 staticFiles에 등록했다. compilerVersion0.8.0으로 descriptor/출력 캐시를 분리한다.
+
+## 0.9.0 의미별 공통 색상과 캐릭터 본체 기하
+
+public/common-colors.js의39개 정의를 서버·카탈로그·브라우저가 공유한다. 각 정의는 역할 ID, 화면 연결, iOS 색상/연관 alpha 속성, Android 색상, 팔레트 fallback과 공통 기본 opacity를 갖는다. resolveStyles는 공통 자동값 → commonColors 지정값 → 플랫폼별 overrides 순으로 적용한다. 공통 입력은 #RRGGBB이고, 투명도/ARGB는 플랫폼별 세부 입력을 유지한다. Android의 하나의 슬롯을 공유하는 이름·내용이나 여러 상태는 한 정책으로 묶고 iOS만 별도 override를 할 수 있다. 개별 화면 편집으로 palette를 변경하지 않는다.
+
+commonColors는 optional schemaVersion1 필드이며 validateExtensions에서 역할/색상을 검사한다. visualRevision·cloneProject·이력·프로젝트 ZIP에 포함한다. publicCatalog.commonColors로 UI/외부 템플릿에 공개하며 새 원본 슬롯을 추가하지 않는다. 공통 UI는 별도의 플랫폼 편집기를 복제하지 않고 기존 catalog-editor의 정확한 속성으로 이동한다. 재연결은 해당 정책의 override/연관 alpha만 제거하고 원본·다른 역할은 보존한다. 자동값 복귀는 commonColors 항목만 제거한다. audit-common-colors는 모든 색상/숫자 속성을 공통·기존 말풍선 정책·플랫폼 전용으로 분류한다.
+
+합성 말풍선은 보호 영역(baseWidth−1 및 본체55)과 사용자 padding을 별도로 더한다. decorated 폭은 baseWidth+2paddingX, bodyHeight는56+2paddingY다. char header는 size+gap이다. 합성 본체의 중앙 strip만 늘려 모서리/원본 픽셀을 유지하고, 공통 승격 시 collapseBubbleBody로 같은 strip을 제거한다. iOS/Android insets 합계는 출력 축 길이−1이어서 짧은 글자에서도 고정 영역이 압축되지 않으며, padding이 달라지면 출력 크기도 변해 설정 증가분이 상쇄되지 않는다. 수동 플랫폼 가이드·출력별 원본의 우선순위는 유지한다. compilerVersion0.9.0으로 구형 캐시와 분리한다.
+
+선택 영역의 실제 hit/nineRect는 변경하지 않고 overlayBounds에만5CSSpx padding을 적용한다. Canvas 안으로 clip하고, 배너·버튼 설명용 backdrop의 hit를 생략한다. 따라서 화면에서 벗어나거나 장식 배경이 편집 대상으로 표시되지 않는다.
+
+## 0.9.1 compact 본체
+
+0.9.0의 본체 전체 고정 영역을 본문 padding에 더하는 계산은 폐기한다. 색상 본체는 모서리·꼬리의 cap과1픽셀 stretch만 남긴 크기로 생성한다. 이미지 원본은64×56을 유지한다. bodyHeight와 bodyInsets의 세로 값은 캐릭터 on/off에서 같고, header만 위에 추가한다. 고정 그림의 가로 공간은 필요한 만큼만 늘린다.
+
+내용 최소치는 폭1픽셀·한 줄16픽셀이다. 작은 여백 입력은 fixed cap 최소값에 제한되며 적용값을 UI에 표시한다. 이 기준보다 작은 실제 카카오톡 글꼴의 호환성은 별도 기기 확인 대상이다. 유효한 기존 iOS 수동 좌표가 있으면 기존 범위 안에서 기하를 확보하며 플랫폼별 재정의 우선순위를 유지한다.
+
+bodyCaps는 파생 메타데이터다. 원본 승격은 모서리·꼬리 안쪽의 중앙 띠만 늘리거나 줄여 canonical64×56으로 반환한다. 서로 겹치지 않는 본체·헤더는 PNG bitblt로 조립해 반투명 가장자리 RGB도 보존한다. compilerVersion0.9.1로 구형 캐시와 분리한다.
+
+## 0.10.0 배치 기하
+
+선택 shiftX/placementY/layer는 bubbleDesign의 첫/연속 공통 필드다. bodyWidth/bodyHeight/bodyInsets는 본체 기준이고 bodyRect는 전체 PNG 안의 위치다. 외부 여백은 output width/insets에 더하되 bodyInsets에 넣지 않는다. layoutHeader는 미리보기의 본체 기준 위치를 유지한다. 실제 header만 변경해 캐릭터를 이동한다. 안전 범위는 고정 cap·원래 paddingY를 기준으로 하며 요청값과 적용값을 구분한다. composeBubble의 bodyOnly는 승격용 장식 전 그림이며 겹침은 알파-over로 조립한다. 적용 예외와 가이드는 기존 우선순위다. 범위 슬라이더와 pointer 드래그는 같은 필드를 편집한다.
+
+## 0.10.1 갱신 큐
+
+preview-queue.js의80ms/160ms scheduler와 latest-only 생성 큐가 자동 갱신을 담당한다. 명시 refresh는 scheduler를 취소하고 큐가 최신 요청까지 비워지는 것을 기다린다. apply는 편집 snapshot이 최신 입력과 달라도 같은 프로젝트/epoch이면 중간 결과를 표시하며, 전환/undo의 이전 결과는 닫아 폐기한다. 상태 완료 문구는 비동기 부수 갱신 후에도 현재 snapshot과 일치할 때만 표시한다. 변환 캐시는 bytes hash+크기+옵션이며 최종 가이드 적용은 캐시 이후의 기존 경로다. 출력 형식·저장 버전은 바꾸지 않았다.
+
+## 0.10.2 합성 출력 가이드 프레임
+
+resourceGeometry의 선택 bodyRect는 원래 출력 픽셀의 본체 위치/크기다. validGeometry와 확장 필드 검증에서 정수·범위를 확인하며 기존 레코드는 호환한다. resolveOutputGuides는 합성/비재정의 말풍선에만 본체 프레임 변환·안전 cap/내용 영역 보호·논리 픽셀 정렬을 적용하고 raw PNG 바이트는 유지한다. 그 외 출력은 기존 resizeGeometry다. 시각 편집은 PNG에서 읽은 적용 patch와 현재 composition으로 bodyRect를 구성하고 edit 시 함께 저장한다. 캐시 키는 원래 resourceGeometry와 compilerVersion0.10.2를 포함한다.
+
+## 0.10.3 등록 시 본체 활성화
+
+activateCommonBubbleBody는 공통 body 슬롯 등록/승격 시 관련 bubbleDesign.body만 image/auto로 바꾸고 기존 iOS guide 적응 함수를 호출한다. 슬롯과 저장 schema는 바꾸지 않았다. 서버 등록 결과뿐 아니라 편집기의 로컬 모델도 같은 helper를 사용한다. 승격 replace는 새 bubbleDesign/overrides를 받아 모드와 보정 좌표를 함께 반영한다. 원본 조회/프로젝트 로딩에서는 활성화하지 않는다. 플랫폼 링크는 공통 원본을 복제하지 않고 기존 리소스 그룹 편집기로 이동한다.
+
+## 0.11.0 플랫폼별 합성 입력
+
+선택 bubblePlatforms는 `{ios|android:{sent|received:{body?:ref,character?:{image?:ref,decorationEnabled?,size?,gap?,offset?,anchor?,shiftX?,placementY?,layer?},group?:{body?,character?}}}}`다. 공통 bubbleDesign/assets는 그대로 유지하고 platformBubbleProject가 얕은 투영에 해당 플랫폼 원본·필드만 얹는다. 연속은 기존 공통 group 규칙과 첫 번째 플랫폼 설정을 따르며 명시 group 예외가 우선한다. 저장 객체를 생성 중 수정하지 않는다. 빈 character는 UI의 개별 편집 모드만 표시하고 필드 없는 경우의 출력은 바꾸지 않는다.
+
+최종 resourceOverrides > 플랫폼 입력 > 공통 입력 > 생성 기본값 순서다. 이미지 비활성화는 기존 최상위 정책을 따른다. 플랫폼 본체만 교체해도 공통 캐릭터가 합성되고 캐릭터 예외는 공통 본체/플랫폼 본체 양쪽에 적용된다. iOS 수동 가이드 적응도 전후 투영의 본체 기하로 계산하고 Android는 기존 본체 프레임 보호를 사용한다. provenance는 body/decoration의 플랫폼·공통 출처와 캐릭터 수치 예외를 구분한다.
+
+POST /api/bubble-platform-asset는 대상/참조를 검증해 assets/<platform>/chat/<side>/<first|group>/<body|character>-source-vNNNN.png에 등록하고 해당 계층만 변경한다. assetReferences/platformBubbleAssets가 검증·해시·자산 목록·clone/backup/migration을 공유한다. publicCatalog.bubblePlatformSources의16개 입력은 채팅방/관련 출력에 연결한다. storageVersion2/assetNamingVersion1/backup format3/schemaVersion1은 유지하고 visualRevision에 새 필드를 추가했다. compilerVersion0.11.0이다.
+
+platform-bubble-editor.js는 공통 디자인 편집기에 내장되고 플랫폼 늘림/최종 출력은 기존 catalog-editor를 재사용한다. 명시 합성 전환은 관련 최종 원본 예외만 해제한다. 원본9-patch 가이드는 필요 시 resourceGeometry로 보존하며 파일을 삭제하지 않는다.
+
+## 0.12.0 원본 보관함
+
+public/asset-references.js의 assetReferences를 서버 검증/백업/정리와 ProjectHistory가 공유한다. referencedAssets는 states 전체를 합산한다. 서버 ProjectStore.assetHistories는 client UUID/단조 순번/프로젝트/참조 집합을 보유한다. POST asset-history로 등록/정상 종료 해제하며 새 순번만 반영한다. 이 기록은 서버 메모리 범위이며 브라우저 종료 통지가 없으면 재시작까지 보수적으로 유지한다. 프로젝트/키 저장 포맷을 바꾸지는 않는다.
+
+POST asset-cleanup은 {clientId,sequence,project,historyRefs}를 받아 현재 저장 객체까지 합산한 후보/보호 개수와 trash 항목을 반환한다. asset-archive는 refs를 추가로 받아 transaction에서 다시 검사하고 후보가 아닌 항목이 하나라도 있으면 이동하지 않는다. asset-restore는 projectId/items[{batchId,ref}]로 원래 경로에 복구한다. GET asset-trash-file은 인증된 프로젝트/작업/원본 경로와 manifest 해시를 검사한 PNG만 반환한다. 경로 입력·소유·중복·선택 한도·링크를 검증한다.
+
+src/asset-trash.mjs는 `<project>/asset-trash/<uuid>/manifest.json`과 원래 assets 상대 경로를 사용한다. manifest version1은 id/createdAt/assets[{ref,bytes,sha256}]다. manifest 임시 파일을 rename한 뒤 원본을 이동하므로 중단 시 존재하는 보관 파일만 나열하면 부분 작업도 복구 가능하다. index.json은 삭제하지 않아 immutable 버전을 예약한다. 복구는 exclusive link 생성 뒤 보관 링크를 해제하고 기존 다른 바이트는 덮어쓰지 않는다. 정상 복구된 manifest는 기록으로 남지만 실제 보관 파일이 없으면 목록에서 제외한다. 코드가 생성한 키·빌드·백업은 이 경로와 분리된다.
+
+public/asset-cleanup.js는 네이티브 modal dialog에 후보/보관함과 선택 용량을 표시한다. modal이 열린 동안 전역 실행취소 단축키를 막고 이동은 명시 선택으로 수행한다. 보관함은 로컬 복원용이며 총 디스크 공간을 절약하지 않는다. 생성/백업은 기존 명시 파일 집합만 묶으므로 trash를 포함하지 않는다. 정리 전후 생성 바이트는 동일하고 compilerVersion0.12.0은 구형 서버/캐시를 구분한다.
+
+에셋 영구 삭제는 asset-delete(활성 후보)와 asset-trash-delete(보관본) API를 사용한다. 후보는 보관과 같은 transaction/참조 재검사를 거치고, 보관본도 설정/등록된 기록 보호 및 manifest 경로/해시를 검증한다. 선택 전체를 사전 검증한 뒤 명시 파일만 unlink한다. index/assetHashes는 삭제하지 않아 버전 번호 재사용을 방지한다. 클라이언트는 선택 개수/용량·복구 불가를 검토한 후 실행한다.
+
+## 프로젝트 관리와 정리
+
+src/project-trash.mjs가 데이터 루트의 project-trash/<UUID>/manifest.json 및 project/ 폴더를 관리한다. manifest(version1)은 작업id·projectId·packageId·name·archivedAt·status를 보관한다. ProjectStore가 초기화 때 이 기록을 읽어 retiredProjects에 ID/패키지를 예약하고 구형 JSON의 재이관과 save의 암묵 신규 등록을 거절한다. 활성 폴더가 같은 ID로 복원되면 기록을 대조해 retired에서 제외한다. 폴더 이동 전 manifest를 기록하고 복구 후 상태 갱신이 중단돼도 실제 위치/소유로 판단한다.
+
+GET project-management는 활성/보관 목록과 용량/파일수/시각/revision을 반환한다. POST project-rename/project-remove는 최신 revision을 검사한다. project-remove의 mode는 archive/delete이며 queued/running build를 저장소 transaction 안에서도 확인한다. archive는 안전한 프로젝트 전체 tree만 rename하고, delete는 이 보관 단계를 거쳐 명시 폴더를 제거한다. POST project-restore/project-trash-delete로 보관본을 복구/삭제한다. symlink와 임의 경로를 거부한다. keys/bindings와 구형 공용 원본은 별도 루트에 유지한다. 영구 삭제 tombstone은 오래된 저장을 계속 막되, 검증된 백업 ZIP을 사용자가 명시 import하면 원래 id/pkg 재등록을 허용한다. 보관본이 남아 있으면 보관함 복구/독립 복사를 안내한다.
+
+public/project-manager.js는 한 관리 dialog에 열기/이름 변경/복제/백업/정리와 확인 영역을 제공한다. 현재 프로젝트 제거 시 로컬 저장/미리보기 예약을 취소하고 다른 프로젝트 또는 빈 상태로 전환한다. 마지막 프로젝트 제거 뒤 재접속해도 기본 프로젝트를 다시 만들지 않는다. 실제 파일 정리는 사용자 선택에서만 실행하며 테스트는 격리 저장소에 한정한다.

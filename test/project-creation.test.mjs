@@ -32,7 +32,7 @@ test('existing project archives regenerate with the shared ID and a separate com
   const declaration=`-kakaotalk-theme-id: '${p.packageId}';`;
   assert.ok((await z.file('KakaoTalkTheme.css').async('string')).includes(declaration));
   assert.equal(c.styles.ios['ManifestStyle/-kakaotalk-theme-id'],p.packageId);
-  assert.equal(c.compilerVersion,'0.7.0');assert.notEqual(c.revision,sha('0.6.0\n'+JSON.stringify(p)));
+  assert.equal(c.compilerVersion,'0.12.0');assert.notEqual(c.revision,sha('0.7.0\n'+JSON.stringify(p)));
   assert.deepEqual(p,before);
   const restored=await importProject(await exportProject(p,root),root);
   assert.equal(iosCSS(restored).match(/-kakaotalk-theme-id: '([^']+)'/)[1],p.packageId);
