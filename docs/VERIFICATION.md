@@ -1,3 +1,18 @@
+# 공통 스킬 설치·실행 환경 문서 (2026-10-31)
+
+- SKILL와 environment/build/editing/spec의 상대 링크가 모두 존재하며 shell 명령10개 블록은 `zsh -n`으로 구문 검증했다. 설치 명령은 실행하지 않았다.
+- 기존 prepare의 읽기 전용 `--doctor`가 `status=checked`, `environment.ok=true`, `missing=[]`로 반환했다. 선택된 JDK의 `javac -version`은17.0.5, SDK Platform은android-37.2, Build Tools는37.0.0이다. doctor가 실제 Java 버전까지 검사하지 않는 점은 문서에 별도로 명시했다.
+- Node/pnpm/JDK/Android SDK 설치·환경변수에 대한 공식 문서를 조회했고 근거 링크를 환경 지침에 포함했다. sdkmanager와 ANDROID_SDK_ROOT의 deprecated 상태 및 현재 앱 호환 절차를 구분했다. 새 호스트의 실제 설치·라이선스 수락·SDK 관리 도구 실행은 검증하지 않았다.
+- 지침/README/HANDOFF만 보강했으며 앱 코드·의존성/lockfile·준비 스크립트·사용자 데이터·호스트 설정을 변경하지 않았다. `git diff --check` 통과. 동작 변경이 없어 이미 통과한 Git 회귀·브라우저·APK 통합 빌드는 반복하지 않았다.
+
+# Codex·Claude 공통 제작 스킬 (2026-10-31)
+
+- `node --test test/skill-prepare.test.mjs`: 7/7 통과. 격리된 `.test-data/skill-*` 로컬 원격으로 실제 fast-forward, pull.rebase/autostash 설정이 있는 환경, 읽기 전용 비fetch, 미커밋/미추적 파일 보존, 로컬 선행/분기, detached/Git 작업/upstream 없음, 원격 실패의 로그 비밀값 제외, 다른 상위 저장소 갱신 방지, doctor 실패, Git 없는 환경·symlink CLI를 확인했다. 본인이 만든 임시 디렉터리만 정리했다.
+- skill-creator의 `quick_validate.py skills/kakao-theme-studio`: `Skill is valid!`. 필요한 PyYAML은 임시 폴더에만 설치 후 제거했으며 앱 의존성/lockfile은 바꾸지 않았다. Codex UI 메타데이터는 공식 생성기로 작성했다.
+- `.agents/skills/kakao-theme-studio`와 `.claude/skills/kakao-theme-studio`의 상대 링크가 공통 원본으로 해석되고 Claude 경로의 CLI 실행도 정상이다. Markdown reference 경로와 `git diff --check`를 확인했다. 실제 Claude Code/Codex 새 세션에서 자동 선택·명시 호출은 아직 검사하지 않았다.
+- 현재 저장소의 준비 `--pull`은 `local-changes`로 fetch/pull을 생략했다. `--doctor`는 기존 doctor를 실행해 SDK Platform37.2/Build Tools37/JDK 및 필수 도구 정상으로 반환했다. 앱/컴파일러0.14.1과 카탈로그150개 출력을 읽었다. 사용자 `.data`/키/설정/빌드를 테스트 입력으로 열거나 변경하지 않았다.
+- 앱 런타임·출력 변경이 없어 브라우저 회귀와 실제 APK/ktheme 통합 빌드는 재실행하지 않았다. 기기·카카오톡 적용 확인 범위도 확대하지 않았다.
+
 # 0.14.0 저장·생성 진행·사용성 (2026-10-31)
 
 - 전체 단위85/85 통과. 새 usability.test는 임시본의 잘못된 메타데이터·자산 보호·서버 재시작·순번 역전·백업 제외, 배경 적용/원본 보관, 실제 플랫폼/선택 픽셀 대비를 검증한다.

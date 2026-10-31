@@ -1,6 +1,21 @@
 # 다음 agent를 위한 인수인계
 
-현재 앱 버전과 compilerVersion은 0.14.0이다. REVIEW-0.14.0.md의 저장·복구·생성 진행·사용성 계약을 먼저 확인한다. REVIEW-0.13.1.md의 말풍선 본체 폭/캐릭터 외부 공간 분리 계약을 먼저 확인한다. REVIEW-0.13.0.md의 HEX·단색 배경·iOS 가이드 계약을 먼저 확인한다. REVIEW-0.12.0.md의 원본 보관함 계약을 먼저 확인한다. REVIEW-0.11.0.md의 플랫폼별 본체/캐릭터 계층을 먼저 확인한다. REVIEW-0.10.3.md의 공통 본체 활성화/플랫폼 설정을 먼저 확인한다. REVIEW-0.10.2.md의 본체 기준 Android 가이드 보정을 먼저 확인한다. REVIEW-0.10.1.md의80/160ms 연속 갱신 계약을 먼저 확인한다. REVIEW-0.10.0.md의 배치·슬라이더 계약을 먼저 확인한다. REVIEW-0.9.1.md의 본체 켬/끔 픽셀 비교를 먼저 확인한다. REVIEW-0.9.0.md와 COMMON-COLORS.md의 공통 정책·캐릭터 여백 보정을 먼저 확인한다. REVIEW-0.8.0.md의 Android 17 대상과 선택 좌표·적용 장면 개선을 먼저 확인한다. REVIEW-0.7.1.md의 짧은 메시지 캐릭터 크기 보정을 유지한다. REVIEW-0.7.0.md, REVIEW-0.6.0.md, REVIEW-0.5.0.md, REVIEW-0.4.0.md와 아래 공통 ID 변경을 확인한다. 화면별 편집 변경은 REVIEW-0.3.0.md와 screen-coverage.json을 확인한다. 작업 대상은 `/Users/bright/Desktop/work/kakao-theme-studio`이며 다른 사본과 동기화하지 않는다. 이 폴더의 Studio.command로 실행한다. README, AGENTS, REVIEW-0.2.0, SUPPORT-MATRIX, ARCHITECTURE, TESTING 순으로 확인한다. 별도 글로벌 스킬은 필요 없다.
+현재 앱 버전과 compilerVersion은 0.14.1이다. REVIEW-0.14.0.md의 저장·복구·생성 진행·사용성 계약을 먼저 확인한다. REVIEW-0.13.1.md의 말풍선 본체 폭/캐릭터 외부 공간 분리 계약을 먼저 확인한다. REVIEW-0.13.0.md의 HEX·단색 배경·iOS 가이드 계약을 먼저 확인한다. REVIEW-0.12.0.md의 원본 보관함 계약을 먼저 확인한다. REVIEW-0.11.0.md의 플랫폼별 본체/캐릭터 계층을 먼저 확인한다. REVIEW-0.10.3.md의 공통 본체 활성화/플랫폼 설정을 먼저 확인한다. REVIEW-0.10.2.md의 본체 기준 Android 가이드 보정을 먼저 확인한다. REVIEW-0.10.1.md의80/160ms 연속 갱신 계약을 먼저 확인한다. REVIEW-0.10.0.md의 배치·슬라이더 계약을 먼저 확인한다. REVIEW-0.9.1.md의 본체 켬/끔 픽셀 비교를 먼저 확인한다. REVIEW-0.9.0.md와 COMMON-COLORS.md의 공통 정책·캐릭터 여백 보정을 먼저 확인한다. REVIEW-0.8.0.md의 Android 17 대상과 선택 좌표·적용 장면 개선을 먼저 확인한다. REVIEW-0.7.1.md의 짧은 메시지 캐릭터 크기 보정을 유지한다. REVIEW-0.7.0.md, REVIEW-0.6.0.md, REVIEW-0.5.0.md, REVIEW-0.4.0.md와 아래 공통 ID 변경을 확인한다. 화면별 편집 변경은 REVIEW-0.3.0.md와 screen-coverage.json을 확인한다. 작업 대상은 `/Users/bright/Desktop/work/kakao-theme-studio`이며 다른 사본과 동기화하지 않는다. 이 폴더의 Studio.command로 실행한다. README, AGENTS, REVIEW-0.2.0, SUPPORT-MATRIX, ARCHITECTURE, TESTING 순으로 확인한다. 테마 제작 절차는 skills/kakao-theme-studio/SKILL.md를 사용하며 전역 설치는 선택 사항이다.
+
+## 공통 스킬 설치·실행 환경 보강 (2026-10-31)
+
+- `references/environment.md`를 추가하고 SKILL/AGENTS/CLAUDE/README 및 build/spec에서 연결했다. 최초 실행·새 호스트에서는 Node 확인이 준비 스크립트보다 먼저다. Node22+/고정 pnpm 의존성, Android용 JDK17+/안정 SDK Platform·Build Tools37+, 선택적인 Playwright/adb/에뮬레이터를 작업별로 구분했다.
+- 공식 설치 출처, macOS JDK 선택과 실제 javac 버전 확인, SDK 루트·Command-Line Tools 구조, 패키지·라이선스·환경변수와 같은 셸에서의 서버 실행을 안내한다. 공식 ANDROID_HOME 권장/ANDROID_SDK_ROOT deprecated와 현재 앱의 후자 우선 탐색, sdkmanager deprecated/Android CLI 권장을 함께 기록했다. 현재 도구 출력이 구형 명령이라는 이유로 앱을 수정하지 않는다.
+- doctor.status=checked/exit0과 안쪽 environment.ok·missing을 구분한다. doctor의 실제 Java 버전·라이선스/SDK 관리 CLI 미검증 한계, SDK 없는 iOS UI 부분 생성과 CLI의 키 선행 요구도 설명했다.
+- 상대 문서 링크·설치 명령10개 블록의 zsh 구문 및 읽기 전용 doctor/javac 점검이 통과했다(javac17.0.5, Platform37.2, Build Tools37.0.0). 이 요청은 지침 보강이므로 실제 설치·라이선스 수락·셸 설정/서버/앱 소스/사용자 데이터 변경은 하지 않았다. 새 호스트에서의 설치 실행 검증은 별도다.
+
+## Codex·Claude 공통 제작 스킬 (2026-10-31)
+
+- `skills/kakao-theme-studio`에 SKILL, 편집/생성 reference, 공통 스펙과 dependency-free 준비 스크립트를 추가했다. `.agents/skills/kakao-theme-studio`와 `.claude/skills/kakao-theme-studio`는 같은 원본을 가리킨다. 홈 전역 설치와 실제 Claude Code/Codex 새 세션 호출은 수행하지 않았다.
+- 사용자의 명시적인 경계를 SKILL/AGENTS/CLAUDE에 기록했다. 테마 제작은 프로젝트 설정·에셋·생성 결과만 다루며, 별도 요청 없이 스튜디오 소스·템플릿·의존성·테스트를 수정하지 않는다. Git 최신화도 직접 코드 수정·커밋·push·충돌 해결 권한이 아니다.
+- prepare 기본은 읽기 전용이다. `--pull`은 변경 없음/upstream/진행 중 Git 작업 없음 및 fast-forward 조건에서만 갱신한다. 실패는 민감한 Git 원문 로그 없이 상태로 반환하고 stash/reset/rebase를 하지 않는다. `--doctor`는 기존 doctor만 호출한다. 서버/프로젝트/키를 열거나 재시작하지 않는다.
+- 격리된 `.test-data/skill-*` 로컬 Git 회귀 7개, 스킬 공식 frontmatter 검증, symlink 경유 CLI 및 두 discovery 링크 검증이 통과했다. 실제 저장소의 `--pull`은 기존 미커밋 변경을 감지해 fetch/pull을 생략했고 doctor는 환경 정상으로 확인했다. 상세는 VERIFICATION/TESTING을 따른다.
+- 이 작업에서 읽은 package.json/COMPILER_VERSION은0.14.1, 카탈로그는150개 출력이다. 아래0.14.0 이하 절의 버전/슬롯 수/빌드 검증은 당시 기록이다. 이번 변경은 스킬·지침·검증용 코드이며 앱 출력/컴파일러/사용자 데이터는 변경하지 않았다. 기존 public/test/README의 미커밋 작업도 보존했다. 실제 카카오톡 적용은 추가 확인하지 않았다.
 
 ## 0.14.0 사용성 개선 완료 (2026-10-31)
 

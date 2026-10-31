@@ -1,7 +1,7 @@
 import {COMMON_COLORS} from '../public/common-colors.js';
 import {resourceChain} from './source-rules.mjs';
 import { readFileSync } from 'node:fs';
-export const COMPILER_VERSION = '0.14.1';
+export const COMPILER_VERSION = '0.14.2';
 export const CATALOG = JSON.parse(readFileSync(new URL('../templates/profile-26.9.0.json',import.meta.url),'utf8'));
 export const IOS_PROPERTIES = new Map(CATALOG.iosProperties.map(p=>[p.id,p]));
 export const ANDROID_COLORS = new Set(CATALOG.androidColors.map(p=>p.id));
@@ -15,6 +15,7 @@ export const RESOURCES = [...new Set(CATALOG.files.map(logicalResource))].map(id
  const variants=CATALOG.files.filter(f=>logicalResource(f)===id);const first=variants[0];
  return {id,platform:first.platform,name:first.fileName.replace(/@[23]x(?=\.png)/,''),group:resourceGroup(first),variants,
   optional:/BgImage|background_image|maintabBgImage|maintab_cell_image|splash/.test(first.path),
+  logicalSizeEditable:first.platform==='ios'&&/Bubble/.test(first.fileName),
   note:/splash/.test(first.path)?'공식 가이드상 Android 12 미만에서만 적용됩니다.':first.path.includes('sw600dp')?'태블릿 리소스입니다. 실제 기기 적용은 미검증입니다.':''};
 });
 const names={'background-color':'배경색','border-color':'구분선 색','border-alpha':'구분선 투명도','-ios-text-color':'글자색','-ios-text-alpha':'글자 투명도','-ios-title-edgeinsets':'첫 말풍선 내용 여백','-ios-group-title-edgeinsets':'연속 말풍선 내용 여백','-ios-background-image':'배경 이미지 / 늘림 지점','-ios-selected-background-image':'선택 이미지 / 늘림 지점','-ios-group-background-image':'연속 이미지 / 늘림 지점','-ios-group-selected-background-image':'연속 선택 이미지 / 늘림 지점'};

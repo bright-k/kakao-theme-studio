@@ -1,6 +1,10 @@
 # Kakao Theme Studio · Local
 
-현재 버전: **0.14.1**. 기존 [지원 항목표](docs/SUPPORT-MATRIX.md)와 [0.14.0 개선 내역](docs/REVIEW-0.14.0.md)에 더해 iOS 기본 프로필 2·3의 배율별 출력 4개를 지원합니다.
+현재 버전: **0.14.2**. 기존 [지원 항목표](docs/SUPPORT-MATRIX.md)와 [0.14.0 개선 내역](docs/REVIEW-0.14.0.md)에 더해 iOS 기본 프로필 2·3의 배율별 출력 4개를 지원합니다.
+
+**0.14.2 iOS 말풍선 개별 크기:** 말풍선 이미지의 세부 편집에서 논리 너비·높이를 직접 지정하면 개별 PNG를 해당 크기의 @2x/@3x로 출력합니다. 지정하지 않은 기존 원본은 기존 64×56 변환을 유지합니다. 늘림 지점·내용 여백·시각 편집은 지정한 크기를 사용하고, 설정은 실행취소·복제·프로젝트 백업에 함께 보관됩니다. Android와 같은 캐릭터 배치를 옮길 때는 이미지와 가이드를 함께 맞춥니다.
+
+플랫폼 본체·캐릭터 설정에는 현재 적용 방식이 표시됩니다. `완성 말풍선 이미지`는 본체와 캐릭터가 포함된 개별 출력이고, `본체·캐릭터 합성으로 전환`은 해당 이미지 연결을 해제해 별도 합성 설정을 적용합니다. 원본 파일은 보관하며 실행취소로 복귀할 수 있습니다.
 
 **0.14.1 프로필 3종:** 공통 기본 프로필 1~3을 iOS와 Android에서 함께 사용합니다. iOS CSS에 세 이미지 이름을 공백으로 연결하며, 기본 2·3을 등록하지 않은 프로젝트는 기본 1을 대체 원본으로 사용합니다. 친구·채팅 목록의 기본 미리보기는 1~3을 번갈아 보여 줍니다. 이는 비교용 배치 예시이며 실제 카카오톡의 프로필 배정 순서가 아닙니다. `프로필 미리보기`에서 한 종류만 고를 수도 있고, 이 선택은 저장된 테마를 변경하지 않습니다. iOS에는 별도의 전체 프로필 원본 슬롯이 없습니다.
 
@@ -67,6 +71,8 @@ Android 합성 말풍선은 개별 늘림·내용 가이드를 실제 본체 기
 
 비밀번호 표시 미리보기는 생성 PNG의 배율을 나눈 논리 크기를 사용합니다(기본 44px). 네 자리를 가운데에 배치하며, 원본의 투명 여백에 따라 캐릭터 자체의 크기는 달라집니다. 실제 카카오톡의 기기별 배치와 일치는 별도 확인 대상입니다.
 
+대화상대 이름은 미리보기에서 본문 대표색으로 표시합니다. 현재 확보한 테마 규격에는 대화방 상대 이름만 독립적으로 지정하는 색상 속성이 없으므로, 이 표시는 실제 카카오톡 이름 색상 제어를 의미하지 않습니다. Android 시작화면 미리보기는 세로 출력 이미지를 우선하며, 가로 출력은 해당 원본을 별도로 확인합니다.
+
 `전체 구성·리소스`는 26.9.0 샘플과 공식 가이드 기준 iOS 속성 105개, Android 색상 49개, 이미지 84개 그룹/150개 배율·화면별 출력을 다룹니다. 모든 이미지를 상태별·배율별로 교체하고 투명도·인셋·늘림을 조정할 수 있습니다. 리소스 템플릿 ZIP을 내려받아 같은 이름으로 편집 후 일괄 등록할 수 있습니다.
 
 실행취소/다시실행(⌘Z/⇧⌘Z), 디자인을 유지한 새 테마 복제, 배경 이미지 사용 여부·크롭 초점 조절도 추가했습니다. 기존 프로젝트와 키는 그대로 사용합니다.
@@ -132,20 +138,31 @@ node src/cli.mjs doctor
 sdkmanager "platforms;android-37.2" "build-tools;37.0.0"
 ```
 
-자동 탐색되지 않으면 `JAVA_HOME`, `ANDROID_SDK_ROOT`를 지정하세요. 전역 도구를 변경하지 않고 Android 공식 AAPT2, javac, D8, zipalign, apksigner를 직접 실행합니다. Gradle·Android Studio를 매번 실행할 필요는 없습니다.
+자동 탐색되지 않으면 `JAVA_HOME`, `ANDROID_HOME`을 실제 설치 위치로 지정하세요. 기존 `ANDROID_SDK_ROOT`도 설정되어 있다면 같은 SDK를 가리켜야 합니다. 전역 도구를 변경하지 않고 Android 공식 AAPT2, javac, D8, zipalign, apksigner를 직접 실행합니다. Gradle·Android Studio를 매번 실행할 필요는 없습니다. [최초 설치와 환경 점검](skills/kakao-theme-studio/references/environment.md)에 JDK·SDK 설치, 환경변수·라이선스, 실제 Java 버전과 doctor 결과 확인 방법을 정리했습니다. 현재 공식 Android 문서는 `android sdk`를 권장하며 위 명령은 기존 `sdkmanager` 사용 환경의 예시입니다.
 
 ## 다른 환경에서 설치
 
-이 전달본에는 실행 의존성이 포함되어 있습니다. 소스만 복사한 경우 Node를 설치한 뒤:
+소스만 받은 경우 Node.js 22 이상과 호환 pnpm을 준비하고 저장소 루트에서 고정 의존성을 설치하세요. 구체적인 설치 방법과 작업별 필수 도구는 [최초 설치와 실행 환경](skills/kakao-theme-studio/references/environment.md)을 따릅니다.
 
 ```sh
-npm install
-npx playwright install chromium
+pnpm install --frozen-lockfile
+node scripts/launch.mjs
 ```
 
-의존성 버전을 고정한 `pnpm-lock.yaml`도 포함되어 있습니다. 재현 가능한 설치는 `pnpm install --frozen-lockfile`을 사용하세요. Playwright/Chromium은 브라우저 테스트용이며 일반 실행에는 필요하지 않습니다.
+의존성 버전을 고정한 `pnpm-lock.yaml`을 유지하세요. Playwright/Chromium은 브라우저 테스트용이며 일반 실행에는 필요하지 않습니다. 자동 브라우저 테스트를 할 때만 `pnpm exec playwright install chromium`으로 Chromium을 추가합니다. 편집·미리보기·iOS 생성만 한다면 Android SDK 설치는 필수가 아닙니다.
 
 ## 개발·후속 agent
+
+테마 제작을 AI와 함께 진행하려면 [Codex·Claude 공통 스킬](skills/kakao-theme-studio/SKILL.md)을 사용하세요. 이 저장소에서 Codex는 `$kakao-theme-studio`, Claude Code는 `/kakao-theme-studio`로 호출합니다. 두 도구의 프로젝트 스킬 폴더는 같은 원본에 연결됩니다. 설치·이식 범위와 준비 스크립트 명세는 [공통 스펙](skills/kakao-theme-studio/references/spec.md)을 참고하세요. Claude 웹 채팅에서는 로컬 저장소·서버에 접근할 수 있는지 별도 확인이 필요합니다.
+
+스킬은 작업 시작 시 Git 상태를 확인하고 안전한 경우에만 `git pull --ff-only`로 갱신합니다. 미커밋 변경·분기·인증 실패는 자동 복구하지 않습니다. **테마 제작 중에는 별도 요청 없이 스튜디오 소스·템플릿·의존성을 수정하지 않습니다.** 지원하지 않는 요구나 오류는 먼저 한계와 재현 조건을 보고합니다.
+
+```sh
+# 읽기 전용 준비 확인. --pull을 추가하면 안전 조건에서만 최신화합니다.
+node skills/kakao-theme-studio/scripts/prepare.mjs --repo .
+# 기존 doctor()로 환경 확인. 서버나 사용자 프로젝트를 열지 않습니다.
+node skills/kakao-theme-studio/scripts/prepare.mjs --repo . --doctor
+```
 
 먼저 `AGENTS.md`, `docs/HANDOFF.md`, `docs/ARCHITECTURE.md`를 읽으세요. 테스트 명령은 `docs/TESTING.md`에 있습니다. 글로벌 스킬 설치는 필요하지 않습니다.
 

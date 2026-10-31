@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kakao Theme Studio"
+  short_description: "Codex와 Claude에서 안전하게 카카오톡 테마 편집·생성"
+  default_prompt: "$kakao-theme-studio로 저장소와 환경을 확인한 뒤 요청한 테마를 제작해줘."

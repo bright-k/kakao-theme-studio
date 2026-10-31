@@ -88,7 +88,7 @@ const previewSchedule=createPreviewSchedule(()=>guard(refreshPreview)());
 function refreshPreview(){previewSchedule.cancel();return previewQueue.request();}
 async function generatePreview({snapshot}){
  const previous=preview,previousImages=images;const data=await json('preview','POST',{project:snapshot});const loaded={};
- for(const platform of ['ios','android']){const icon=Object.keys(data.files).find(f=>f.startsWith(platform+'/')&&/commonIcoTheme\.png$|\/icon\.png$/.test(f));if(icon)data[platform].themeIcon=icon;}const splash=Object.keys(data.files).find(f=>/drawable-port-xxhdpi\/theme_splash_image\.png$/.test(f))??Object.keys(data.files).find(f=>/theme_splash_image\.png$/.test(f));if(splash)data.android.splash=splash;
+ for(const platform of ['ios','android']){const icon=Object.keys(data.files).find(f=>f.startsWith(platform+'/')&&/commonIcoTheme\.png$|\/icon\.png$/.test(f));if(icon)data[platform].themeIcon=icon;}const splash=["android/res/drawable-xxhdpi/theme_splash_image.png","android/res/drawable-port-xxhdpi/theme_splash_image.png","android/res/drawable-xhdpi/theme_splash_image.png"].find(f=>data.files[f])??Object.keys(data.files).find(f=>/theme_splash_image\.png$/.test(f));if(splash)data.android.splash=splash;
  await Promise.all(['ios','android'].flatMap(platform=>Object.entries(data[platform]).map(async([name,file])=>{const key=platform+'.'+name,oldFile=previous?.[platform]?.[name];if(previousImages[key]&&oldFile&&previous.files?.[oldFile]?.hash===data.files[file]?.hash){loaded[key]=previousImages[key];return;}const r=await api('preview-file?projectId='+snapshot.id+'&revision='+data.revision+'&name='+encodeURIComponent(file));loaded[key]=await createImageBitmap(await r.blob());})));
  return {data,loaded};
 }

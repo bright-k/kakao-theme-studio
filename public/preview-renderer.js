@@ -63,7 +63,7 @@ export function renderPlatform(canvas,platform,preview,images,{screen,longMessag
    const side=out?'sent':'received',body=g&&image?nineRect(image,g.bodyRect,w,h,{patch:meta?.patch,scale,stretch:cap}):{x:0,y:0,width:w,height:h};hit((out?'보낸':'받은')+' 말풍선 · '+(group?'연속':'첫 번째')+(selected&&platform==='ios'?' · 선택':''),x+body.x,y+body.y,body.width,body.height,{bubble:side,group,slot:side+'Bubble'+(group?'Group':'')+(selected&&platform==='ios'?'Selected':''),file:preview[platform]?.[name]});
    if(g?.decoration&&image){const d=nineRect(image,g.decoration,w,h,{patch:meta?.patch,scale,stretch:cap});hit((out?'보낸':'받은')+' 말풍선 캐릭터',x+d.x,y+d.y,d.width,d.height,{bubble:side,slot:meta.source?.components?.decoration?.slot??side+'BubbleDecoration',group,decoration:true,file:preview[platform]?.[name]});}return h+(g?.layoutHeader??0)-(g?.header??0);};
   ctx.save();ctx.beginPath();ctx.rect(0,140,390,566);ctx.clip();clip={x:0,y:140,width:390,height:566};
-  cover(ctx,img('profile'),20,163,38,38);hit('기본 프로필',20,163,38,38,{slot:profileSlot});text(ctx,'나무',75,154,11,c.secondary);
+  cover(ctx,img('profile'),20,163,38,38);hit('기본 프로필',20,163,38,38,{slot:profileSlot});text(ctx,'나무',75,154,11,c.text,550);
   const receivedFirst=longMessage?'배경색만 바꾼다더니 아이콘도 말풍선도 바꿨네. 거의 다 됐다는 말만 세 번째야.':'배경색만 바꾼다며?';
   const sentFirst=longMessage?'캐릭터가 너무 귀여워서 배경이랑 아이콘도 맞춰 주기로 했어. 이번엔 진짜 마지막!':'말풍선이 아직 덜 귀여워.';
   const receivedHeight=bubble(sampleMessages?.[0]??receivedFirst,false,162,false,false),receivedGroupTop=162+receivedHeight+8,receivedGroupHeight=bubble(sampleMessages?.[1]??'왜 새벽이야?',false,receivedGroupTop,true);

@@ -1,5 +1,13 @@
 # 검증 재현
 
+## Codex·Claude 공통 제작 스킬
+
+`node --test test/skill-prepare.test.mjs`는 격리된 `.test-data/skill-*`의 로컬 Git 원격/복제본으로 fast-forward, 읽기 전용 조회, 미커밋·미추적 파일 보호, 로컬 선행·분기, detached HEAD·Git 작업 중·upstream 없음, 원격 실패·로그 비밀값 제외, 상위 저장소 오인 방지·doctor 실패, Git 없는 환경과 symlink CLI 실행을 확인한다. 사용자 `.data`는 열지 않는다.
+
+스킬 형식은 skill-creator의 `quick_validate.py skills/kakao-theme-studio`로 검사한다(PyYAML 필요). `.agents/skills/kakao-theme-studio`와 `.claude/skills/kakao-theme-studio`는 모두 `skills/kakao-theme-studio`를 가리켜야 한다. 실제 Codex/Claude Code에서의 호출 검증은 별도다.
+
+## 앱 검증
+
 프로젝트 루트에서 Node 22 이상으로 실행한다. `Studio.command`가 찾는 Node 경로가 PATH에 없다면 번들 Node 실행 파일의 절대 경로를 사용해도 된다.
 
 ```sh

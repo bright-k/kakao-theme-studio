@@ -1,6 +1,16 @@
 # Agent 작업 지침
 
-현재 구현은 0.14.0이다. `docs/REVIEW-0.14.0.md`를 먼저 확인한다. `docs/REVIEW-0.13.1.md`를 먼저 확인한다. `docs/REVIEW-0.13.0.md`를 먼저 확인한다. `docs/REVIEW-0.12.0.md`를 먼저 확인한다. `docs/REVIEW-0.11.0.md`를 먼저 확인한다. `docs/REVIEW-0.10.3.md`를 먼저 확인한다. `docs/REVIEW-0.10.2.md`를 먼저 확인한다. `docs/REVIEW-0.10.1.md`를 먼저 확인한다. `docs/REVIEW-0.10.0.md`를 먼저 확인한다. `docs/REVIEW-0.9.1.md`를 먼저 확인한다. `docs/REVIEW-0.9.0.md`, `docs/COMMON-COLORS.md`를 확인한다. `docs/REVIEW-0.8.0.md`, `docs/REVIEW-0.7.1.md`를 먼저 확인한다. `docs/REVIEW-0.7.0.md`, `docs/REVIEW-0.6.0.md`, `docs/REVIEW-0.5.0.md`, `docs/REVIEW-0.4.0.md`를 먼저 읽는다. 화면별 작업은 `docs/REVIEW-0.3.0.md`, `public/screen-model.js`, `docs/screen-coverage.json`을 먼저 확인한다. `docs/REVIEW-0.2.0.md`, `docs/SUPPORT-MATRIX.md`, `docs/coverage-after.json`을 함께 읽는다. 출력 변경 시 `src/catalog.mjs`의 COMPILER_VERSION을 갱신해 이전 미리보기 캐시와 분리한다. 새 리소스/속성은 카탈로그·검증·출력·편집 UI·백업·회귀 테스트와 화면 연결을 함께 갱신한다. `node scripts/audit-screens.mjs`와 `node test/screen-workflow.mjs`로 누락을 검사한다. 공통 원본 SLOTS도 모두 화면에 연결해야 한다. 화면별 색상을 바꾸면서 공통 팔레트를 임의로 변경하지 말고 개별 override를 사용한다. 잠금 비밀번호 표시 8개와 키패드 눌림 이미지는 이미 개별 지원되므로 공통 도형으로 다시 축소하지 않는다.
+## 테마 제작과 도구 개발의 경계
+
+**사용자가 별도로 요청하지 않으면 테마 제작·편집·생성 과정에서 스튜디오 도구 자체를 수정하지 않는다.** 기본 작업 대상은 테마 프로젝트 설정·등록 에셋·생성 결과다. 원하는 디자인이 지원되지 않거나 오류가 발견되어도 `src/`, `public/`, `templates/`, 앱 실행 스크립트·의존성·테스트를 임의로 수정하지 않고 한계와 재현 조건을 보고한다. 명시적인 스튜디오 개발 요청이 있을 때만 아래 구현·회귀 검증 절차로 전환한다.
+
+테마 제작은 `skills/kakao-theme-studio/SKILL.md`의 공통 절차를 사용한다. Codex와 Claude Code가 같은 원본을 참조하며 Git 최신화는 깨끗한 작업 트리·현재 upstream의 fast-forward 조건에서만 수행한다. 최신화 요청을 코드 수정·커밋·push·충돌 해결 권한으로 확대하지 않는다.
+
+최초 실행·새 호스트·환경 오류는 `skills/kakao-theme-studio/references/environment.md`를 확인한다. Node/고정 실행 의존성과 Android용 JDK/SDK, 선택적인 브라우저 테스트·기기 도구를 구분하고 기존 doctor 및 실제 javac 버전으로 점검한다. 환경 준비를 이유로 앱 소스·의존성 버전·lockfile을 임의 변경하지 않는다.
+
+## 현재 구현 및 유지 계약
+
+현재 구현은 0.14.1이다. `docs/REVIEW-0.14.0.md`를 먼저 확인한다. `docs/REVIEW-0.13.1.md`를 먼저 확인한다. `docs/REVIEW-0.13.0.md`를 먼저 확인한다. `docs/REVIEW-0.12.0.md`를 먼저 확인한다. `docs/REVIEW-0.11.0.md`를 먼저 확인한다. `docs/REVIEW-0.10.3.md`를 먼저 확인한다. `docs/REVIEW-0.10.2.md`를 먼저 확인한다. `docs/REVIEW-0.10.1.md`를 먼저 확인한다. `docs/REVIEW-0.10.0.md`를 먼저 확인한다. `docs/REVIEW-0.9.1.md`를 먼저 확인한다. `docs/REVIEW-0.9.0.md`, `docs/COMMON-COLORS.md`를 확인한다. `docs/REVIEW-0.8.0.md`, `docs/REVIEW-0.7.1.md`를 먼저 확인한다. `docs/REVIEW-0.7.0.md`, `docs/REVIEW-0.6.0.md`, `docs/REVIEW-0.5.0.md`, `docs/REVIEW-0.4.0.md`를 먼저 읽는다. 화면별 작업은 `docs/REVIEW-0.3.0.md`, `public/screen-model.js`, `docs/screen-coverage.json`을 먼저 확인한다. `docs/REVIEW-0.2.0.md`, `docs/SUPPORT-MATRIX.md`, `docs/coverage-after.json`을 함께 읽는다. 출력 변경 시 `src/catalog.mjs`의 COMPILER_VERSION을 갱신해 이전 미리보기 캐시와 분리한다. 새 리소스/속성은 카탈로그·검증·출력·편집 UI·백업·회귀 테스트와 화면 연결을 함께 갱신한다. `node scripts/audit-screens.mjs`와 `node test/screen-workflow.mjs`로 누락을 검사한다. 공통 원본 SLOTS도 모두 화면에 연결해야 한다. 화면별 색상을 바꾸면서 공통 팔레트를 임의로 변경하지 말고 개별 override를 사용한다. 잠금 비밀번호 표시 8개와 키패드 눌림 이미지는 이미 개별 지원되므로 공통 도형으로 다시 축소하지 않는다.
 
 ## 먼저 읽을 문서
 

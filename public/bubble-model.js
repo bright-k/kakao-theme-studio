@@ -39,7 +39,7 @@ export function bubbleGeometry(p,who,group=false){
  return {width,height:bodyHeight+header,layoutHeader:decorated?cfg.size+cfg.gap:0,bodyWidth,bodyRect,automaticOutward,placementLimits,placement:{shiftX:appliedX,y:appliedY,layer:cfg.layer},bodyHeight,bodyInsets,bodyCaps:{left:bodyLeft,right:bodyRight,top:bodyTop,bottom:bodyBottom},imageBody,header,decorated,decoration:decorated?{x,y:0,width:cfg.size,height:cfg.size}:null,stretch:[bodyX+stretchX,header+bodyStretchY],insets};
 }
 export function bubbleIdentity(name){if(!/Bubble|bubble/.test(name))return null;return {who:/Send|_me_/.test(name)?'sent':'received',group:/02/.test(name),selected:/Selected/.test(name)};}
-export function iosBubbleGeometry(p,name){const id=bubbleIdentity(name),g=id?bubbleGeometry(platformBubbleProject(p,'ios',id.who,id.group),id.who,id.group):null;return g??{width:64,height:56};}
+export function iosBubbleGeometry(p,name){const file=String(name??''),id=bubbleIdentity(file),g=id?bubbleGeometry(platformBubbleProject(p,'ios',id.who,id.group),id.who,id.group):null,key='ios/'+file.replace(/@[23]x(?=\.png)/,''),size=p.resourceOptions?.[key]?.logicalSize,stem=key.slice(4).replace(/\.png$/,''),final=[2,3].some(scale=>p.resourceOverrides?.['ios/Images/'+stem+'@'+scale+'x.png']);return id&&final&&Array.isArray(size)&&size.length===2&&size.every(n=>Number.isInteger(n)&&n>0&&n<=1024)?{...g,width:size[0],height:size[1]}:g??{width:64,height:56};}
 // Preserve manual body-relative guides when the optional header changes size.
 function adaptPlainBubbleGuides(p,before,who){
  for(const group of [false,true]){

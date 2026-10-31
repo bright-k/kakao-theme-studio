@@ -1,5 +1,13 @@
 # 현재 구현 구조
 
+## AI 제작 스킬
+
+`skills/kakao-theme-studio`는 Codex/Claude Code가 공유하는 제작 절차이며 앱 런타임에 포함되지 않는다. `.agents/skills`와 `.claude/skills`의 상대 링크가 같은 원본을 가리킨다. 루트 CLAUDE는 AGENTS와 공통 스킬로 연결한다. 명시적 개발 요청 없는 테마 제작은 프로젝트 설정·에셋·생성 결과만 수정한다.
+
+`references/environment.md`는 최초 설치/새 호스트에서 작업별 필수 Node·실행 의존성·JDK·SDK와 선택 도구를 안내한다. 현재 앱 doctor의 탐색/판정 범위와 별도 실제 Java 버전 확인을 구분하며 SDK 관리 도구나 호스트 준비를 이유로 앱 코드를 수정하지 않는다.
+
+준비 스크립트는 Node 내장 모듈과 `spawn(...,{shell:false})`로 현재 브랜치의 안전한 fast-forward와 소스 메타데이터를 점검한다. `--doctor`는 기존 CLI doctor를 사용하며 프로젝트 저장소를 열거나 서버/키를 조작하지 않는다. 범위·JSON 결과·설치 방식은 `skills/kakao-theme-studio/references/spec.md`를 따른다. 앱/출력/저장/백업 형식은 변경하지 않는다.
+
 ## 모듈
 
 | 파일 | 책임 |

@@ -38,10 +38,10 @@ export function validateExtensions(p){
    for(const [id,value] of Object.entries(p.overrides[platform])){
     const field=`overrides.${platform}.${id}`;
     if(platform==='android'){if(!colors.has(id)||typeof value!=='string'||!/^#(?:[a-fA-F0-9]{6}|[a-fA-F0-9]{8})$/.test(value))error(field,'목록에 있는 Android 색상을 #RRGGBB 또는 #AARRGGBB로 입력하세요.');continue;}
-    const spec=props.get(id);const who=id.includes('Send')?'sent':'received';const geometry=bubbleGeometry(platformBubbleProject(p,'ios',who,id.includes('group-')),who,id.includes('group-'));const maxW=geometry.width,maxH=geometry.height;if(!spec?.editable){error(field,'수정할 수 없는 iOS 속성입니다. 이미지와 테마 정보는 해당 편집기를 이용하세요.');continue;}
+    const spec=props.get(id);const who=id.includes('Send')?'sent':'received';const geometry=iosBubbleGeometry(p,spec?.default.match(/'([^']+\.png)'/)?.[1]??('chatroomBubble'+(who==='sent'?'Send':'Receive')+(id.includes('group-')?'02':'01')+'.png'));const maxW=geometry.width,maxH=geometry.height;if(!spec?.editable){error(field,'수정할 수 없는 iOS 속성입니다. 이미지와 테마 정보는 해당 편집기를 이용하세요.');continue;}
     if(spec.kind==='color'&&(typeof value!=='string'||!/^#[a-fA-F0-9]{6}$/.test(value)))error(field,'iOS 색상은 #RRGGBB로 입력하세요.');
     if(spec.kind==='number'&&(!Number.isFinite(value)||value<0||value>1))error(field,'투명도는 0~1 범위입니다.');
-    if(spec.kind==='insets'&&(!Array.isArray(value)||value.length!==4||value.some(x=>!Number.isFinite(x)||x<0||x>(p.bubbleDesign?.[who]?Math.max(maxW,maxH):28))||value[1]+value[3]>=maxW||value[0]+value[2]>=maxH))error(field,'내용 여백은 top/left/bottom/right 4개 값으로 입력하세요.');
+    if(spec.kind==='insets'&&(!Array.isArray(value)||value.length!==4||value.some(x=>!Number.isFinite(x)||x<0||x>(p.bubbleDesign?.[who]||p.resourceOptions?.['ios/chatroomBubble'+(who==='sent'?'Send':'Receive')+(id.includes('group-')?'02':'01')+'.png']?.logicalSize?Math.max(maxW,maxH):28))||value[1]+value[3]>=maxW||value[0]+value[2]>=maxH))error(field,'내용 여백은 top/left/bottom/right 4개 값으로 입력하세요.');
     if(spec.kind==='stretch'&&(!Array.isArray(value)||value.length!==2||value.some(x=>!Number.isInteger(x))||value[0]<0||value[0]>=maxW-1||value[1]<0||value[1]>=maxH-1))error(field,'늘림 지점은 현재 말풍선 논리 크기 안의 가로·세로 두 정수로 입력하세요.');
    }
   }
@@ -50,7 +50,7 @@ export function validateExtensions(p){
  if(p.nativeNinePatch!==undefined&&(!Array.isArray(p.nativeNinePatch)||p.nativeNinePatch.some(f=>!RESOURCE_FILES.get(f)?.ninePatch||!p.resourceOverrides?.[f])))error('nativeNinePatch','원본 9-patch 참조가 잘못되었습니다.');
  if(p.resourceOptions!==undefined){if(!plain(p.resourceOptions))error('resourceOptions','이미지 옵션 형식이 잘못되었습니다.');else for(const [id,opt] of Object.entries(p.resourceOptions)){
   const resource=RESOURCES.find(r=>r.id===id);if(!resource||!plain(opt)){error('resourceOptions.'+id,'목록에 있는 이미지 옵션을 사용하세요.');continue;}
-  for(const [k,v] of Object.entries(opt))if(k==='enabled'?typeof v!=='boolean'||!resource.optional:k==='fit'?!['cover','contain','fill'].includes(v):['focalX','focalY'].includes(k)?!Number.isFinite(v)||v<0||v>1:true)error('resourceOptions.'+id, '이미지 옵션은 크롭/맞춤, 초점(0~1), 배경 사용 여부입니다.');
+  for(const [k,v] of Object.entries(opt))if(k==='enabled'?typeof v!=='boolean'||!resource.optional:k==='logicalSize'?!resource.logicalSizeEditable||!Array.isArray(v)||v.length!==2||v.some(n=>!Number.isInteger(n)||n<1||n>1024):k==='fit'?!['cover','contain','fill'].includes(v):['focalX','focalY'].includes(k)?!Number.isFinite(v)||v<0||v>1:true)error('resourceOptions.'+id, '이미지 옵션 또는 iOS 말풍선 논리 크기(1~1024 정수)를 확인하세요.');
  }}
  if(p.resourceGeometry!==undefined){if(!plain(p.resourceGeometry))error('resourceGeometry','늘림·여백 설정 형식을 확인하세요.');else for(const [file,g] of Object.entries(p.resourceGeometry))if(!RESOURCE_FILES.get(file)?.ninePatch||!validGeometry(g)||Object.keys(g).some(k=>!['width','height','stretchX','stretchY','insets','bodyRect'].includes(k)))error('resourceGeometry.'+file,'유효한 Android 9-patch 좌표와 늘림·내용 영역을 사용하세요.');}
  if(p.assetHashes!==undefined){if(!plain(p.assetHashes))error('assetHashes','자산 검증 정보 형식을 확인하세요.');else for(const [ref,digest] of Object.entries(p.assetHashes))if(!validAssetRef(ref)||typeof digest!=='string'||!/^[a-f0-9]{64}$/.test(digest))error('assetHashes.'+ref,'자산 검증 정보가 잘못되었습니다.');}
@@ -91,7 +91,7 @@ export async function completeResources(p,files,ctx){
   const who=/Send|_me_/.test(name)?'sent':'received';const bubble=/Bubble|bubble/.test(name);
   const ref=p.resourceOverrides?.[f.path];
   if(ref){const raw=await custom(ref);if(f.ninePatch&&p.nativeNinePatch?.includes(f.path)){readNinePatch(raw);buf=raw;}
-   else{const w=bubble?64*scale:f.width-(f.ninePatch?2:0),h=bubble?56*scale:f.height-(f.ninePatch?2:0);buf=await resize(raw,w,h,{...options,...(bubble?{fit:'fill'}:{})});if(f.ninePatch)buf=patchImage(buf,bubble?{x:p.bubble.stretchX*scale,y:p.bubble.stretchY*scale,insets:[p.bubble.paddingY,p.bubble.paddingX,p.bubble.paddingY,p.bubble.paddingX].map(n=>n*scale)}:null);}
+   else{const size=f.platform==='ios'&&bubble?options.logicalSize:null,w=bubble?(size?.[0]??64)*scale:f.width-(f.ninePatch?2:0),h=bubble?(size?.[1]??56)*scale:f.height-(f.ninePatch?2:0);buf=await resize(raw,w,h,{...options,...(bubble?{fit:'fill'}:{})});if(f.ninePatch)buf=patchImage(buf,bubble?{x:p.bubble.stretchX*scale,y:p.bubble.stretchY*scale,insets:[p.bubble.paddingY,p.bubble.paddingX,p.bubble.paddingY,p.bubble.paddingX].map(n=>n*scale)}:null);}
   }else if(/BgImage|background_image|splash_image|maintab_cell_image/.test(name)){
    const slot=/chatroom/.test(name)?'chatBackground':/passcode/.test(name)?'lockBackground':/splash/.test(name)?'splashBackground':/maintab/.test(name)?'tabBackground':'mainBackground';
    const fallback=/splash|maintab/.test(name)?'mainBackground':slot;
