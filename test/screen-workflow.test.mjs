@@ -5,7 +5,7 @@ import {SLOTS} from '../src/core.mjs';
 import {SCREENS,contextsFor,inScreen,slotsForScreen,auditScreenCoverage} from '../public/screen-model.js';
 const catalog=publicCatalog();
 test('every supported property and physical image is reachable through a screen or metadata editor',()=>{
- assert.deepEqual(auditScreenCoverage(catalog),{ios:105,android:49,resources:82,files:146});
+ assert.deepEqual(auditScreenCoverage(catalog),{ios:105,android:49,resources:84,files:150});
  const union=new Set(SCREENS.flatMap(s=>slotsForScreen(s.id)));
  assert.deepEqual([...union].sort(),[...SLOTS].sort());
  for(const [kind,items] of [['ios',catalog.iosProperties],['android',catalog.androidColors],['resources',catalog.resources]]){

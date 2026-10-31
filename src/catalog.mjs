@@ -1,7 +1,7 @@
 import {COMMON_COLORS} from '../public/common-colors.js';
 import {resourceChain} from './source-rules.mjs';
 import { readFileSync } from 'node:fs';
-export const COMPILER_VERSION = '0.14.0';
+export const COMPILER_VERSION = '0.14.1';
 export const CATALOG = JSON.parse(readFileSync(new URL('../templates/profile-26.9.0.json',import.meta.url),'utf8'));
 export const IOS_PROPERTIES = new Map(CATALOG.iosProperties.map(p=>[p.id,p]));
 export const ANDROID_COLORS = new Set(CATALOG.androidColors.map(p=>p.id));

@@ -7,5 +7,5 @@ const catalog=publicCatalog(),counts=auditScreenCoverage(catalog);
 assert.deepEqual([...new Set(SCREENS.flatMap(s=>slotsForScreen(s.id)))].sort(),[...SLOTS].sort());
 const items=Object.fromEntries([['ios',catalog.iosProperties],['android',catalog.androidColors],['resources',catalog.resources]].map(([kind,entries])=>[kind,entries.map(x=>({id:x.id,screens:contextsFor(x,kind),...(x.variants?{files:x.variants.map(v=>v.path)}:{})}))]));
 const report={profile:catalog.profile,toolVersion:JSON.parse(await fs.readFile(new URL('../package.json',import.meta.url),'utf8')).version,counts,commonSourceSlots:SLOTS.length,platformBubbleSources:catalog.bubblePlatformSources,missing:[],items,actualAppVerified:false};
-await fs.writeFile(new URL('../docs/screen-coverage.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
+if(!process.argv.includes('--check'))await fs.writeFile(new URL('../docs/screen-coverage.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({counts,commonSourceSlots:SLOTS.length,platformBubbleSources:catalog.bubblePlatformSources.length,missing:[]}));

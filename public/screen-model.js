@@ -1,7 +1,7 @@
 // Screen associations are shared by navigation, contextual editors and coverage tests.
 // Unknown catalog entries fail the audit instead of silently disappearing.
 export const SCREENS = [
- {id:'friends',label:'친구',title:'친구 화면',note:'목록 배경·글자·기본 프로필·탭은 채팅 목록과 함께 사용됩니다.'},
+ {id:'friends',label:'친구',title:'친구 화면',note:'목록 배경·글자·기본 프로필·탭은 채팅 목록과 함께 사용됩니다. 프로필 함께 보기는 배치 예시이며 실제 카카오톡의 배정 순서를 지정하지 않습니다.'},
  {id:'chats',label:'채팅 목록',title:'채팅 목록 화면',note:'목록 배경·글자·프로필·탭 변경은 친구 화면에도 반영됩니다.'},
  {id:'chat',label:'채팅방',title:'채팅방 디자인',note:'말풍선의 첫 번째·연속·선택 상태와 입력창을 함께 확인하세요. 선택 이미지는 iOS에 적용됩니다. 프로필은 목록과 공통입니다.'},
  {id:'passcode',label:'잠금화면',title:'잠금화면 디자인',note:'비밀번호 1~4번의 입력 전·후, 키패드 눌림 이미지와 Android 패턴 색상을 지원합니다.'},

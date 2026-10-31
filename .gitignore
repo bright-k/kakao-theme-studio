@@ -6,3 +6,5 @@ test-results/
 *.p12
 *.jks
 *.keystore
+.codex-attachments/
+.codex-attachments/*

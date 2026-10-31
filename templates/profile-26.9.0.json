@@ -416,7 +416,7 @@
       "id": "DefaultProfileStyle/-ios-profile-images",
       "selector": "DefaultProfileStyle",
       "name": "-ios-profile-images",
-      "default": "'profileImg01.png'",
+      "default": "'profileImg01.png' 'profileImg02.png' 'profileImg03.png'",
       "kind": "image",
       "editable": false
     },
@@ -2358,6 +2358,42 @@
       "height": 360,
       "ninePatch": false,
       "source": "sample"
+    },
+    {
+      "path": "ios/Images/profileImg02@2x.png",
+      "platform": "ios",
+      "fileName": "profileImg02@2x.png",
+      "width": 240,
+      "height": 240,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/profileImg02@3x.png",
+      "platform": "ios",
+      "fileName": "profileImg02@3x.png",
+      "width": 360,
+      "height": 360,
+      "ninePatch": false,
+      "source": "guide"
+    },
+    {
+      "path": "ios/Images/profileImg03@2x.png",
+      "platform": "ios",
+      "fileName": "profileImg03@2x.png",
+      "width": 240,
+      "height": 240,
+      "ninePatch": false,
+      "source": "tool-scale"
+    },
+    {
+      "path": "ios/Images/profileImg03@3x.png",
+      "platform": "ios",
+      "fileName": "profileImg03@3x.png",
+      "width": 360,
+      "height": 360,
+      "ninePatch": false,
+      "source": "guide"
     }
   ]
 }

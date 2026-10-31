@@ -107,7 +107,7 @@ const css=iosCSS(p,await fs.readFile(path.join(ROOT,'templates/ios.css'),'utf8')
    if(name.includes('Bubble'))buf=await bubbleImage(platformBubbleProject(p,'ios',name.includes('Send')?'sent':'received',!name.includes('01')),name.includes('Send')?'sent':'received',scale,name.includes('Selected'),name.includes('01'),assetRoot);
    else if(name.includes('BgImage'))buf=await backgroundImage(p,name.startsWith('chatroom')?'chatBackground':name.startsWith('passcode')?'lockBackground':'mainBackground',name.startsWith('maintab')?390*scale:390*scale,name.startsWith('maintab')?84*scale:844*scale,assetRoot);
    else if(name.includes('maintabIco')){const kind=name.replace('maintabIco','').replace('Selected','').replace('.png','').toLowerCase();buf=await iconImage(p,kind,name.includes('Selected'),scale,assetRoot);}
-   else if(name.includes('profile')||name==='commonIcoTheme.png')buf=await profileImage(p,name==='commonIcoTheme.png'?162:80*scale,assetRoot);
+   else if(name.includes('profile')||name==='commonIcoTheme.png')buf=await profileImage(p,name==='commonIcoTheme.png'?162:80*scale,assetRoot,name==='commonIcoTheme.png'?0:Number(name.match(/0([123])/)?.[1]??1));
    else buf=await auxiliaryImage(p,name,36*scale,36*scale,assetRoot);
    files[`ios/Images/${name==='commonIcoTheme.png'?name:name.replace('.png',`@${scale}x.png`)}`]=buf;
  }}
