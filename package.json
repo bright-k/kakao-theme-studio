@@ -1,6 +1,6 @@
 {
   "name": "kakao-theme-studio-local",
-  "version": "0.12.0",
+  "version": "0.14.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -30,6 +30,7 @@
     "test:common-policy": "node test/common-policy-workflow.mjs",
     "audit:common-colors": "node scripts/audit-common-colors.mjs",
     "test:preview-context": "node test/preview-context.mjs",
+    "test:usability": "node test/usability.mjs",
     "test:states": "node test/state-geometry.mjs"
   },
   "dependencies": {

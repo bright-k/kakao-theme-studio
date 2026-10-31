@@ -17,7 +17,7 @@ test('legacy body guides map into the real composed body, with fixed character a
  assert.deepEqual(legacy,original);
 });
 test('explicit body frames retain internal padding when the character header or outside gutter changes',()=>{
- const p=fixture(),base=bubbleGeometry(p,'sent'),first=resolveComposedGuides(legacy,base,3),padding=[first.insets[0]-first.bodyRect.y,first.insets[1]-first.bodyRect.x,first.insets[2],first.insets[3]];
+ const p=fixture(),base=bubbleGeometry(p,'sent'),first=resolveComposedGuides(legacy,base,3),padding=[first.insets[0]-first.bodyRect.y,first.insets[1]-first.bodyRect.x,first.insets[2]-(first.height-first.bodyRect.y-first.bodyRect.height),first.insets[3]-(first.width-first.bodyRect.x-first.bodyRect.width)];
  for(const anchor of ['left','right'])for(const placementY of [-7,0,24])for(const shiftX of [0,-20]){Object.assign(p.bubbleDesign.sent,{anchor,placementY,shiftX});const c=bubbleGeometry(p,'sent'),g=resolveComposedGuides(first,c,3),b=g.bodyRect;assert.deepEqual([g.insets[0]-b.y,g.insets[1]-b.x,g.insets[2]-(g.height-b.y-b.height),g.insets[3]-(g.width-b.x-b.width)],padding);}
  p.resourceGeometry={[file]:first};assert.equal(validate(p).filter(x=>x.severity==='error').length,0);assert.deepEqual(cloneProject(p).resourceGeometry,p.resourceGeometry);p.resourceGeometry[file].bodyRect.x=-1;assert.ok(validate(p).some(x=>x.field==='resourceGeometry.'+file));
 });

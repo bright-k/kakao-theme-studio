@@ -119,3 +119,38 @@ bubble-fixed-size는32출력에 한 글자/긴 문장 외에1픽셀 폭·16픽�
 0.12.0은 `node --test test/asset-cleanup.test.mjs`와 `node test/asset-cleanup.mjs`(`npm run test:asset-cleanup`)다. 현재/비활성/플랫폼/undo/redo 참조 보호, 폐기 이력 제외, 저장된 최신 설정 및 다른 탭/오래된 요청 재검사, 경로/프로젝트/링크/해시/충돌·부분 중단, 재시작 후 복구, 원본 버전 예약·설정/전체 생성 바이트 불변·백업 제외를 검사한다. 브라우저는 실제 두 번 업로드와 undo로 redo를 만들고 후보1개만 표시하는지, 썸네일과 선택 용량, 이동/복구와 이력 유지·설정 불변,800/390px 레이아웃을 확인한다. asset-cleanup-candidates/trash/800/390.png 및 report.json이 근거다. 모든 이동은 격리 샘플에서 수행하며 실제 사용자 데이터에는 읽기 전용 검증만 한다.
 
 프로젝트 관리는 `node --test test/project-management.test.mjs`와 `node test/project-management.mjs`(`npm run test:projects`)다. 전체 폴더·키/bindings·ID 보존과 보관/복구/재시작·구형 재이관/오래된 저장 차단·revision/빌드/링크·영구 삭제·명시 백업 복원, 실제 UI 이름 변경/열기/복제/백업/정리 확인/취소·마지막 프로젝트 빈 상태/재접속/복구와1480/800/390px을 검사한다. project-manager-*.png 및 project-management-report.json이 근거다. 에셋 브라우저는 영구 삭제 확인/취소와 복구 불가까지 추가 검사한다.
+
+
+0.13.0 추가 검증:
+
+```sh
+node --test test/editor-production.test.mjs
+node test/editor-production.mjs
+```
+
+단위 검증은 HSV/HEX 왕복과 ARGB alpha 보존, 네 배경의 실제 파일 생략/원본 복귀/크롭/색상 예외/clone/ZIP, iOS 첫·연속·선택 수동 가이드 보호와 원본 override/최종 이미지 예외 보존을 검사한다. 브라우저는 테스트 도형으로 간단한 테마를 만들며 업로드 완료를 기다린 뒤 단색 전환의 실제 양 Canvas 픽셀을 검사한다. HEX popover/슬라이더/키보드/Escape·오입력·undo/redo·iOS 시각 가이드 보호·ARGB·이전 결과·6화면·390px과 JS오류를 확인한다. 별 캐릭터는 배율별 원본 렌더링을 기준으로 한 글자/긴 문장의 픽셀 범위를 비교한다. 기존 bubble-fixed-size는 불투명 도형32조합의 정확한 크기를 계속 검사한다. 캡처는 production-theme.png, hex-color-picker.png, background-hex-mobile.png이며 실제 사용자 자료는 포함하지 않는다.
+
+integration은 단색 채팅/기본 배경의 실제 APK·ktheme를 생성한다. iOS 이미지 생략/색상 CSS, Android 채팅 이미지 생략/기본 배경 XML 대체와 기존 서명·업데이트·원본 픽셀 검증을 함께 유지한다.
+
+
+0.13.1 추가 검증:
+
+```sh
+node --test test/bubble-content-width.test.mjs
+node test/bubble-content-width.mjs
+node test/bubble-body-size.mjs
+```
+
+content-width 단위는 캐릭터 유무/크기·쪽·첫/연속·기준 모서리·색상/이미지·여백에 따른 본체 기하 불변, 실제 iOS PNG/Android9-patch의 본체 원본 픽셀/내용 인셋 불변, 짧은/긴 미리보기의 가장자리 보정과 글자 포함을 검사한다. 브라우저384쌍은 PNG 최소 크기를 강제하지 않고 실제 출력 인셋+측정 글자로 그린다. 최소 폭1/한 글자/짧은/긴 문장의 실제 색 본체 픽셀 경계·글자 오프셋·줄바꿈을 켬/끔 비교하며12/32/72px 캐릭터의 실제 픽셀 크기도 검사한다. bubble-width-comparison.png를 육안 확인하고 bubble-content-width-report.json에 기록한다.
+
+bubble-body-size는 기존 높이 검사에 폭·색 픽셀 폭·수평 위치·실제 fillText의 x/줄바꿈 비교를 추가했다. 짧음/김×기존6프로필을 production renderPlatform으로 검사한다. character-placement는 화면 가장자리 보정으로 전체 메시지가 이동하는 경우에도 본체 기준 글자 위치와 본체 크기는 유지되는지 확인한다. 기존 고정 캐릭터/Android 가이드/플랫폼/상태/화면/에디터/실제 빌드 검증도 유지한다.
+
+
+`node test/preview-conversation.mjs`는 미리보기 문구 변경의 UI 회귀다. 받은 첫/연속·보낸 첫/연속의 네 상태가 모두 있고, 짧은/긴 문장과 선택 상태에서도 전체 그리기 경계가 대화 영역 안에 있는지 검사한다. 32/72px 캐릭터·색상/이미지 본체·양 플랫폼과390px을 포함하며 프로젝트 JSON이 바뀌지 않는지 확인한다. timestamp는 묶음 마지막 두 개만 그리며 방 제목도 검사한다. 사용자 데이터나 실제 사용자 화면은 사용하지 않는다.
+
+## 0.14.0 사용성
+
+- `node --test test/usability.test.mjs`: 잘못된 편집의 임시 보관·재시작·에셋 보호·순번·ZIP 제외, 실제 선택 픽셀/플랫폼 대비와 배경 업로드 적용/원본 보관/예외 보존.
+- `node test/usability.mjs` 또는 `pnpm test:usability`: 같은 JS 작업 안에서 입력+새로고침, 텍스트 undo/수동 저장, 필드 오류·연결 실패·복구 충돌/undo, 업로드 적용, 작업 분류, 숫자 입력, 네 메시지 프리셋/직접 입력, 실제 비트맵 비교, HEX 견본,390px 주 동작, 생성 연결 재시도/실패·재로드 후 진행 복원. 통제된 작업 응답은 UI 오류 상태를 검증하며 실제 APK 검증은 browser/integration이 담당한다.
+- 결과는 `test-results/usability-report.json`, `usability-{desktop,mobile,validation,build-progress}.png`다. 사용자 프로젝트는 캡처하지 않는다.
+- screen-workflow/state-geometry는 접힌 고급 설정을 펼치고, live-preview는 캐릭터 크기·위치/색상 작업을 선택한다. preview-context의 모바일 동선은 중복 사이드 메뉴 대신 주 미리보기 화면 메뉴를 사용한다.

@@ -40,6 +40,20 @@ export class ProjectStore {
  async rootFor(input){const id=typeof input==='string'?input:input?.id;if(!validId(id)||!this.records.has(id))throw new Error('등록된 프로젝트를 찾을 수 없습니다.');const pkg=this.records.get(id);if(typeof input==='object'&&input.packageId!==pkg)throw new Error('기존 프로젝트 앱 ID는 변경할 수 없습니다.');const dir=path.join(this.projects,pkg);await directory(dir);for(const name of ['assets','previews','builds','backups'])await directory(path.join(dir,name));const marker=await metadata(dir,'storage.json');if(marker.version!==2||marker.projectId!==id||marker.packageId!==pkg)throw new Error('프로젝트 저장 정보가 일치하지 않습니다.');return dir;}
  async load(id){const dir=await this.rootFor(id),p=await metadata(dir,'theme.json');assertValid(p);if(p.id!==id||p.packageId!==this.records.get(id))throw new Error('프로젝트 폴더명과 식별 정보가 일치하지 않습니다.');return p;}
  async list(){return Promise.all([...this.records.keys()].map(id=>this.load(id)));}
+ // Recoverable edits are separate from the validated theme and ZIP backups.
+ // Tombstones reject delayed keepalive writes after a successful save/discard.
+ async drafts(id){const dir=await this.rootFor(id);return await exists(path.join(dir,'editor-drafts.json'))?await metadata(dir,'editor-drafts.json'):{};}
+ async updateDraft({projectId,clientId,sequence,project,base,clear=false,requesterClientId=clientId}){return this.transaction(async()=>{
+  if(!validId(clientId)||!Number.isSafeInteger(sequence)||sequence<0)throw new Error('임시 편집 식별자를 확인하세요.');
+  const dir=await this.rootFor(projectId),entries=await this.drafts(projectId),prior=entries[clientId];if(prior&&prior.sequence>=sequence)return {stored:false};
+  if(clear){if(clientId!==requesterClientId&&[...this.assetHistories.values()].some(s=>s.draftClientId===clientId&&s.projectId===projectId))throw new Error('다른 활성 창의 임시 편집은 지울 수 없습니다.');entries[clientId]={sequence};}else{
+   if(project?.id!==projectId||project.packageId!==this.records.get(projectId)||typeof base!=='string'||base.length>2*1024*1024||JSON.stringify(project).length>2*1024*1024)throw new Error('임시 편집 정보가 잘못되었습니다.');
+   const refs=assetReferences(project);if(!refs.every(validAssetRef))throw new Error('임시 편집 이미지 참조를 확인하세요.');for(const ref of refs)await assetFile(dir,ref);
+   entries[clientId]={sequence,project,base,refs,updatedAt:new Date().toISOString()};
+  }
+  await atomic(path.join(dir,'editor-drafts.json'),JSON.stringify(entries));return {stored:true};
+ });}
+ async draftReferences(id){return Object.values(await this.drafts(id)).flatMap(d=>d.refs??[]);}
  async createLocked(p,{sourceRoot,assets,migrated=false}={}){
   assertValid(p);this.checkNew(p);const target=path.join(this.projects,p.packageId);if(await exists(target))throw new Error('같은 이름의 프로젝트 폴더가 이미 있습니다: '+p.packageId);
   const stage=await fs.mkdtemp(path.join(this.root,'.staging','project-'));try{
@@ -57,15 +71,16 @@ export class ProjectStore {
  async migrateNames(id){const dir=await this.rootFor(id),p=await this.load(id),marker=await metadata(dir,'storage.json');const old=assetReferences(p).some(legacyAssetRef);if(old){const backup=path.join(dir,'backups','asset-names-'+crypto.randomUUID());await fs.mkdir(backup,{mode:0o700});await atomic(path.join(backup,'theme.json'),JSON.stringify(p,null,2));await atomic(path.join(backup,'storage.json'),JSON.stringify(marker,null,2));const {project,changed}=await migrateAssetReferences(dir,p);assertValid(project);await atomic(path.join(dir,'theme.json'),JSON.stringify(project,null,2));this.migration.namedProjects++;this.migration.namedReferences+=changed;}if(marker.assetNamingVersion!==1)await atomic(path.join(dir,'storage.json'),JSON.stringify({...marker,assetNamingVersion:1},null,2));}
  async info(id){const p=await this.load(id),dir=await this.rootFor(id),used=new Set(assetReferences(p)),assets=[];for(const ref of await listAssetFiles(dir)){const file=await assetFile(dir,ref),stat=await fs.stat(file);assets.push({ref,bytes:stat.size,used:used.has(ref),legacy:legacyAssetRef(ref),slots:Object.entries(p.assets).filter(([,r])=>r===ref).map(([s])=>s).concat(platformBubbleAssets(p).filter(e=>e.ref===ref).map(e=>e.platform+' '+(e.who==='sent'?'보낸':'받은')+' '+(e.group?'연속':'첫')+' '+(e.kind==='body'?'본체':'캐릭터'))),outputs:Object.entries(p.resourceOverrides??{}).filter(([,r])=>r===ref).map(([s])=>s)});}assets.sort((a,b)=>Number(b.used)-Number(a.used)||a.ref.localeCompare(b.ref));return {projectId:p.id,packageId:p.packageId,directory:dir,storageVersion:2,assetNamingVersion:1,assetCount:assets.length,usedAssetCount:assets.filter(a=>a.used).length,assetBytes:assets.reduce((n,a)=>n+a.bytes,0),assets};}
 
- validateAssetHistory({clientId,sequence,project,historyRefs}){
+ validateAssetHistory({clientId,sequence,project,historyRefs,draftClientId}){
   if(!validId(clientId)||!Number.isSafeInteger(sequence)||sequence<0||!Array.isArray(historyRefs)||historyRefs.length>20000||!historyRefs.every(validAssetRef))throw new Error('실행취소 이미지 참조를 확인하세요.');
-  assertValid(project);return {clientId,sequence,projectId:project.id,refs:new Set([...assetReferences(project),...historyRefs])};
+  if(draftClientId!==undefined&&!validId(draftClientId))throw new Error('임시 편집 식별자를 확인하세요.');assertValid(project);return {clientId,draftClientId,sequence,projectId:project.id,refs:new Set([...assetReferences(project),...historyRefs])};
  }
  async protectAssetHistory(input){const next=this.validateAssetHistory(input);await this.rootFor(input.project);const previous=this.assetHistories.get(next.clientId);if(!previous||next.sequence>previous.sequence)this.assetHistories.set(next.clientId,next);return {protected:true};}
  releaseAssetHistory(clientId,sequence){if(!validId(clientId)||!Number.isSafeInteger(sequence))throw new Error('편집 기록 식별자를 확인하세요.');const prior=this.assetHistories.get(clientId);if(!prior||sequence>=prior.sequence)this.assetHistories.set(clientId,{clientId,sequence,projectId:null,refs:new Set()});}
  async cleanupState(input){
   await this.protectAssetHistory(input);const p=await this.load(input.project.id),dir=await this.rootFor(p),protectedRefs=new Set([...assetReferences(p),...assetReferences(input.project)]);
   for(const session of this.assetHistories.values())if(session.projectId===p.id)for(const ref of session.refs)protectedRefs.add(ref);
+  for(const ref of await this.draftReferences(p.id))protectedRefs.add(ref);
   const candidates=[];let protectedCount=0;for(const ref of await listAssetFiles(dir)){if(protectedRefs.has(ref)){protectedCount++;continue;}const bytes=await readAsset(dir,ref);candidates.push({ref,bytes:bytes.length});}
   return {dir,projectId:p.id,candidates,protectedCount};
  }
@@ -79,7 +94,7 @@ export class ProjectStore {
  });}
  async restoreAssetTrash(id,items){return this.changeAssetTrash(id,items,false);}
  async deleteAssetTrash(id,items){return this.changeAssetTrash(id,items,true);}
- async changeAssetTrash(id,items,permanent){return this.transaction(async()=>{const dir=await this.rootFor(id);if(!Array.isArray(items)||!items.length||items.length>1000||!items.every(x=>x&&validId(x.batchId)&&validAssetRef(x.ref))||new Set(items.map(x=>x.batchId+':'+x.ref)).size!==items.length)throw new Error('복구할 이미지를 선택하세요.');if(permanent){const protectedRefs=new Set(assetReferences(await this.load(id)));for(const session of this.assetHistories.values())if(session.projectId===id)for(const ref of session.refs)protectedRefs.add(ref);if(items.some(x=>protectedRefs.has(x.ref)))throw new Error('현재 설정 또는 실행취소 기록에서 사용하는 이미지는 삭제할 수 없습니다.');}return permanent?deleteTrashAssets(dir,items):restoreAssets(dir,items);});}
+ async changeAssetTrash(id,items,permanent){return this.transaction(async()=>{const dir=await this.rootFor(id);if(!Array.isArray(items)||!items.length||items.length>1000||!items.every(x=>x&&validId(x.batchId)&&validAssetRef(x.ref))||new Set(items.map(x=>x.batchId+':'+x.ref)).size!==items.length)throw new Error('복구할 이미지를 선택하세요.');if(permanent){const protectedRefs=new Set([...assetReferences(await this.load(id)),...await this.draftReferences(id)]);for(const session of this.assetHistories.values())if(session.projectId===id)for(const ref of session.refs)protectedRefs.add(ref);if(items.some(x=>protectedRefs.has(x.ref)))throw new Error('현재 설정 또는 실행취소 기록에서 사용하는 이미지는 삭제할 수 없습니다.');}return permanent?deleteTrashAssets(dir,items):restoreAssets(dir,items);});}
  async trashAsset(id,batchId,ref){return readTrashAsset(await this.rootFor(id),batchId,ref);}
 
  async manageProjects(){return this.transaction(async()=>{

@@ -1,3 +1,4 @@
+import {contrastDiagnostics,selectedContrastDiagnostics} from './contrast.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -49,11 +50,9 @@ export function validate(p) {
   else for(const [k,v] of Object.entries(p.assets))if(!SLOTS.includes(k)||typeof v!=='string'||!validAssetRef(v))err(`assets.${k}`,'유효하지 않은 자산 참조입니다.');
   if(p.signingKeyId!==null&&!validId(p.signingKeyId))err('signingKeyId','유효하지 않은 키 ID입니다.');
   if(p.assets?.sentBubble||p.assets?.receivedBubble)d.push({severity:'warning',field:'bubble',message:'이미지 본체 원본은 64×56 기준입니다. 캐릭터의 고정 크기와 늘림 지점·내용 여백을 확인하세요.'});
-  if(!d.some(x=>x.severity==='error')) {
-    const lum=h=>{const a=h.slice(1).match(/../g).map(x=>parseInt(x,16)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4);return .2126*a[0]+.7152*a[1]+.0722*a[2];};
-    for(const [a,b] of [['sent','sentText'],['received','receivedText'],['main','text']]){const x=lum(p.palette[a]),y=lum(p.palette[b]);if((Math.max(x,y)+.05)/(Math.min(x,y)+.05)<4.5)d.push({severity:'warning',field:`palette.${b}`,message:`${a} 영역의 글자 대비가 낮습니다. (도구 권장 기준 4.5:1)`});}
-  }
-  return d.concat(validateExtensions(p));
+  d.push(...validateExtensions(p));
+  if(!d.some(x=>x.severity==='error'))d.push(...contrastDiagnostics(p,resolveStyles(p)));
+  return d;
 }
 export function assertValid(p){const d=validate(p);if(d.some(x=>x.severity==='error'))throw Object.assign(new Error(d.filter(x=>x.severity==='error').map(x=>x.message).join(' ')),{diagnostics:d});return d;}
 export async function atomic(file,data){await fs.mkdir(path.dirname(file),{recursive:true});const tmp=`${file}.${crypto.randomUUID()}.tmp`;await fs.writeFile(tmp,data,{mode:0o600});await fs.rename(tmp,file);}
@@ -134,7 +133,7 @@ const css=iosCSS(p,await fs.readFile(path.join(ROOT,'templates/ios.css'),'utf8')
  else if(p.resourceOptions?.['android/theme_background_image.png']?.enabled===false)files['android/res/drawable/theme_background_image.xml']=Buffer.from('<shape xmlns:android="http://schemas.android.com/apk/res/android"><solid android:color="@color/theme_background_color"/></shape>');
  if(p.resourceOptions?.['android/theme_background_image.png']?.enabled!==false)delete files['android/res/drawable/theme_background_image.xml'];
  const supported=coverage(files,p);if(!supported.complete)throw new Error('필수 리소스 생성 누락: '+supported.missing.join(', '));
- return {profile:PROFILE,compilerVersion:COMPILER_VERSION,revision:projectRevision(p),visualRevision:visualRevision(p),project:p,files,diagnostics:validate(p),styles:resolved.styles,coverage:supported,preview:{palette:p.palette,bubble:p.bubble,mode:p.mode,views:resolved.views},deviceVerified:false};
+ return {profile:PROFILE,compilerVersion:COMPILER_VERSION,revision:projectRevision(p),visualRevision:visualRevision(p),project:p,files,diagnostics:[...validate(p),...selectedContrastDiagnostics(p,resolved.styles,files)],styles:resolved.styles,coverage:supported,preview:{palette:p.palette,bubble:p.bubble,mode:p.mode,views:resolved.views},deviceVerified:false};
 }
 export async function makeKtheme(compiled){const z=new JSZip();for(const [name,data] of Object.entries(compiled.files))if(name.startsWith('ios/'))z.file(name.slice(4),data,{date:new Date('2026-01-01T00:00:00Z')});return z.generateAsync({type:'nodebuffer',compression:'DEFLATE'});}
 export async function writeTree(files,dest,prefix=''){for(const [name,data] of Object.entries(files)){if(!name.startsWith(prefix))continue;const f=path.join(dest,name.slice(prefix.length));await fs.mkdir(path.dirname(f),{recursive:true});await fs.writeFile(f,data);}}

@@ -1,6 +1,51 @@
 # 다음 agent를 위한 인수인계
 
-현재 앱 버전과 compilerVersion은 0.12.0이다. REVIEW-0.12.0.md의 원본 보관함 계약을 먼저 확인한다. REVIEW-0.11.0.md의 플랫폼별 본체/캐릭터 계층을 먼저 확인한다. REVIEW-0.10.3.md의 공통 본체 활성화/플랫폼 설정을 먼저 확인한다. REVIEW-0.10.2.md의 본체 기준 Android 가이드 보정을 먼저 확인한다. REVIEW-0.10.1.md의80/160ms 연속 갱신 계약을 먼저 확인한다. REVIEW-0.10.0.md의 배치·슬라이더 계약을 먼저 확인한다. REVIEW-0.9.1.md의 본체 켬/끔 픽셀 비교를 먼저 확인한다. REVIEW-0.9.0.md와 COMMON-COLORS.md의 공통 정책·캐릭터 여백 보정을 먼저 확인한다. REVIEW-0.8.0.md의 Android 17 대상과 선택 좌표·적용 장면 개선을 먼저 확인한다. REVIEW-0.7.1.md의 짧은 메시지 캐릭터 크기 보정을 유지한다. REVIEW-0.7.0.md, REVIEW-0.6.0.md, REVIEW-0.5.0.md, REVIEW-0.4.0.md와 아래 공통 ID 변경을 확인한다. 화면별 편집 변경은 REVIEW-0.3.0.md와 screen-coverage.json을 확인한다. 작업 대상은 `/Users/bright/Desktop/work/kakao-theme-studio`이며 다른 사본과 동기화하지 않는다. 이 폴더의 Studio.command로 실행한다. README, AGENTS, REVIEW-0.2.0, SUPPORT-MATRIX, ARCHITECTURE, TESTING 순으로 확인한다. 별도 글로벌 스킬은 필요 없다.
+현재 앱 버전과 compilerVersion은 0.14.0이다. REVIEW-0.14.0.md의 저장·복구·생성 진행·사용성 계약을 먼저 확인한다. REVIEW-0.13.1.md의 말풍선 본체 폭/캐릭터 외부 공간 분리 계약을 먼저 확인한다. REVIEW-0.13.0.md의 HEX·단색 배경·iOS 가이드 계약을 먼저 확인한다. REVIEW-0.12.0.md의 원본 보관함 계약을 먼저 확인한다. REVIEW-0.11.0.md의 플랫폼별 본체/캐릭터 계층을 먼저 확인한다. REVIEW-0.10.3.md의 공통 본체 활성화/플랫폼 설정을 먼저 확인한다. REVIEW-0.10.2.md의 본체 기준 Android 가이드 보정을 먼저 확인한다. REVIEW-0.10.1.md의80/160ms 연속 갱신 계약을 먼저 확인한다. REVIEW-0.10.0.md의 배치·슬라이더 계약을 먼저 확인한다. REVIEW-0.9.1.md의 본체 켬/끔 픽셀 비교를 먼저 확인한다. REVIEW-0.9.0.md와 COMMON-COLORS.md의 공통 정책·캐릭터 여백 보정을 먼저 확인한다. REVIEW-0.8.0.md의 Android 17 대상과 선택 좌표·적용 장면 개선을 먼저 확인한다. REVIEW-0.7.1.md의 짧은 메시지 캐릭터 크기 보정을 유지한다. REVIEW-0.7.0.md, REVIEW-0.6.0.md, REVIEW-0.5.0.md, REVIEW-0.4.0.md와 아래 공통 ID 변경을 확인한다. 화면별 편집 변경은 REVIEW-0.3.0.md와 screen-coverage.json을 확인한다. 작업 대상은 `/Users/bright/Desktop/work/kakao-theme-studio`이며 다른 사본과 동기화하지 않는다. 이 폴더의 Studio.command로 실행한다. README, AGENTS, REVIEW-0.2.0, SUPPORT-MATRIX, ARCHITECTURE, TESTING 순으로 확인한다. 별도 글로벌 스킬은 필요 없다.
+
+## 0.14.0 사용성 개선 완료 (2026-10-31)
+
+- REVIEW-USABILITY-0.13.1.md의 전 항목과 상단 저장 상태/수동 저장·최종 생성 진행 요청을 구현했다. 상세 동작과 제한은 REVIEW-0.14.0.md에 기록했다.
+- 상단 저장 버튼, ⌘/Ctrl+S, 로컬+서버 임시본/충돌 복구, 인라인 오류·연결 재시도, 텍스트 실행취소를 지원한다. 서버 임시본은 키 비밀번호 없이 저장하고 자산 정리의 참조 보호에 포함한다. 현재 서명키 연결은 복구 시 유지한다.
+- 실제 단계/경과 시간/연결/결과를 표시하는 고정 생성 카드와 브라우저 새로고침 후 작업 조회를 지원한다. 서버 재시작 후 작업 Map 복원은 미구현이다. 과거 결과를 생성 중/성공으로 오인하지 않는다.
+- 배경 업로드 적용/원본 보관 분리, 실제 플랫폼 대비·선택 픽셀 검사, 작업별 설정 분류와 단일 catalog-editor, 작은 화면 단일 플랫폼·빠른 이동, 네 메시지 문장 프리셋·직접 입력, 실제 생성 비트맵 비교, HEX 견본·정확한 숫자를 제공한다.
+- 단위85개, usability/browser/editor-upgrade/screen-workflow/state-geometry, 실제 APK/ktheme 통합 빌드가 통과했다. 통합 근거는 .test-data/integration-1793416349630/test-summary.json이며 compilerVersion0.14.0이다. 추가 live-preview/preview-context/character-placement도 통과했다. 기존 주소/인증으로 실행 서버를0.14.0으로 갱신하고 프로젝트2개·새 UI·브라우저 오류0·사용자 보호 파일118개 불변을 읽기 전용으로 확인했다. 상세는 VERIFICATION.md를 따른다.
+- 사용자 설정·원본·키·기존 빌드는 검증 데이터로 사용하거나 정리하지 않는다. 실제 카카오톡 적용은 확인되지 않았다.
+
+## 사용성 추가 검토 (2026-10-31, 검토 당시 기록 · 후속0.14.0에서 구현)
+
+- 사용자 요청은 추가 개선점 검토다. 제품 코드/실행 서버/사용자 프로젝트는 변경하지 않았다. REVIEW-USABILITY-0.13.1.md에 우선순위와 재현 근거를 기록했다.
+- 격리 테마에서350ms 저장 대기 중 새로고침으로 마지막 색 변경이 사라짐, 단색 배경에서 이미지 등록 후 이미지가 계속 비활성이라 화면에 적용되지 않음, 입력 중 ⌘Z가 프로젝트 변경을 취소하고 포커스를 잃음, 실제 흰 본체/#FCFCFC 글자에도 대비 경고가 없음, 잘못된 버전의 필드 오류 표시가 없음을 재현했다. test-results/ux-review-report.json과 ux-review-*.png가 근거다.
+- 데스크톱 설정 패널 스크롤7908px/표시1018px·말풍선 편집 시작1420px,390px에서 작아진 양 플랫폼 미리보기와 편집 패널 위치도 확인했다. 기존 클릭 탐색/공통 연결/예외 추적/플랫폼 크게 보기 기능은 이미 있으므로 개선 시 재사용한다. 현재 검토 제안은 아직 구현하지 않았다.
+
+
+## 미리보기 대화 문구와 양쪽 연속 상태 (2026-10-31, UI만 변경)
+
+- 방 제목은 `딱 하나만 더 바꾸고`다. 기본 대화는 받은 첫 `배경색만 바꾼다며?`→받은 연속 `왜 새벽이야?`→보낸 첫 `말풍선이 아직 덜 귀여워.`→보낸 연속 `진짜 마지막.`이다. 두 방향에 첫/연속이 항상 하나씩 있고 긴 메시지에서도 연속 둘을 유지한다. 시간은 각 묶음 마지막에만 표시한다.
+- 각 메시지의 실제 높이로 다음 위치를 정한다. 제목은 채팅 목록/전달 장면과 공유한다. 프로젝트/생성 이미지/출력 규칙은 변경하지 않아 앱/컴파일러0.13.1을 유지한다. 실행 서버 재시작 없이 새로고침으로 적용된다.
+- test/preview-conversation.mjs가 양 플랫폼·짧음/김·기본/선택·색상/이미지 본체·32/72px에서 네 메시지의 상태·실제 전체 그리기 경계·시간 묶음과390px·설정 불변을 확인한다. 캡처는 test-results/preview-conversation-{short,long,mobile}.png이며 실제 사용자 자료는 포함하지 않는다. 기존 상태/가이드/폭/화면 회귀도 함께 검사한다.
+
+
+## 0.13.1 캐릭터 첫 말풍선 가로 여백 수정 (2026-10-31)
+
+- 0.13.0에서 해결했다고 안내한 것은 불충분했다. 실제 캐릭터32/r18/padding13,7에서는 좌우 bodyInsets가 off19/20→on28/29로 증가해 같은 내용이18px 넓었다. 기존 검증은 본체 높이/캐릭터 크기에 치우쳤다.
+- bubbleGeometry의 캐릭터 cap에 따른 본체 확장을 제거했다. automaticOutward가 고정 캐릭터를 모서리 바깥에 두고 외부 투명 여백/전체 인셋만 확보한다. 동일 설정의 본체 크기·여백·생성 원본 픽셀이 off/on에서 같다. 저장된 이미지/설정은 수정하지 않고 컴파일러0.13.1로 출력/미리보기 캐시를 분리한다. 기존 수동 여백/최종 이미지 예외는 유지한다.
+- 수동 iOS stretch 보정으로 본체가 다시 압축되면 우측 캐릭터 좌표가 달라질 수 있어 최종 고정 영역을 재검사한다. 원본/기하/승격/플랫폼 합성/clone/ZIP 계약은 유지한다. 검사도 전체 PNG 중앙 대신 실제 본체 bodyRect를 기준으로 한다.
+- 채팅과 전달 장면의 messageLayout을 공유한다. 외부 이동으로 가장자리에서 캐릭터가 잘리면 전체 메시지 위치를 보정하고 화면 폭이 모자랄 때 줄바꿈을 보정한다. 본체 내부 여백은 유지한다. 큰 그림의 실제 프로필/화면 간격은 기기 확인 대상이다.
+- 신규 회귀는 한 글자·짧은 문장·긴 문장/여러 줄·최소 폭1에서 실제 색 본체의 픽셀 폭·높이/글자 오프셋·줄바꿈을 off/on 대조한다. 384쌍에서12/32/72px 캐릭터도 고정 크기다. bubble-body-size는 production renderPlatform의 짧음/김에서 실제 본체 폭·위치·글자 x 좌표까지 검사한다. 자세한 결과/증거는 VERIFICATION을 따른다.
+- 최종 단위82개/384쌍 픽셀 비교/강화 production 폭·글자 좌표/기존 편집·화면 회귀와 실제 APK/ktheme 검증이 통과했다. 새 통합 근거는 .test-data/integration-1793412771067/test-summary.json이다. 기존 종료된 서버 대신 같은 주소/인증으로0.13.1을 실행하고 사용자 보호 파일118개 불변을 확인했다. 사용자 설정·원본·키·빌드와 실제 화면 캡처는 변경/노출하지 않았다. 실제 카카오톡 적용은 사용자 기기 확인 범위를 유지한다.
+
+
+
+## 0.13.0 제작 흐름 검토·보정 (2026-10-31)
+
+- 사용자 첨부만으로 실제 앱의 원인을 확정하지 않았다. 현재 저장소의 마지막 기존 생성 보고서는 compiler0.7.0이었다. 현재0.12의 고정 캐릭터/본체/Android 가이드 보정은 그 파일에 없으므로 재생성이 필요하다. 기존 다운로드 파일은 보존하고 UI에 오래된 compiler/revision 안내를 추가했다.
+- iOS 수동 늘림/여백에는 Android와 같은 보호가 빠져 있었다. resolveStyles가 합성 상태의 실제 bodyRect로 resolveComposedGuides를 적용한다. 저장 override는 그대로이고 최종 이미지 재정의가 있는 상태의 가이드 정책도 유지한다. visual-geometry가 실제 적용값을 표시하고 직접 편집도 보호한다.
+- hex-color는 모든 native 색상 견본 활성화를 공통 HEX popover로 연결한다. 색조/채도/밝기·키보드·Escape를 지원하고 말풍선 본체/글자색에도 텍스트 HEX를 추가했다. catalog/잠금 견본의 RGB 변경이 Android AA를 지우던 문제를 수정했다. 잘못된 입력은 최신 유효값으로 복귀한다.
+- background-model/editor는 기존 schema의 commonColors/resourceOptions로 기본·채팅·잠금·탭 단색 전환을 제공한다. 원본/크롭/최종 출력 예외/색상 예외와 undo/ZIP을 보존한다. 이미지를 끈 채팅/전달 장면이 main색을 그리던 실제 미리보기 버그를 chat색으로 수정했다.
+- 전체 단위79개와 state/screen/editor/fixed-size/body-size/placement/android-guides/platform/live/browser/integration 회귀가 통과했다. 새 editor-production은 이미지 업로드→단색→이미지→단색의 실제 양 Canvas 픽셀, HEX/오입력/undo/alpha/6화면/390px와 구형 결과 안내를 확인한다. 합성 원본 크기·한 글자·긴 문장 간 캐릭터 픽셀도 대조한다. 상세는 VERIFICATION 및 test-results/production-editor-report.json을 따른다.
+- 단색 배경을 포함한 최종 실제 APK/ktheme 검증: .test-data/integration-1793410699034/test-summary.json. CSS/리소스의 배경색·이미지 생략·Android 기본 배경 XML, API37·서명·resources.arsc STORE/정렬·같은 키 업데이트/다른 키 거부를 확인했다.
+- 사용자 .data의 설정/원본/키/빌드는 변경하지 않았다. 실행 중인 사용자 서버는 재시작하지 않았다. Studio.command의 기존 창에서 종료/다시 실행하고 새로고침 후 테마를 다시 생성해야 한다. 실제 카카오톡 적용/deviceVerified는 미확인 상태다.
+
 
 ## 0.12.0 에셋 정리와 복구 (2026-10-26)
 

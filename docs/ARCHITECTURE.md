@@ -216,3 +216,29 @@ src/project-trash.mjs가 데이터 루트의 project-trash/<UUID>/manifest.json 
 GET project-management는 활성/보관 목록과 용량/파일수/시각/revision을 반환한다. POST project-rename/project-remove는 최신 revision을 검사한다. project-remove의 mode는 archive/delete이며 queued/running build를 저장소 transaction 안에서도 확인한다. archive는 안전한 프로젝트 전체 tree만 rename하고, delete는 이 보관 단계를 거쳐 명시 폴더를 제거한다. POST project-restore/project-trash-delete로 보관본을 복구/삭제한다. symlink와 임의 경로를 거부한다. keys/bindings와 구형 공용 원본은 별도 루트에 유지한다. 영구 삭제 tombstone은 오래된 저장을 계속 막되, 검증된 백업 ZIP을 사용자가 명시 import하면 원래 id/pkg 재등록을 허용한다. 보관본이 남아 있으면 보관함 복구/독립 복사를 안내한다.
 
 public/project-manager.js는 한 관리 dialog에 열기/이름 변경/복제/백업/정리와 확인 영역을 제공한다. 현재 프로젝트 제거 시 로컬 저장/미리보기 예약을 취소하고 다른 프로젝트 또는 빈 상태로 전환한다. 마지막 프로젝트 제거 뒤 재접속해도 기본 프로젝트를 다시 만들지 않는다. 실제 파일 정리는 사용자 선택에서만 실행하며 테스트는 격리 저장소에 한정한다.
+
+
+## 0.13.0 제작 UI와 iOS 가이드
+
+public/hex-color.js는 모든 색상 견본의 native picker 활성화를 HEX popover로 연결한다. 기존 type=color input과 input 이벤트를 유지해 UI/자동 테스트의 계약을 보존한다. 말풍선에는 colorWithHex를 사용하며 활성 텍스트는 덮어쓰지 않는다. replaceRGB는 Android #AARRGGBB의 AA를 보존한다. 선택기는 소유 입력이 제거되면 후속 변경을 적용하지 않는다.
+
+background-model/editor의 네 슬롯은 기존 commonColors 정책과 각 플랫폼 optional resource ID로만 표현한다. 별도 schema나 중복 이미지 자산을 만들지 않는다. 단색 입력은 명시적으로 양쪽 enabled=false를 설정하며 원본/크롭/재정의를 보존한다. 이미지가 없는 enabled=true는 기존 생성기의 단색 PNG를 사용한다. 미리보기는 생성 이미지가 없을 때 플랫폼 chat/main/passcode/tab 색상을 사용한다.
+
+resolveStyles는 iOS 합성 상태의 stretch/insets를 bodyRect 기준 resolveComposedGuides(scale1)로 보호한다. 저장 overrides는 유지한다. 최종 이미지가 해당 상태의 어느 배율에라도 있으면 공유 CSS 가이드를 임의로 바꾸지 않으며 선택/기본 공유 인셋도 보존한다. 시각 편집은 preview.views의 적용값을 먼저 읽고 합성 가이드 직접 편집도 같은 모델로 보호한다. compilerVersion0.13.0은 구형 출력 캐시와 분리하며 schemaVersion1/storageVersion2/assetNamingVersion1/backup3과51/16/39/146 범위는 유지한다.
+
+
+## 0.13.1 본체 폭과 캐릭터 외부 공간 분리
+
+기존0.7.1~0.13.0은 캐릭터 fixed cap을 본체 폭에 넣고 width−2를 내용 여백에 분배했다. 이 경로는 캐릭터32/r18에서 같은 문장을18px 넓혔다. 현재 bodyWidth/bodyInsets는 캐릭터 off와 같은 본체 기하로 계산한다. automaticOutward는 캐릭터가 본체의 고정 가로 cap보다 클 때 기준 모서리 바깥으로 옮기는 파생값이며 저장 필드가 아니다. 사용자 shiftX를 더한 최종 외부 여백을 PNG width/bodyRect.x/insets에만 더한다. 따라서 원본 전체 크기가 달라도 본체·글자 간격은 같다. 캐릭터는 늘림 띠 밖에 있고 최소 글자 폭1에서도 고정 픽셀을 유지한다.
+
+수동 iOS 가이드는 전체 이미지 좌표의 외부 여백을 제외해 명시 본체 공간을 유지한다. stretch 보정 후 본체 압축이 우측 장식의 x를 바꿀 수 있으므로 가이드를 다시 제한한다. 저장 원본은 프로젝트 열기/컴파일만으로 수정하지 않으며 명시 예외를 우선한다.
+
+preview-renderer.messageLayout은 채팅과 전달 장면에서 공통으로 사용한다. 본체 최대 폭과 전체 PNG가 화면에 들어갈 폭을 따로 계산해 줄바꿈하고, 표준 본체 위치가 전체 이미지를 자르면 전체 메시지를 화면 안으로 이동한다. 기본 배치의 같은 내용은 동일 본체 폭/글자 x를 유지하며 극단적인 외부 이동의 전체 화면 좌표는 달라질 수 있다. 이는 자체 미리보기의 화면 제약 처리이며 카카오톡 내부 레이아웃까지 검증했다는 뜻은 아니다.
+
+## 0.14.0 편집 상태와 생성 진행
+
+public/save-controller.js가 상단 버튼·수동/자동 저장·필드 오류·재시도·임시본을 소유한다. changed는 즉시 localStorage에 쓰고 인증된 /api/draft POST로 서버에도 보관한다. /api/drafts GET은 활성 편집 창 여부를 포함한다. project-store의 editor-drafts.json은 프로젝트 폴더에 저장하며 순번 tombstone, rootFor 소유권/자산 경로 검증, transaction 안의 참조 보호를 적용한다. 잘못된 메타데이터도 복구할 수 있고 theme.json·ZIP·복제와 분리한다. 서명키는 ID만 참조하고 비밀번호/키 파일은 포함하지 않는다. 임시본 충돌은 복구/현재 저장본 중 선택하며 복구 전 저장본도 undo에 남긴다.
+
+public/build-progress.js는 실제 /api/job의 step/steps/createdAt/updatedAt/finishedAt을 조회한다. 작업 Map과 빌드 큐는 서버에 유지하며 브라우저 재로드는 작업 ID만 복구한다. 서버 재시작 시 조회 불가를 명시한다. 진행 비율은 추정하지 않고 indeterminate 표시·단계·경과 시간을 사용한다.
+
+public/editor-usability.js는 작업 분류·문장 샘플·모바일 보기·범위 숫자 입력과 독립 비교 비트맵을 관리한다. 테마 스키마에 UI 상태를 넣지 않는다. 비교 이미지는 현재 생성 PNG에서 ImageBitmap으로 복제하며 프로젝트/기준 변경 때 해제한다. 기존 catalog-editor와 슬라이더 이벤트를 재사용한다. src/contrast.mjs는 최종 스타일/플랫폼 본체 투영과 iOS 선택 이미지의 실제 본체 픽셀을 사용한다. 이미지 본체/확정할 수 없는 투명색은 대비 성공으로 판정하지 않는다.

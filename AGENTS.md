@@ -1,6 +1,6 @@
 # Agent 작업 지침
 
-현재 구현은 0.12.0이다. `docs/REVIEW-0.12.0.md`를 먼저 확인한다. `docs/REVIEW-0.11.0.md`를 먼저 확인한다. `docs/REVIEW-0.10.3.md`를 먼저 확인한다. `docs/REVIEW-0.10.2.md`를 먼저 확인한다. `docs/REVIEW-0.10.1.md`를 먼저 확인한다. `docs/REVIEW-0.10.0.md`를 먼저 확인한다. `docs/REVIEW-0.9.1.md`를 먼저 확인한다. `docs/REVIEW-0.9.0.md`, `docs/COMMON-COLORS.md`를 확인한다. `docs/REVIEW-0.8.0.md`, `docs/REVIEW-0.7.1.md`를 먼저 확인한다. `docs/REVIEW-0.7.0.md`, `docs/REVIEW-0.6.0.md`, `docs/REVIEW-0.5.0.md`, `docs/REVIEW-0.4.0.md`를 먼저 읽는다. 화면별 작업은 `docs/REVIEW-0.3.0.md`, `public/screen-model.js`, `docs/screen-coverage.json`을 먼저 확인한다. `docs/REVIEW-0.2.0.md`, `docs/SUPPORT-MATRIX.md`, `docs/coverage-after.json`을 함께 읽는다. 출력 변경 시 `src/catalog.mjs`의 COMPILER_VERSION을 갱신해 이전 미리보기 캐시와 분리한다. 새 리소스/속성은 카탈로그·검증·출력·편집 UI·백업·회귀 테스트와 화면 연결을 함께 갱신한다. `node scripts/audit-screens.mjs`와 `node test/screen-workflow.mjs`로 누락을 검사한다. 공통 원본 SLOTS도 모두 화면에 연결해야 한다. 화면별 색상을 바꾸면서 공통 팔레트를 임의로 변경하지 말고 개별 override를 사용한다. 잠금 비밀번호 표시 8개와 키패드 눌림 이미지는 이미 개별 지원되므로 공통 도형으로 다시 축소하지 않는다.
+현재 구현은 0.14.0이다. `docs/REVIEW-0.14.0.md`를 먼저 확인한다. `docs/REVIEW-0.13.1.md`를 먼저 확인한다. `docs/REVIEW-0.13.0.md`를 먼저 확인한다. `docs/REVIEW-0.12.0.md`를 먼저 확인한다. `docs/REVIEW-0.11.0.md`를 먼저 확인한다. `docs/REVIEW-0.10.3.md`를 먼저 확인한다. `docs/REVIEW-0.10.2.md`를 먼저 확인한다. `docs/REVIEW-0.10.1.md`를 먼저 확인한다. `docs/REVIEW-0.10.0.md`를 먼저 확인한다. `docs/REVIEW-0.9.1.md`를 먼저 확인한다. `docs/REVIEW-0.9.0.md`, `docs/COMMON-COLORS.md`를 확인한다. `docs/REVIEW-0.8.0.md`, `docs/REVIEW-0.7.1.md`를 먼저 확인한다. `docs/REVIEW-0.7.0.md`, `docs/REVIEW-0.6.0.md`, `docs/REVIEW-0.5.0.md`, `docs/REVIEW-0.4.0.md`를 먼저 읽는다. 화면별 작업은 `docs/REVIEW-0.3.0.md`, `public/screen-model.js`, `docs/screen-coverage.json`을 먼저 확인한다. `docs/REVIEW-0.2.0.md`, `docs/SUPPORT-MATRIX.md`, `docs/coverage-after.json`을 함께 읽는다. 출력 변경 시 `src/catalog.mjs`의 COMPILER_VERSION을 갱신해 이전 미리보기 캐시와 분리한다. 새 리소스/속성은 카탈로그·검증·출력·편집 UI·백업·회귀 테스트와 화면 연결을 함께 갱신한다. `node scripts/audit-screens.mjs`와 `node test/screen-workflow.mjs`로 누락을 검사한다. 공통 원본 SLOTS도 모두 화면에 연결해야 한다. 화면별 색상을 바꾸면서 공통 팔레트를 임의로 변경하지 말고 개별 override를 사용한다. 잠금 비밀번호 표시 8개와 키패드 눌림 이미지는 이미 개별 지원되므로 공통 도형으로 다시 축소하지 않는다.
 
 ## 먼저 읽을 문서
 
@@ -53,7 +53,7 @@
 - 상태 미리보기는 UI 상태다. 탭/자리 수/프로필/버튼 상태를 바꿔 프로젝트나 생성 결과를 변경하지 않는다.
 - `src/provenance.mjs`는 실제 생성 우선순위와 일치해야 한다. 모든 공통 원본과 146개 출력의 픽셀 대조 테스트를 유지한다. 공통값보다 출력별 재정의가 우선이며 이미지 비활성화가 최우선이다.
 - `resourceGeometry`는 Android 9-patch 파일별 좌표(폭/높이, 여러 stretchX/Y 구간, insets)다. 원본 그림·원본 파일 참조는 보존하고 출력 가이드만 재생성한다. iOS는 기존 overrides의 논리 좌표를 편집하며 선택/기본 상태가 공유하는 내용 여백을 구분해 안내한다.
-- 새 기하 필드는 검증·visualRevision 캐시·복제·ZIP 백업/복원·실제 APK 컴파일까지 함께 검증한다. 현재 compilerVersion은 0.12.0이다.
+- 새 기하 필드는 검증·visualRevision 캐시·복제·ZIP 백업/복원·실제 APK 컴파일까지 함께 검증한다. 현재 compilerVersion은 0.14.0이다.
 - `public/visual-geometry.js`의 드래그 중 DOM을 재생성하지 않는다. 실행취소는 진행 중 잠그고 미리보기·상세 갱신 완료 후 풀어 비동기 경합을 막는다.
 - 변경 검증: 단위 테스트 전체, test/state-geometry.mjs, test/screen-workflow.mjs, test/editor-upgrade.mjs. 출력 변경이면 test/integration.mjs도 실행한다.
 
@@ -138,3 +138,27 @@
 
 - 프로젝트 정리는 project-trash로 전체 폴더를 보관/복구하거나 검토 후 영구 삭제한다. 전역 keys/bindings와 구형 이관 원본은 보존한다. retired ID/패키지는 오래된 저장/자동 재이관을 막는다. 영구 삭제 뒤 명시 백업 복원만 같은 정체성 재등록을 허용한다.
 - 프로젝트 정리에는 최신 revision과 실행 중 빌드 확인이 필요하다. 링크가 포함된 폴더는 거부하고 마지막 프로젝트 정리 뒤에는 빈 상태를 유지한다. project-management.test.mjs/project-management.mjs를 검증한다.
+
+
+## 0.13.0 HEX·단색 배경·iOS 합성 가이드 계약
+
+- hex-color의 공통 선택기를 사용한다. 브라우저별 native RGB 입력으로 되돌리지 않고 말풍선에도 HEX 입력을 유지한다. Android 견본은 RGB만 바꾸며 기존 ARGB alpha를 보존한다. 활성 입력/소유 프로젝트/undo와80/160ms 갱신 계약을 유지한다.
+- background-model은 기존 commonColors/resourceOptions를 사용한다. 단색 전환은 양 플랫폼 이미지를 비활성화하고 원본/크롭/최종 예외를 보존한다. 플랫폼 색상 예외는 자동 해제하지 않는다. 이미지 없는 이미지 모드의 단색 PNG 자동 생성은 기존 규칙이다. 채팅·전달 미리보기는 이미지가 없어도 chat 배경색을 사용한다.
+- iOS 합성 수동 가이드는 resolveComposedGuides로 캐릭터·본문을 보호하고 최종 출력 이미지 예외는 기존 가이드를 유지한다. 생성은 저장 override를 수정하지 않고 시각 편집은 적용값을 표시한다. 이전 compiler/revision 결과에 재생성 안내를 유지한다.
+- test/editor-production.test.mjs 및 test/editor-production.mjs의 단색/원본 보존·HEX/alpha·직접 iOS 가이드 편집·undo·최소 크기 픽셀·좁은 화면과 integration의 단색 실제 APK/ktheme 검증을 유지한다. 실제 사용자 데이터는 검증에 변경하지 않는다.
+
+
+## 0.13.1 말풍선 폭 계약
+
+- 캐릭터의 가로 고정 cap을 본체 폭/bodyInsets에 더하지 않는다. 본체 폭·내부 여백·원본 픽셀은 동일 설정의 캐릭터 off/on에서 같아야 한다. automaticOutward로 모서리 밖 공간을 확보하고 실제 PNG width/insets에만 더한다. 캐릭터를 줄이거나 미리보기에서만 본체를 좁혀서는 안 된다.
+- 말풍선 원본의 전체 좌표에는 외부 여백이 포함된다. 테스트의 본체 픽셀/인셋 비교는 bodyRect와 양쪽 외부 여백을 제외한다. 수동 iOS 가이드 보정도 이 좌표를 보존한다. 명시 여백/최종 이미지 예외는 유지하며 자동 삭제하지 않는다.
+- messageLayout은 채팅/전달 장면에서 같은 측정·줄바꿈·전체 이미지 가장자리 보정을 쓴다. 가장자리를 넘는 바깥 이동은 전체 메시지의 위치/필요한 줄바꿈을 보정할 수 있지만 본체 내부 여백은 바꾸지 않는다. 실제 앱의 배치 차이는 기기 확인 대상이다.
+- test/bubble-content-width.test.mjs, test/bubble-content-width.mjs와 확장 bubble-body-size의 최소 폭1·한 글자·짧은/긴 문장·양 방향/첫·연속/색상·이미지/12·32·72px 비교를 유지한다. 실제 APK/ktheme를 다시 컴파일하고 캐시를 새 compilerVersion으로 분리한다.
+
+## 0.14.0 사용성 계약
+
+- 저장 버튼/수동 저장과350ms 자동 저장을 공유한다. 미저장 편집은 브라우저+editor-drafts.json에 보관하고 순번 tombstone·프로젝트 소유권·에셋 참조 보호를 유지한다. 잘못된 메타데이터도 임시 복구할 수 있지만 정식 저장은 검증한다. 더 새로운 저장본과 충돌 시 자동 덮어쓰기하지 않고 다른 활성 창의 임시본을 건드리지 않는다. 키 비밀번호·키 파일은 임시본/ZIP에 포함하지 않는다.
+- 생성 진행은 실제 서버 단계·경과 시간·연결/실패/부분 성공/성공을 표시한다. 임의 퍼센트나 완료 추정을 넣지 않는다. 브라우저 재접속의 작업 ID 복원과 서버 재시작 후 조회 불가를 구분한다.
+- 배경 업로드의 적용/원본 보관을 구분하고 플랫폼 예외는 명시 연결로만 해제한다. 텍스트 입력 실행취소·필드 오류·대비 검사·작업별 분류·모바일 주 동작 접근을 유지한다. catalog-editor를 복제하지 않는다.
+- 비교 비트맵은 실제 생성 그림을 독립 복제·해제한다. 문장 프리셋/직접 입력/플랫폼/비교는 UI 상태이고 프로젝트 출력에 넣지 않는다. 첫·연속 양방향 네 메시지를 유지한다. 숫자 입력은 기존 슬라이더 이벤트·안전 범위를 재사용한다.
+- test/usability.test.mjs와 test/usability.mjs, 전체 단위·browser/editor-upgrade/screen-workflow/state-geometry와 출력 영향 시 실제 통합 빌드를 검증한다. 접힌 고급 설정/모바일 메뉴는 실제 펼치기·이동 동선으로 검사한다.

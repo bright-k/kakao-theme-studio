@@ -20,7 +20,7 @@ test('independent color/image bodies compose a fixed, aspect-preserved character
   const c=await compile(p,root);for(const who of ['sent','received'])for(const group of [false,true]){
    const g=bubbleGeometry(p,who,group),name=`chatroomBubble${who==='sent'?'Send':'Receive'}0${group?2:1}`;for(const scale of [2,3]){
     const png=c.files[`ios/Images/${name}@${scale}x.png`],im=PNG.sync.read(png);assert.equal(im.width,g.width*scale);assert.equal(im.height,g.height*scale);
-    assert.deepEqual(pixel(png,Math.floor(im.width/2),(g.header+30)*scale),body==='color'?[34,136,68,255]:[18,85,170,255]);
+    assert.deepEqual(pixel(png,(g.bodyRect.x+Math.floor(g.bodyWidth/2))*scale,(g.header+Math.floor(g.bodyHeight/2))*scale),body==='color'?[34,136,68,255]:[18,85,170,255]);
     if(g.decorated){assert.deepEqual(pixel(png,(g.decoration.x+20)*scale,20*scale),[236,18,52,255]);assert.equal(pixel(png,(g.decoration.x+20)*scale,2*scale)[3],0);assert.ok(g.stretch[0]<g.decoration.x||g.stretch[0]>g.decoration.x+g.decoration.width);}
    }
    const af=`android/res/drawable-xxhdpi/theme_chatroom_bubble_${who==='sent'?'me':'you'}_0${group?2:1}_image.9.png`,guide=readNinePatch(c.files[af]);assert.deepEqual(guide.insets,g.insets.map(x=>x*3));assert.deepEqual(guide.stretchY,[[g.stretch[1]*3,(g.stretch[1]+1)*3]]);

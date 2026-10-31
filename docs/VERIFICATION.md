@@ -1,3 +1,38 @@
+# 0.14.0 저장·생성 진행·사용성 (2026-10-31)
+
+- 전체 단위85/85 통과. 새 usability.test는 임시본의 잘못된 메타데이터·자산 보호·서버 재시작·순번 역전·백업 제외, 배경 적용/원본 보관, 실제 플랫폼/선택 픽셀 대비를 검증한다.
+- usability.mjs의12개 흐름 통과: 즉시 새로고침 복구, 수동 저장/입력 undo, 인라인 오류, 연결 실패 후 재시도, 배경 업로드 두 방식, 적용 예외·대비, 숫자 입력, 양방향 첫/연속 네 문장 프리셋·사용자 줄바꿈, 독립 생성 비트맵 비교,390px 화면, 저장본 충돌 복구/undo, 생성 단계·연결 실패·재시도·브라우저 재로드 복원. test-results/usability-report.json과 usability-*.png가 근거다.
+- browser.mjs의 실제 UI 서명키 생성→APK/ktheme 생성·다운로드·ZIP 백업과 editor-upgrade/screen-workflow/state-geometry 통과. 고급 항목을 펼치는 새 동선으로 모든105개 iOS 속성/49개 Android 색/82개 이미지 그룹·146개 출력과51개 공통 원본을 확인했다.
+- 실제 통합 빌드 `.test-data/integration-1793416349630/test-summary.json` 통과, compilerVersion0.14.0. 자체 서명·4바이트 정렬/STORE resources.arsc·패키지/인증서 업데이트 유지·잘못된 키 거부·백업 복원을 확인했다.
+- live-preview는 누르는 동안8회 갱신·첫 요청82ms·동시 생성1개, HEX 포커스/다음 프로젝트 보호를 확인했다. preview-context와 character-placement의 플랫폼·픽셀·드래그/취소/undo도 통과했다.
+- 기존 실행 서버를 정상 종료 후 같은 주소/인증으로0.14.0을 시작했다. 읽기 전용 실제 서버 확인에서 프로젝트2개, 새 저장/생성 UI 정상, 브라우저 오류0, 보호 파일118개 바이트 불변이다. test-results/usability-live-report.json이 근거다. 사용자 화면은 캡처하지 않았다.
+- audit-screens/audit-common-colors/audit-coverage 누락0, 공통 원본51/플랫폼 입력16/공통색39/출력146 유지. 모든 새 검증은 격리한 .test-data를 사용했다. 실제 기기에서 카카오톡 테마 적용을 확인한 것은 아니며 deviceVerified/actualAppVerified=false를 유지한다.
+
+# 미리보기 대화 문구·양쪽 연속 메시지 (2026-10-31, UI만 변경)
+
+- `node test/preview-conversation.mjs` 통과. 방 제목/받은 첫·연속/보낸 첫·연속의 네 메시지를 확인했다. 양 플랫폼×짧음/김×선택 여부×본체 색상/이미지×캐릭터32/72px의32조합에서 실제 전체 그리기 경계가 대화 영역에 들어가고 묶음 마지막에만 시간이 표시된다. 390px 가로 넘침·JS오류0, 프로젝트 JSON 불변이다.
+- test-results/preview-conversation-short.png / long.png / mobile.png를 육안 확인했다. 반영 문구는 HANDOFF의 미리보기 대화 항목을 따른다. 채팅 목록/전달 장면의 제목도 공유한다.
+- 생성 이미지·출력 정책 변경이 없어 앱/컴파일러0.13.1을 유지한다. 실행 서버 재시작/테마 재생성 없이 브라우저 새로고침으로 적용된다. 사용자 데이터·키·기존 결과는 변경하지 않았다.
+
+# 0.13.1 캐릭터 말풍선 가로 여백 (2026-10-31)
+
+- `node --test test/*.test.mjs`: **82개 통과**. 새 content-width3개는 캐릭터 유무/크기/쪽/첫·연속/모서리/본체 방식/여백 조합의 본체 기하 불변, 실제 양 플랫폼 소스 본체 픽셀·인셋 불변, 짧은/긴 메시지의 화면 가장자리·글자 포함을 검사한다. 최종 로그: `.test-data/width-unit-final.log`.
+- `node test/bubble-content-width.mjs`: **384쌍 통과**. 최소 글자 폭1·한 글자·짧은 문장·긴 문장/여러 줄에서 실제 출력 PNG와 CSS/9-patch 인셋으로만 크기를 정했다. 캐릭터 off/on의 색 본체 픽셀 폭·높이, 본문 오프셋·줄바꿈이 같고12/32/72px 캐릭터도 고정 픽셀을 유지한다. `test-results/bubble-content-width-report.json`, `bubble-width-comparison.png`를 육안 확인했다. 한 글자/짧음/김의 비교 캡처에서 두 플랫폼의 본체 폭이 각각48/92/212px로 동일하다(테스트 폰트·문장 기준).
+- `node test/bubble-body-size.mjs`: 짧음/김×색상·이미지×3여백의 production renderPlatform 검사 통과. 높이만 보던 이전 검사에 실제 본체 폭/색 픽셀 폭/수평 위치와 실제 fillText의 문자열·x 좌표를 추가했다. 같은 설정에서 모두 동일하다. r18/p13,7의 짧은 한 줄 본체 높이47px도 유지한다. `bubble-body-size-report.json`, `bubble-body-on-off.png` 참조.
+- 기존 bubble-fixed-size32조합, character-placement, android-composed-guides, platform-bubbles, state-geometry, screen-workflow, editor-upgrade, editor-production, preview-context 통과. 외부 공간 때문에 가장자리를 넘으면 전체 메시지를 옮기는 경우에도 본체 내부 글자 위치·크기와 고정 캐릭터를 확인한다. 채팅·전달의 공통 messageLayout과 선택 좌표/드래그/undo도 유지한다. 테스트 테마의 production-theme.png를 육안 확인했다.
+- 실제 `node test/integration.mjs` 통과: `.test-data/integration-1793412771067/test-summary.json`. 다른 플랫폼 본체+공통/개별 캐릭터, 단색 배경, 실제 PNG 픽셀·APK/ktheme 내부 ID·API37/min28·resources.arsc STORE/4바이트 정렬·서명·같은 키 업데이트1→2·키 복원·다른 키 차단을 확인했다.
+- audit-screens/audit-common-colors/audit-coverage/support-matrix와 git diff --check 통과. 공통 원본51/플랫폼 입력16/공통색39/출력146 유지, 누락0이다. compilerVersion0.13.1로 이전 출력 캐시와 분리한다.
+- 기존 실행 PID가 종료된 것을 확인한 뒤 같은 주소/인증으로0.13.1 서버를 시작했다. 시작 전후 사용자 프로젝트·원본·키·bindings·빌드 등 보호 파일118개의 바이트 불변을 확인했다. 사용자 화면은 캡처하지 않는다. 실제 카카오톡 적용은 이번 검증 범위에 없으며 deviceVerified/actualAppVerified=false다. 새로고침 후 APK/ktheme를 새로 생성해야 한다.
+
+# 0.13.0 제작 흐름·HEX·단색 배경 (2026-10-31)
+
+- `node --test test/*.test.mjs`:79개 통과. 신규3개는 HEX/HSV·ARGB alpha, 네 배경의 이미지 생략/원본·크롭·색상 예외/clone/ZIP, iOS 첫·연속·선택 합성 가이드 보호와 저장 원본/최종 이미지 예외를 확인한다.
+- `node test/editor-production.mjs` 통과. 테스트 도형으로 간단한 별 테마를 편집하며 이미지 업로드→단색 HEX→원본 이미지→단색의 양 Canvas 실제 픽셀, 구형 compiler 재생성 안내, 말풍선 HEX·popover·오입력·undo/redo, iOS 가이드 직접 편집 보호/undo, Android alpha 보존, 슬라이더/Space/Escape,6화면/390px·JS오류0을 확인했다. 원본 크기 렌더링/한 글자/긴 문장의 캐릭터 동일 픽셀 범위를 비교했다. 별 모양 가장자리의 배율별 샘플링 차이는 같은 배율의 기준 렌더링과 비교하며 기존 불투명 도형32조합의 정확한 크기 검증도 통과했다. test-results/production-editor-report.json과 production-theme.png / hex-color-picker.png / background-hex-mobile.png를 육안 확인했다. 캡처에서 긴 식별자 줄바꿈도 보완했다.
+- 기존 state-geometry/screen-workflow/editor-upgrade/bubble-fixed-size/bubble-body-size/character-placement/android-composed-guides/platform-bubbles/live-preview/browser 통과. live는 포인터 조작 중11회 갱신·첫 요청83ms·동시 생성1개·프로젝트 전환/포커스 보존을 확인했다. browser의 실제 생성/다운로드/ZIP 회귀도 통과했다. 최종 재검증에서 서명키 선택 직후 새 결과의 경고 숨김, 편집 시 경고 표시, undo 시 경고 해제를 확인했다. 전체 설정 modal 안에서도 HEX popover와 Escape가 정상 동작하고 원래 modal은 유지된다.
+- 실제 integration 최종 통과: `.test-data/integration-1793410699034/test-summary.json`. 새 단색 채팅/기본 배경의 iOS 이미지 생략/색상 CSS, Android 채팅 PNG 생략/기본 배경 XML, 기존 플랫폼 합성 픽셀, API37/min28·resources.arsc STORE/4바이트 정렬·서명·동일키 versionCode1→2·키 복원/다른 키 거부를 확인했다. 개인키는 격리 .test-data에만 있다.
+- audit-screens/audit-common-colors/audit-coverage/support-matrix 및 git diff --check 통과. 공통51·플랫폼 입력16·공통색39·출력146개 누락0이다. 앱/컴파일러0.13.0으로 구형 미리보기 캐시를 분리했다.
+- 기존 사용자 결과의 compiler0.7.0 여부만 읽기 전용으로 확인했다. 사용자 .data 설정·원본·키·기존 빌드를 변경/이동/삭제하지 않았고 개인 화면을 캡처하지 않았다. 실행 사용자 서버는 재시작하지 않았다. 새 코드 사용에는 서버 재실행/새로고침 및 새 테마 생성이 필요하다. 실제 카카오톡/iPhone 적용은 미검증이며 deviceVerified/actualAppVerified=false다.
+
 # 0.12.0 에셋·프로젝트 정리 (2026-10-26)
 
 - `node --test test/*.test.mjs`:76개 통과. 신규 에셋6개/프로젝트4개가 현재·비활성·대체·플랫폼·undo/redo 참조 보호, 다른 탭/늦은 요청·최신 저장본 재검사, 보관/복구·영구 삭제·버전 예약, 원본/전체 생성 바이트 불변·백업 제외, 부분 중단/손상/링크/충돌·인증/경로/프로젝트 소유 검증을 확인했다.
